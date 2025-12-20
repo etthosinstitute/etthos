@@ -1,4 +1,6 @@
 import "./globals.css";
+import { ThemeProvider } from "../components/theme-provider";
+
 export const metadata = {
   title: "Etthos",
   description: "Landing page for Etthos",
@@ -6,8 +8,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

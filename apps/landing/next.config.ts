@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   },
   // Ensure Turbopack/Next transpiles local workspace packages
   // so imports like '@etthos/assets' resolve correctly.
-  transpilePackages: ["@etthos/assets", "@etthos/ui"],
+  transpilePackages: ["@etthos/assets", "@repo/ui"],
 };
 
 export default nextConfig;

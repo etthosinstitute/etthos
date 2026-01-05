@@ -28,3 +28,50 @@
 		transition: background-color 0.3s ease, color 0.3s ease;
 	}
 }
+
+/* Marquee animation for partners logos */
+/* Marquee animation for partners logos */
+.partners-marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.partners-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-scroll 35s linear infinite;
+}
+
+.logo-item {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* KEY FIX */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--marquee-width)));
+  }
+}
+
+/* Pause on hover */
+.partners-marquee:hover .partners-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .partners-marquee-track {
+    animation: none;
+  }
+}

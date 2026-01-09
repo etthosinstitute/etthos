@@ -2,31 +2,31 @@
 @import "tailwindcss";
 
 :root {
-	--surface-base: 248 250 255;
-	--surface-card: 255 255 255;
-	--surface-soft: 240 246 255;
-	--surface-contrast: 7 15 31;
-	--text-high: 7 15 31;
-	--text-muted: 90 104 135;
+  --surface-base: 248 250 255;
+  --surface-card: 255 255 255;
+  --surface-soft: 240 246 255;
+  --surface-contrast: 7 15 31;
+  --text-high: 7 15 31;
+  --text-muted: 90 104 135;
 }
 
 [data-theme="dark"] {
-	--surface-base: 5 10 24;
-	--surface-card: 16 26 50;
-	--surface-soft: 22 36 69;
-	--surface-contrast: 245 247 255;
-	--text-high: 248 250 255;
-	--text-muted: 154 165 197;
+  --surface-base: 5 10 24;
+  --surface-card: 16 26 50;
+  --surface-soft: 22 36 69;
+  --surface-contrast: 245 247 255;
+  --text-high: 248 250 255;
+  --text-muted: 154 165 197;
 }
 
 @layer base {
-	body {
-		background-color: rgb(var(--surface-base) / 1);
-		color: rgb(var(--text-high) / 1);
-		font-family: var(--font-be-vietnam-pro), sans-serif;
-		-webkit-font-smoothing: antialiased;
-		transition: background-color 0.3s ease, color 0.3s ease;
-	}
+  body {
+    background-color: rgb(var(--surface-base) / 1);
+    color: rgb(var(--text-high) / 1);
+    font-family: var(--font-inter), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 }
 
 /* Marquee animation for partners logos */
@@ -59,6 +59,7 @@
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(calc(-1 * var(--marquee-width)));
   }

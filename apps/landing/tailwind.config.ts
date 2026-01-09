@@ -14,7 +14,7 @@ const accentPalette = {
   "brand-ink": "#070F1F",
   "brand-cobalt": "#4364F7",
   "brand-iris": "#7C8BFF",
-  "brand-cyan": "#18B8FF",
+  "brand-cyan": "#0891b2", // Lowered from #18B8FF to a softer teal-cyan
   "brand-amber": "#F5C266",
   "brand-rose": "#FF8AA6",
   "border-glow": "rgba(124, 139, 255, 0.45)",
@@ -40,8 +40,8 @@ const config: Config = {
         "text-muted": withOpacityValue("--text-muted"),
       },
       fontFamily: {
-        display: ["var(--font-be-vietnam-pro)", "sans-serif"],
-        body: ["var(--font-noto-sans)", "sans-serif"],
+        display: ["var(--font-inter)", "sans-serif"],
+        body: ["var(--font-inter)", "sans-serif"],
       },
       borderRadius: {
         DEFAULT: "0.5rem",

@@ -47,11 +47,13 @@ export const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mt-2">
-              <Button variant="primary" size="lg" className="shadow-lg shadow-brand-cobalt/25 hover:shadow-brand-cobalt/40 transition-all">
-                Start Your Journey
-              </Button>
+              <Link href="#programs">
+                <Button variant="primary" size="lg" className="shadow-lg shadow-brand-cobalt/25 hover:shadow-brand-cobalt/40 transition-all">
+                  Start Your Journey
+                </Button>
+              </Link>
               <Link
-                href="/training"
+                href="#programs"
                 className="font-semibold rounded-xl transition-all duration-300 inline-flex items-center justify-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-cyan/60 bg-white/50 backdrop-blur-sm text-text-high border border-slate-200 hover:bg-white/80 py-3.5 px-8 text-base dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10"
               >
                 View Curriculum

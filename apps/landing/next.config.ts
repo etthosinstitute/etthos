@@ -3,9 +3,18 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
 
-  // necessary to load images from monorepo packages
+  // Image optimization enabled for Vercel deployment
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
   // Ensure Turbopack/Next transpiles local workspace packages
   // so imports like '@etthos/assets' resolve correctly.
@@ -13,3 +22,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

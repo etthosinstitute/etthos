@@ -7,6 +7,7 @@ import { Programs } from "../components/Programs";
 import { HowItWorks } from "../components/HowItWorks";
 import { Testimonials } from "../components/Testimonials";
 import { Partners } from "../components/Partners";
+import { Accredtions } from "../components/Accredtions";
 import { Footer } from "../components/Footer";
 
 const Page = () => {
@@ -23,10 +24,11 @@ const Page = () => {
 
           <Programs />
 
-          <Partners />
+          <Accredtions />
 
           <HowItWorks />
 
+          <Partners />
           <Testimonials />
         </main>
 

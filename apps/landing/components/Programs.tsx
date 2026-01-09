@@ -1,27 +1,39 @@
 import React from "react";
+import Link from "next/link";
 import { ProgramCard } from "@repo/ui/program-card";
 
 const programs = [
   {
-    title: "Clinical Counselling",
-    description: "Evidence-based therapy training for individuals and groups. Master CBT, DBT, and person-centered approaches through rigorous coursework.",
+    title: "Counselling",
+    description: "Protect Your Peace, Emotionally. Evidence-based psychological care under RCI Licensed Clinical Psychologists for individuals and organizations.",
     imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2670&auto=format&fit=crop",
-    icon: "🧘",
+    icon: "💚",
     buttonText: "Learn More",
+    href: "/counselling",
   },
   {
-    title: "Professional Certification",
-    description: "RCI-recognized certification programs. Get certified in child psychology, clinical assessments, and neuro-psychology.",
+    title: "Training",
+    description: "Globally Recognized. Professional certifications, internships, and diplomas bridging academic theory and clinical practice.",
     imageUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=2669&auto=format&fit=crop",
     icon: "🎓",
-    buttonText: "Explore Courses",
+    buttonText: "Learn More",
+    href: "/training",
   },
   {
-    title: "Research & Publication",
-    description: "Contributing to the future of mental health science. Join our advanced labs and publish in top-tier peer-reviewed journals.",
+    title: "Research",
+    description: "Meeting Global Research Standards. Driving real-world impact through psychology and behavioral science research.",
     imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=2670&auto=format&fit=crop",
     icon: "🔬",
-    buttonText: "View Publications",
+    buttonText: "Learn More",
+    href: "/research",
+  },
+  {
+    title: "Consulting",
+    description: "Managing Human Behaviour. Customized consultation services for corporates, institutions, NGOs, and startups.",
+    imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2670&auto=format&fit=crop",
+    icon: "�",
+    buttonText: "Learn More",
+    href: "/consulting",
   },
 ];
 
@@ -33,43 +45,29 @@ export const Programs = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl">
             <p className="mb-3 text-xs uppercase tracking-[0.4em] text-text-muted">
-              Academic Excellence
+              Our Services
             </p>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-              Programs engineered for real clinical impact.
+              Programs & Services for Real Impact.
             </h2>
             <p className="text-lg text-text-muted">
-              Build a portfolio of research, therapy simulations, and supervised practice with mentors licensed across India.
+              Comprehensive ecosystem for mental health education, counselling, research, and organizational consulting.
             </p>
           </div>
-          <a
-            className="hidden md:flex items-center gap-2 text-brand-cyan font-semibold hover:text-brand-amber transition-colors"
-            href="#all-programs"
-          >
-            View All Programs <span className="text-base">→</span>
-          </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {programs.map((program, index) => (
-            <ProgramCard
-              key={index}
-              title={program.title}
-              description={program.description}
-              imageUrl={program.imageUrl}
-              icon={<span className="text-2xl">{program.icon}</span>}
-              buttonText={program.buttonText}
-            />
+            <Link key={index} href={program.href} className="block group">
+              <ProgramCard
+                title={program.title}
+                description={program.description}
+                imageUrl={program.imageUrl}
+                icon={<span className="text-2xl">{program.icon}</span>}
+                buttonText={program.buttonText}
+              />
+            </Link>
           ))}
-        </div>
-
-        <div className="mt-12 text-center md:hidden">
-          <a
-            className="inline-flex items-center gap-2 text-brand-cyan font-semibold hover:text-brand-amber transition-colors"
-            href="#all-programs"
-          >
-            View All Programs <span className="text-base">→</span>
-          </a>
         </div>
       </div>
     </section>

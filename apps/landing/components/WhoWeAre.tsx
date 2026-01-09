@@ -2,7 +2,7 @@ import React from "react";
 
 export const WhoWeAre = () => {
   return (
-    <section className="relative bg-surface-base py-20">
+    <section id="who-we-are" className="relative bg-surface-base py-20">
       <div className="mx-auto max-w-[1440px] px-4 md:px-10">
         
         {/* Top label */}

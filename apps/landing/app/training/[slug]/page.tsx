@@ -12,10 +12,8 @@ import {
   CheckCircle2, 
   BookOpen, 
   HelpCircle,
-  ChevronRight,
-  MessageCircle,
   Mail,
-  Users
+  ChevronRight
 } from "lucide-react";
 
 type PageProps = {
@@ -197,47 +195,45 @@ const TrainingCoursePage = async ({ params }: PageProps) => {
                 </div>
 
                 {/* Sidebar */}
-                <div className="space-y-8 lg:sticky lg:top-28">
-                    {/* Ready to Start Card */}
-                    <div className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl p-8 text-white shadow-2xl shadow-indigo-500/20">
-                      <h3 className="text-xl font-bold mb-2">Ready to Start?</h3>
-                      <p className="text-indigo-100 text-sm mb-6">Get in touch to enroll in {course.title}</p>
-                      
-                      <a
-                        href="https://wa.me/+917261028965"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-white text-indigo-600 font-semibold rounded-xl hover:bg-indigo-50 transition-colors mb-3"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                        WhatsApp Us
-                      </a>
-                      <a
-                        href="mailto:info@etthos.com"
-                        className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors backdrop-blur-sm"
-                      >
-                        <Mail className="w-5 h-5" />
-                        Email Us
-                      </a>
-                    </div>
+                <div className="space-y-8">
+                    {/* Sticky Application Card */}
+                    <div className="sticky top-24 space-y-8">
+                         <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-100 dark:border-slate-800 text-center" id="apply">
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Ready to Start?</h3>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">Secure your spot in the upcoming batch.</p>
+                                
+                                <div className="space-y-3">
+                                    <a href="mailto:info@etthos.com" className="flex items-center justify-center gap-2 w-full py-3.5 bg-slate-900 dark:bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 dark:shadow-black/30">
+                                        <Mail className="w-4 h-4" />
+                                        Email Application
+                                    </a>
+                                     <button className="flex items-center justify-center gap-2 w-full py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                        Download Brochure
+                                    </button>
+                                </div>
 
-                    {/* Who Should Join */}
-                    {course.whoShouldJoin && (
-                      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-                        <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                          <Users className="w-5 h-5 text-indigo-500" />
-                          Who Should Join
-                        </h3>
-                        <ul className="space-y-3">
-                          {course.whoShouldJoin.map((item, i) => (
-                            <li key={i} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
-                              <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0" />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                                <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400">
+                                    Limited seats available per batch for personalized attention.
+                                </div>
+                        </div>
+
+                        {course.whoShouldJoin && (
+                             <div className="bg-slate-50 dark:bg-slate-900/50 p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800">
+                                <h4 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                    Who Should Join
+                                </h4>
+                                <ul className="space-y-3">
+                                    {course.whoShouldJoin.map((person, i) => (
+                                        <li key={i} className="text-sm text-slate-600 dark:text-slate-400 flex items-start gap-3">
+                                            <ChevronRight className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                                            {person}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

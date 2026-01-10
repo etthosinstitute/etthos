@@ -10,7 +10,8 @@
   --text-muted: 90 104 135;
 }
 
-[data-theme="dark"] {
+[data-theme="dark"],
+.dark {
   --surface-base: 5 10 24;
   --surface-card: 16 26 50;
   --surface-soft: 22 36 69;

@@ -47,13 +47,11 @@ export const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mt-2">
-              <Link href="#programs">
-                <Button variant="primary" size="lg" className="shadow-lg shadow-brand-cobalt/25 hover:shadow-brand-cobalt/40 transition-all">
-                  Start Your Journey
-                </Button>
-              </Link>
+              <Button variant="primary" size="lg" className="shadow-lg shadow-brand-cobalt/25 hover:shadow-brand-cobalt/40 transition-all">
+                Start Your Journey
+              </Button>
               <Link
-                href="#programs"
+                href="/training"
                 className="font-semibold rounded-xl transition-all duration-300 inline-flex items-center justify-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-cyan/60 bg-white/50 backdrop-blur-sm text-text-high border border-slate-200 hover:bg-white/80 py-3.5 px-8 text-base dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10"
               >
                 View Curriculum
@@ -75,24 +73,16 @@ export const Hero = () => {
           {/* Right Image */}
           <div className="relative order-1 h-125 lg:h-175 w-full lg:order-2">
              {/* Main Image */}
-            <div className="relative h-[90%] w-[90%] ml-auto overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-surface-card rotate-2 hover:rotate-0 transition-all duration-500 ease-out">
-              <Image
-                alt="Modern counseling office"
-                src="/gallery/WhatsApp Image 2025-12-25 at 00.13.12 (1).jpeg"
-                fill
-                className="object-cover"
-                priority
-              />
-              
-              {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
-
-              <div className="absolute bottom-8 left-8 right-8">
-                 <div className="glass-panel p-4 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md text-white">
-                    <p className="font-semibold text-lg">&ldquo;The clinical exposure here is unmatched.&rdquo;</p>
-                    <p className="text-sm text-white/80 mt-1">— Dr. Sarah M., Clinical Director</p>
-                 </div>
-              </div>
+            <div className="relative h-[90%] w-[90%] ml-auto overflow-hidden rounded-[2.5rem] border border-slate-200 bg-black shadow-2xl dark:border-white/10 rotate-2 hover:rotate-0 transition-all duration-500 ease-out">
+              <iframe
+                className="absolute inset-0 w-full h-full object-cover"
+                src="https://www.youtube.com/embed/WRTu1Wn_Elc?si=WRTu1Wn_Elc&rel=0"
+                title="Etthos Introduction Video"
+                frameBorder="0"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
             </div>
 
             {/* Floating Element 1 - Top Left */}
@@ -102,9 +92,9 @@ export const Hero = () => {
                      <div className="w-8 h-8 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan">
                         <span className="text-lg">✓</span>
                      </div>
-                     <div className="text-xs font-bold text-slate-900 dark:text-white">Certified</div>
+                     <div className="text-xs font-bold text-text-high">Certified</div>
                   </div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-300 leading-tight">RCI recognized excellence in training</div>
+                  <div className="text-[10px] text-text-muted leading-tight">RCI recognized excellence in training</div>
                </div>
             </div>
 
@@ -115,8 +105,8 @@ export const Hero = () => {
                      ★
                   </div>
                   <div className="flex flex-col">
-                     <span className="text-xs font-bold text-slate-900 dark:text-white">4.9/5 Rating</span>
-                     <span className="text-[10px] text-slate-500 dark:text-slate-300">By 100+ Students</span>
+                     <span className="text-xs font-bold text-text-high">4.9/5 Rating</span>
+                     <span className="text-[10px] text-text-muted">By 100+ Students</span>
                   </div>
                </div>
             </div>

@@ -1,14 +1,9 @@
 import React from "react";
 import Link from "next/link";
-
-// Force static generation for optimal Vercel deployment
-export const dynamic = 'force-static';
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
-import { ServiceHero } from "../../components/ServiceHero";
-import { ServiceCTA } from "../../components/ServiceCTA";
 import { trainingCourses, TrainingCourseCategory } from "../../lib/training-courses";
-import { ArrowRight, Clock, Sparkles, GraduationCap, Users, Briefcase } from "lucide-react";
+import { ArrowRight, Clock, BookOpen, Sparkles, GraduationCap, Users, Briefcase } from "lucide-react";
 
 const TrainingPage = () => {
   // Group courses by category
@@ -20,10 +15,10 @@ const TrainingPage = () => {
   };
 
   const categoryIcons = {
-    "Internship": <span className="text-2xl">🎓</span>,
-    "Certification": <span className="text-2xl">📜</span>,
-    "Diploma": <span className="text-2xl">🏆</span>,
-    "Train The Trainer": <span className="text-2xl">👥</span>,
+    "Internship": <Briefcase className="w-5 h-5" />,
+    "Certification": <Sparkles className="w-5 h-5" />,
+    "Diploma": <GraduationCap className="w-5 h-5" />,
+    "Train The Trainer": <Users className="w-5 h-5" />,
   };
 
   const categoryDescriptions = {
@@ -34,87 +29,95 @@ const TrainingPage = () => {
   };
 
   return (
-    <div className="bg-surface-base text-text-high font-display min-h-screen transition-colors">
+    <div className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-display min-h-screen selection:bg-indigo-100 dark:selection:bg-indigo-900 selection:text-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
       <div className="relative flex min-h-screen w-full flex-col">
         <Header />
 
         <main className="w-full">
-          <ServiceHero
-            title="Advance Your Career In"
-            highlightedWord="Psychology"
-            description="Explore our professionally curated training tracks designed to bridge the gap between academic theory and clinical practice."
-            badge="Globally Recognized"
-            badgeIcon={<GraduationCap className="w-4 h-4" />}
-            backLink="/"
-            backText="Back to Home"
-          />
+            {/* Hero Section */}
+            <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-[#0B1120]">
+                {/* Abstract Background Elements */}
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+                    <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-purple-500/20 blur-[100px]" />
+                    <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[120px]" />
+                </div>
 
-          {/* Course Categories */}
-          <section className="relative bg-surface-base py-20 transition-colors">
-            <div className="absolute inset-0 bg-gradient-to-b from-surface-card via-surface-soft to-surface-base dark:from-brand-ink dark:via-brand-ink/40 dark:to-brand-midnight" aria-hidden />
-            
-            <div className="relative container mx-auto px-4 md:px-6 space-y-20">
-              {Object.entries(groupedCourses).map(([category, courses]) => (
-                courses.length > 0 && (
-                  <div key={category} className="scroll-mt-24" id={category.toLowerCase().replace(/\s+/g, '-')}>
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-16 h-16 rounded-full bg-surface-base border-4 border-surface-soft dark:border-brand-ink flex items-center justify-center shadow-lg">
-                        {categoryIcons[category as TrainingCourseCategory]}
-                      </div>
-                      <div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-text-high">{category}s</h2>
-                        <p className="text-sm text-text-muted mt-1">
-                          {categoryDescriptions[category as TrainingCourseCategory]}
-                        </p>
-                      </div>
-                    </div>
+                <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
+                        Advance Your Career<br/> <span className="text-indigo-400">In Psychology</span>
+                    </h1>
+                    <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                        Explore our professionally curated training tracks designed to bridge the gap between academic theory and clinical practice.
+                    </p>
+                </div>
+            </section>
 
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
-                      {courses.map((course) => (
-                        <Link 
-                          key={course.slug} 
-                          href={`/training/${course.slug}`}
-                          className="group relative bg-surface-card rounded-2xl border border-slate-200/60 dark:border-white/10 p-6 hover:shadow-xl hover:shadow-brand-cyan/5 transition-all duration-300 flex flex-col h-full hover:-translate-y-1"
-                        >
-                          <div className="mb-4">
-                            <div className="inline-block px-3 py-1 rounded-full bg-brand-cyan/10 text-brand-cyan text-xs font-semibold uppercase tracking-wider mb-4">
-                              {course.category}
-                            </div>
-                            <h3 className="text-xl font-bold text-text-high group-hover:text-brand-cyan transition-colors mb-2">
-                              {course.title}
-                            </h3>
-                            <p className="text-sm text-text-muted line-clamp-3 leading-relaxed">
-                              {course.shortDescription}
-                            </p>
-                          </div>
+            <div className="container mx-auto px-4 md:px-6 py-20 space-y-24 -mt-10 relative z-10">
+                {Object.entries(groupedCourses).map(([category, courses]) => (
+                    courses.length > 0 && (
+                        <section key={category} className="scroll-mt-24" id={category.toLowerCase().replace(/\s+/g, '-')}>
+                             <div className="flex items-center gap-3 mb-4">
+                                <div className="p-3 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-800 text-indigo-600 dark:text-indigo-400">
+                                    {categoryIcons[category as TrainingCourseCategory]}
+                                </div>
+                                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">{category}s</h2>
+                             </div>
+                             <p className="text-slate-500 dark:text-slate-400 mb-10 max-w-3xl pl-[60px]">
+                                {categoryDescriptions[category as TrainingCourseCategory]}
+                             </p>
 
-                          <div className="mt-auto pt-4 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between">
-                            {course.durationOptions && (
-                              <div className="flex items-center gap-2 text-xs font-medium text-text-muted">
-                                <Clock className="w-3.5 h-3.5" />
-                                {course.durationOptions[0]}
-                              </div>
-                            )}
-                            
-                            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-cyan group-hover:gap-2 transition-all">
-                              View Details
-                              <ArrowRight className="w-4 h-4" />
-                            </span>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )
-              ))}
+                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                {courses.map((course) => (
+                                    <div key={course.slug} className="group relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/50 hover:border-indigo-500/30 dark:hover:border-indigo-500/30 transition-all duration-300 flex flex-col h-full">
+                                        <div className="mb-4">
+                                            <div className="inline-block px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider mb-4">
+                                                {course.category}
+                                            </div>
+                                            <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-2">
+                                                {course.title}
+                                            </h3>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                                                {course.shortDescription}
+                                            </p>
+                                        </div>
+
+                                        <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                                            {course.durationOptions && (
+                                                <div className="flex items-center gap-2 text-xs font-medium text-slate-400 dark:text-slate-500">
+                                                    <Clock className="w-3.5 h-3.5" />
+                                                    {course.durationOptions[0]}
+                                                </div>
+                                            )}
+                                            
+                                            <Link href={`/training/${course.slug}`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 group-hover:gap-2 transition-all">
+                                                View Details
+                                                <ArrowRight className="w-4 h-4" />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))}
+                             </div>
+                        </section>
+                    )
+                ))}
             </div>
-          </section>
 
-          <ServiceCTA
-            title="Still Unsure Which Path to Take?"
-            description="Our academic counsellors can help you choose the right certification based on your career goals and current qualification."
-            primaryButtonText="Get Free Guidance"
-          />
+            <section className="py-20 bg-slate-900 dark:bg-slate-950 border-t border-slate-800 dark:border-slate-900">
+              <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl font-bold text-white mb-6">Still Unsure Which Path to Take?</h2>
+                <p className="text-slate-400 mb-8 max-w-xl mx-auto">
+                    Our academic counsellors can help you choose the right certification based on your career goals and current qualification.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                    <a href="mailto:info@etthos.com" className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-colors">
+                        Get Free Guidance
+                    </a>
+                    <a href="/contact" className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors backdrop-blur-sm">
+                        Contact Support
+                    </a>
+                </div>
+              </div>
+            </section>
         </main>
 
         <Footer />

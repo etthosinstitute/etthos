@@ -32,7 +32,7 @@ export const Hero = () => {
       <div className="relative z-10 w-full max-w-360 mx-auto px-4 md:px-10 text-text-high">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Content */}
-          <div className="flex flex-col gap-8 max-w-xl order-2 lg:order-1 pt-10 lg:pt-0">
+          <div className="flex flex-col gap-8 max-w-xl order-1 lg:order-1 pt-10 lg:pt-0">
             <div className="flex items-center gap-2 font-bold tracking-wide uppercase text-xs text-brand-midnight dark:text-text-high">
               <Badge className="bg-brand-iris/10 text-brand-iris border-brand-iris/20 backdrop-blur-sm">New Batch 2026</Badge>
               <Badge variant="success" className="shadow-sm">Inclined with RCI Framework</Badge>
@@ -71,9 +71,9 @@ export const Hero = () => {
           </div>
           
           {/* Right Image */}
-          <div className="relative order-1 h-125 lg:h-175 w-full lg:order-2">
+          <div className="relative order-2 lg:order-2 h-125 lg:h-175 w-full">
              {/* Main Image */}
-            <div className="relative h-[90%] w-[90%] ml-auto overflow-hidden rounded-[2.5rem] border border-slate-200 bg-black shadow-2xl dark:border-white/10 rotate-2 hover:rotate-0 transition-all duration-500 ease-out">
+            <div className="relative h-[90%] w-[90%] ml-auto overflow-hidden rounded-[2.5rem] border border-slate-200 bg-black shadow-2xl dark:border-white/10 transition-all duration-500 ease-out">
               <iframe
                 className="absolute inset-0 w-full h-full object-cover"
                 src="https://www.youtube.com/embed/WRTu1Wn_Elc?si=WRTu1Wn_Elc&rel=0"

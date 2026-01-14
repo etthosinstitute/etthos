@@ -70,22 +70,22 @@ export const Hero = () => {
             </div>
           </div>
           
-          {/* Right Image */}
+          {/* Right Video */}
           <div className="relative order-1 h-125 lg:h-175 w-full lg:order-2">
-             {/* Main Image */}
+             {/* Main Video Container */}
             <div className="relative h-[90%] w-[90%] ml-auto overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-surface-card rotate-2 hover:rotate-0 transition-all duration-500 ease-out">
-              <Image
-                alt="Modern counseling office"
-                src="/gallery/WhatsApp Image 2025-12-25 at 00.13.12 (1).jpeg"
-                fill
-                className="object-cover"
-                priority
+              <iframe
+                className="absolute inset-0 w-full h-full object-cover"
+                src="https://www.youtube.com/embed/WRTu1Wn_Elc?rel=0&modestbranding=1"
+                title="Etthos Institute Video"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
               />
               
               {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-              <div className="absolute bottom-8 left-8 right-8">
+              <div className="absolute bottom-8 left-8 right-8 pointer-events-none">
                  <div className="glass-panel p-4 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md text-white">
                     <p className="font-semibold text-lg">&ldquo;The clinical exposure here is unmatched.&rdquo;</p>
                     <p className="text-sm text-white/80 mt-1">— Dr. Sarah M., Clinical Director</p>

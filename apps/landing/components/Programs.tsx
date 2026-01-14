@@ -6,15 +6,16 @@ const programs = [
   {
     title: "Counselling",
     description: "Protect Your Peace, Emotionally. Evidence-based psychological care under RCI Licensed Clinical Psychologists for individuals and organizations.",
-    imageUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=2669&auto=format&fit=crop",
+    imageUrl: "/program-images/counselling.png",
     icon: "💚",
     buttonText: "Learn More",
     href: "/counselling",
+    objectPosition: "top",
   },
   {
     title: "Training",
     description: "Globally Recognized. Professional certifications, internships, and diplomas bridging academic theory and clinical practice.",
-    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2670&auto=format&fit=crop",
+    imageUrl: "/program-images/training.png",
     icon: "🎓",
     buttonText: "Learn More",
     href: "/training",
@@ -22,7 +23,7 @@ const programs = [
   {
     title: "Research",
     description: "Meeting Global Research Standards. Driving real-world impact through psychology and behavioral science research.",
-    imageUrl: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=2670&auto=format&fit=crop",
+    imageUrl: "/program-images/research.png",
     icon: "🔬",
     buttonText: "Learn More",
     href: "/research",
@@ -30,7 +31,7 @@ const programs = [
   {
     title: "Consulting",
     description: "Managing Human Behaviour. Customized consultation services for corporates, institutions, NGOs, and startups.",
-    imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2670&auto=format&fit=crop",
+    imageUrl: "/program-images/consulting.png",
     icon: "🤝",
     buttonText: "Learn More",
     href: "/consulting",
@@ -65,6 +66,7 @@ export const Programs = () => {
                 imageUrl={program.imageUrl}
                 icon={<span className="text-2xl">{program.icon}</span>}
                 buttonText={program.buttonText}
+                objectPosition={program.objectPosition}
               />
             </Link>
           ))}

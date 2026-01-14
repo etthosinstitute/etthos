@@ -32,7 +32,7 @@ export const Hero = () => {
       <div className="relative z-10 w-full max-w-360 mx-auto px-4 md:px-10 text-text-high">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Content */}
-          <div className="flex flex-col gap-8 max-w-xl order-1 lg:order-1 pt-10 lg:pt-0">
+          <div className="flex flex-col gap-8 max-w-xl order-2 lg:order-1 pt-10 lg:pt-0">
             <div className="flex items-center gap-2 font-bold tracking-wide uppercase text-xs text-brand-midnight dark:text-text-high">
               <Badge className="bg-brand-iris/10 text-brand-iris border-brand-iris/20 backdrop-blur-sm">New Batch 2026</Badge>
               <Badge variant="success" className="shadow-sm">Inclined with RCI Framework</Badge>
@@ -71,18 +71,26 @@ export const Hero = () => {
           </div>
           
           {/* Right Image */}
-          <div className="relative order-2 lg:order-2 h-125 lg:h-175 w-full">
+          <div className="relative order-1 h-125 lg:h-175 w-full lg:order-2">
              {/* Main Image */}
-            <div className="relative h-[90%] w-[90%] ml-auto overflow-hidden rounded-[2.5rem] border border-slate-200 bg-black shadow-2xl dark:border-white/10 transition-all duration-500 ease-out">
-              <iframe
-                className="absolute inset-0 w-full h-full object-cover"
-                src="https://www.youtube.com/embed/WRTu1Wn_Elc?si=WRTu1Wn_Elc&rel=0"
-                title="Etthos Introduction Video"
-                frameBorder="0"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
+            <div className="relative h-[90%] w-[90%] ml-auto overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-surface-card rotate-2 hover:rotate-0 transition-all duration-500 ease-out">
+              <Image
+                alt="Modern counseling office"
+                src="/gallery/WhatsApp Image 2025-12-25 at 00.13.12 (1).jpeg"
+                fill
+                className="object-cover"
+                priority
+              />
+              
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
+
+              <div className="absolute bottom-8 left-8 right-8">
+                 <div className="glass-panel p-4 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md text-white">
+                    <p className="font-semibold text-lg">&ldquo;The clinical exposure here is unmatched.&rdquo;</p>
+                    <p className="text-sm text-white/80 mt-1">— Dr. Sarah M., Clinical Director</p>
+                 </div>
+              </div>
             </div>
 
             {/* Floating Element 1 - Top Left */}
@@ -92,9 +100,9 @@ export const Hero = () => {
                      <div className="w-8 h-8 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan">
                         <span className="text-lg">✓</span>
                      </div>
-                     <div className="text-xs font-bold text-text-high">Certified</div>
+                     <div className="text-xs font-bold text-slate-900 dark:text-white">Certified</div>
                   </div>
-                  <div className="text-[10px] text-text-muted leading-tight">RCI recognized excellence in training</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-300 leading-tight">RCI recognized excellence in training</div>
                </div>
             </div>
 
@@ -105,8 +113,8 @@ export const Hero = () => {
                      ★
                   </div>
                   <div className="flex flex-col">
-                     <span className="text-xs font-bold text-text-high">4.9/5 Rating</span>
-                     <span className="text-[10px] text-text-muted">By 100+ Students</span>
+                     <span className="text-xs font-bold text-slate-900 dark:text-white">4.9/5 Rating</span>
+                     <span className="text-[10px] text-slate-500 dark:text-slate-300">By 100+ Students</span>
                   </div>
                </div>
             </div>

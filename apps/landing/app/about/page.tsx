@@ -10,6 +10,7 @@ const team = [
     name: "Ram Vinoy Tiwari",
     role: "Director & Chairman",
     image: "/aboutusimages/ram-vinay-tiwari.jpeg",
+    objectPosition: "top",
   },
   {
     name: "Vishal Anand",
@@ -21,16 +22,19 @@ const team = [
     name: "Abhimanyu Thakur",
     role: "Senior Counselor",
     image: "/aboutusimages/abhimanyu-thakur.jpeg",
+    objectPosition: "top",
   },
   {
     name: "Kumari Pushpa",
     role: "Head Of Operations",
     image: "/aboutusimages/kumari-pushpa.jpeg",
+    objectPosition: "top",
   },
   {
     name: "Pritha Bose",
     role: "Head of Graphics & Content",
-    image: "/aboutusimages/pritha-bose.jpg",
+    image: "/aboutusimages/pritha-bose.jpeg",
+    objectPosition: "top",
   },
   {
     name: "Samarth",
@@ -41,6 +45,7 @@ const team = [
     name: "Pawan Kumar",
     role: "Finance Head",
     image: "/aboutusimages/pawan-kumar.jpeg",
+    objectPosition: "top",
   },
 ];
 
@@ -149,7 +154,15 @@ const AboutPage = () => {
                       src={member.image} 
                       alt={member.name} 
                       fill 
-                      className={`object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ${member.objectPosition === 'top' ? 'object-top' : 'object-center'}`}
+                      className={`object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ${
+                        member.objectPosition === 'top' 
+                          ? 'object-top' 
+                          : member.objectPosition === '30%'
+                          ? 'object-[50%_30%]'
+                          : member.objectPosition === '20%'
+                          ? 'object-[50%_20%]'
+                          : 'object-center'
+                      }`}
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-brand-midnight/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>

@@ -8,6 +8,7 @@ interface ProgramCardProps {
   icon: React.ReactNode;
   buttonText?: string;
   onButtonClick?: () => void;
+  objectPosition?: string;
 }
 
 export const ProgramCard = ({
@@ -17,6 +18,7 @@ export const ProgramCard = ({
   icon,
   buttonText = "Learn More",
   onButtonClick,
+  objectPosition = "center",
 }: ProgramCardProps) => {
   return (
     <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-surface-card shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition-colors dark:border-white/10 dark:bg-surface-card/80 dark:shadow-card">
@@ -25,7 +27,7 @@ export const ProgramCard = ({
           src={imageUrl}
           alt={title}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          className={`object-cover object-${objectPosition} transition-transform duration-700 group-hover:scale-110`}
         />
         <div className="absolute inset-0 bg-card-aurora opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>

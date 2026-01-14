@@ -9,6 +9,7 @@ const navLinks = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
+  { label: "Journal", href: null }, // Non-clickable text
 ];
 
 export const Header = () => {
@@ -26,20 +27,29 @@ export const Header = () => {
       <header className="sticky top-0 z-50 w-full bg-surface-base/80 border-b border-slate-200/70 dark:bg-brand-midnight/80 dark:border-white/10 backdrop-blur-md">
         <div className="mx-auto flex h-16 w-full max-w-360 items-center justify-between px-4 md:px-10">
           <Link href="/" aria-label="Go to homepage">
-            <Logo width={120} height={36} className="h-9 w-auto" />
+            <Logo width={150} height={45} className="h-11 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <nav className="flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-10">
+            <nav className="flex items-center gap-10">
               {navLinks.map((link) => (
-                <Link 
-                  key={link.href} 
-                  href={link.href} 
-                  className="text-sm font-semibold text-text-muted hover:text-brand-cyan transition-colors"
-                >
-                  {link.label}
-                </Link>
+                link.href ? (
+                  <Link 
+                    key={link.href} 
+                    href={link.href} 
+                    className="text-sm font-semibold text-text-muted hover:text-brand-cyan transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <span 
+                    key={link.label}
+                    className="text-sm font-semibold text-text-muted cursor-default"
+                  >
+                    {link.label}
+                  </span>
+                )
               ))}
             </nav>
 
@@ -75,14 +85,23 @@ export const Header = () => {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-surface-base dark:bg-brand-midnight border-b border-slate-200/70 dark:border-white/10 py-6 px-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 duration-200 shadow-xl">
             {navLinks.map((link) => (
-              <Link 
-                key={link.href} 
-                href={link.href} 
-                className="text-lg font-semibold text-text-high hover:text-brand-cyan py-3 border-b border-slate-100 dark:border-white/5"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              link.href ? (
+                <Link 
+                  key={link.href} 
+                  href={link.href} 
+                  className="text-lg font-semibold text-text-high hover:text-brand-cyan py-3 border-b border-slate-100 dark:border-white/5"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <span 
+                  key={link.label}
+                  className="text-lg font-semibold text-text-muted py-3 border-b border-slate-100 dark:border-white/5 cursor-default"
+                >
+                  {link.label}
+                </span>
+              )
             ))}
           </div>
         )}

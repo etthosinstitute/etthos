@@ -85,14 +85,9 @@ export const Hero = () => {
               />
               
               {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+      
 
-              <div className="absolute bottom-8 left-8 right-8 pointer-events-none">
-                 <div className="glass-panel p-4 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md text-white">
-                    <p className="font-semibold text-lg">&ldquo;The clinical exposure here is unmatched.&rdquo;</p>
-                    <p className="text-sm text-white/80 mt-1">— Dr. Sarah M., Clinical Director</p>
-                 </div>
-              </div>
+             
             </div>
 
             {/* Floating Element 1 - Top Left */}

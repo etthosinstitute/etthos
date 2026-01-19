@@ -11,6 +11,10 @@ const inter = Inter({
 export const metadata = {
   title: "Etthos",
   description: "Landing page for Etthos",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

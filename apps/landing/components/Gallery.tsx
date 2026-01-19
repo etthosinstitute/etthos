@@ -3,44 +3,77 @@ import Image from "next/image";
 
 const galleryImages = [
   {
-    src: "/gallery/WhatsApp Image 2025-12-25 at 00.12.58.jpeg",
+    src: "/gallery/WhatsApp Image 2026-01-15 at 21.36.40 (3).jpeg",
     alt: "Campus life moment",
-    className: "row-span-2 col-span-2",
+    mobileClassName: "col-span-2 aspect-video",
+    desktopClassName: "md:row-span-2 md:col-span-2",
+    objectPosition: "center 30%",
+    sizes: "(max-width: 768px) 100vw, 50vw",
+    priority: true,
   },
   {
-    src: "/gallery/THatimage.jpeg",
+    src: "/gallery/1.jpg",
     alt: "Students interaction",
-    className: "row-span-1 col-span-1",
+    mobileClassName: "col-span-1 aspect-[3/4]",
+    desktopClassName: "md:row-span-2 md:col-span-1",
+    objectPosition: "top",
+    sizes: "(max-width: 768px) 50vw, 25vw",
+    priority: true,
   },
   {
-    src: "/gallery/WhatsApp Image 2025-12-25 at 00.13.00 (1).jpeg",
+    src: "/gallery/16.jpg",
     alt: "Learning session",
-    className: "row-span-1 col-span-1",
+    mobileClassName: "col-span-1 aspect-[3/4]",
+    desktopClassName: "md:row-span-2 md:col-span-1",
+    objectPosition: "top",
+    sizes: "(max-width: 768px) 50vw, 25vw",
+    priority: true,
   },
   {
-    src: "/gallery/WhatsApp Image 2025-12-25 at 00.13.00.jpeg",
+    src: "/gallery/19.jpg",
     alt: "Group activity",
-    className: "row-span-1 col-span-2",
+    mobileClassName: "col-span-2 aspect-video",
+    desktopClassName: "md:row-span-3 md:col-span-2",
+    objectPosition: "center",
+    sizes: "(max-width: 768px) 100vw, 50vw",
+    priority: false,
   },
   {
-    src: "/gallery/WhatsApp Image 2025-12-25 at 00.13.07 (1).jpeg",
+    src: "/gallery/6.jpg",
     alt: "Student portrait",
-    className: "row-span-1 col-span-1",
+    mobileClassName: "col-span-1 aspect-square",
+    desktopClassName: "md:row-span-2 md:col-span-1",
+    objectPosition: "center",
+    sizes: "(max-width: 768px) 50vw, 25vw",
+    priority: false,
   },
   {
-    src: "/gallery/WhatsApp Image 2025-12-25 at 00.13.07.jpeg",
+    src: "/gallery/31.jpg",
     alt: "Classroom setting",
-    className: "row-span-1 col-span-1",
+    mobileClassName: "col-span-1 aspect-square row-span-2 bg-surface-elevated",
+    desktopClassName: "md:row-span-2 md:col-span-2",
+    objectPosition: "center",
+    objectFit: "contain",
+    sizes: "(max-width: 768px) 50vw, 50vw",
+    priority: false,
   },
   {
-    src: "/gallery/that1.jpeg",
+    src: "/gallery/14.jpg",
     alt: "Discussion group",
-    className: "row-span-2 col-span-2",
+    mobileClassName: "col-span-2 aspect-video",
+    desktopClassName: "md:row-span-3 md:col-span-2",
+    objectPosition: "top",
+    sizes: "(max-width: 768px) 100vw, 50vw",
+    priority: false,
   },
-   {
-    src: "/gallery/WhatsApp Image 2025-12-25 at 00.13.10 (1).jpeg",
+  {
+    src: "/gallery/32.jpg",
     alt: "Campus event",
-    className: "row-span-1 col-span-1",
+    mobileClassName: "col-span-2 aspect-video",
+    desktopClassName: "md:row-span-2 md:col-span-2",
+    objectPosition: "top",
+    sizes: "(max-width: 768px) 100vw, 50vw",
+    priority: false,
   },
 ];
 
@@ -61,17 +94,44 @@ export const Gallery = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-[400px] md:h-[600px] auto-rows-[minmax(0,_1fr)]">
+        {/* Mobile: Simple grid layout with aspect ratios */}
+        <div className="grid grid-cols-2 gap-3 md:hidden">
           {galleryImages.map((image, index) => (
             <div
               key={index}
-              className={`relative overflow-hidden rounded-2xl group ${image.className}`}
+              className={`relative overflow-hidden rounded-2xl group ${image.mobileClassName}`}
             >
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes={image.sizes}
+                quality={80}
+                priority={image.priority}
+                style={{ objectPosition: image.objectPosition }}
+                className={`${image.objectFit === 'contain' ? 'object-contain' : 'object-cover'} transition-transform duration-700 group-hover:scale-110`}
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: Complex grid layout */}
+        <div className="hidden md:grid md:grid-cols-4 gap-4 h-[800px] auto-rows-[minmax(0,_1fr)]">
+          {galleryImages.map((image, index) => (
+            <div
+              key={index}
+              className={`relative overflow-hidden rounded-2xl group ${image.desktopClassName}`}
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes={image.sizes}
+                quality={80}
+                priority={image.priority}
+                style={{ objectPosition: image.objectPosition }}
+                className={`${image.objectFit === 'contain' ? 'object-contain' : 'object-cover'} transition-transform duration-700 group-hover:scale-110`}
               />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
             </div>

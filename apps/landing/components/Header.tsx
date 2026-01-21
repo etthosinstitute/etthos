@@ -24,7 +24,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-surface-base/80 border-b border-slate-200/70 dark:bg-brand-midnight/80 dark:border-white/10 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full bg-white md:bg-surface-base/80 border-b border-slate-200/70 dark:bg-brand-midnight md:dark:bg-brand-midnight/80 dark:border-white/10 backdrop-blur-md">
         <div className="mx-auto flex h-16 w-full max-w-360 items-center justify-between px-4 md:px-10">
           <Link href="/" aria-label="Go to homepage">
             <Logo width={150} height={45} className="h-11 w-auto" />
@@ -83,7 +83,7 @@ export const Header = () => {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 w-full bg-surface-base dark:bg-brand-midnight border-b border-slate-200/70 dark:border-white/10 py-6 px-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 duration-200 shadow-xl">
+          <div className="md:hidden absolute top-16 left-0 w-full bg-white dark:bg-brand-midnight border-b border-slate-200/70 dark:border-white/10 py-6 px-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 duration-200 shadow-xl">
             {navLinks.map((link) => (
               link.href ? (
                 <Link 

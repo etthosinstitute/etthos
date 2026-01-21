@@ -41,12 +41,7 @@ const team = [
     role: "HR Head",
     image: "/aboutusimages/smarth.jpeg",
   },
-  {
-    name: "Pawan Kumar",
-    role: "Finance Head",
-    image: "/aboutusimages/pawan-kumar.jpeg",
-    objectPosition: "top",
-  },
+
 ];
 
 const certificates = [

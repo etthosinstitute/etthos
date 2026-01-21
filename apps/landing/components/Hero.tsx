@@ -34,7 +34,7 @@ export const Hero = () => {
           <div className="flex flex-col gap-8 max-w-xl order-2 lg:order-1 pt-10 lg:pt-0">
             <div className="flex items-center gap-2 font-bold tracking-wide uppercase text-xs text-brand-midnight dark:text-text-high">
               <Badge className="bg-brand-iris/10 text-brand-iris border-brand-iris/20 backdrop-blur-sm">New Batch 2026</Badge>
-              <Badge variant="success" className="shadow-sm">Inclined with RCI Framework</Badge>
+              <Badge variant="success" className="shadow-sm">As per latest DSM - 5 - TR and ICD - 11 Norms.</Badge>
             </div>
             
             <h1 className="text-4xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.05] tracking-tight">

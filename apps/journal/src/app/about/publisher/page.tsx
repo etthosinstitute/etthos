@@ -1,0 +1,142 @@
+import { PageHeader } from "@/components/PageHeader";
+import { journalInfo } from "@/lib/data";
+import { MapPin, Mail, Phone, ExternalLink, Building2 } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Publisher Information",
+  description: "Publisher information for the Etthos Journal of Psychology — Etthos, postal address, and contact details.",
+};
+
+export default function PublisherPage() {
+  return (
+    <>
+      <PageHeader
+        title="Publisher Information"
+        description="Official publisher details for the Etthos Journal of Psychology."
+      />
+
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-3xl mx-auto space-y-12">
+
+          {/* Publisher Identity */}
+          <section className="bg-card border border-border rounded-lg p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="bg-primary/10 p-3 rounded-full text-primary">
+                <Building2 className="h-8 w-8" />
+              </div>
+              <div>
+                <h2 className="font-serif font-bold text-2xl text-primary">Etthos</h2>
+                <p className="text-muted-foreground text-sm">Publisher of the Etthos Journal of Psychology</p>
+              </div>
+            </div>
+            <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">
+              <p>
+                <strong>Etthos</strong> is the publisher of the Etthos Journal of Psychology (EJP). Etthos is dedicated to fostering rigorous academic scholarship and advancing knowledge through high-quality, open-access publications. The journal operates under strict adherence to international publication ethics standards and the guidelines of the Committee on Publication Ethics (COPE).
+              </p>
+            </div>
+            <div className="mt-6">
+              <a
+                href={journalInfo.mainWebsiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-secondary hover:text-secondary/80 font-medium transition-colors"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Visit etthos.com
+              </a>
+            </div>
+          </section>
+
+          {/* Postal Addresses (ISSN Requirement) */}
+          <section>
+            <h2 className="font-serif font-bold text-2xl mb-6 text-primary">Postal Addresses</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-card border border-border rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <MapPin className="h-5 w-5 text-secondary" />
+                  <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
+                    {journalInfo.registeredOffice.label}
+                  </h3>
+                </div>
+                <p className="text-foreground leading-relaxed text-sm">
+                  {journalInfo.registeredOffice.address}
+                </p>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <MapPin className="h-5 w-5 text-secondary" />
+                  <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
+                    {journalInfo.corporateOffice.label}
+                  </h3>
+                </div>
+                <p className="text-foreground leading-relaxed text-sm">
+                  {journalInfo.corporateOffice.address}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Contact Details */}
+          <section>
+            <h2 className="font-serif font-bold text-2xl mb-6 text-primary">Contact Details</h2>
+            <div className="bg-card border border-border rounded-lg divide-y divide-border">
+              <div className="flex items-center gap-4 p-4">
+                <Mail className="h-5 w-5 text-secondary shrink-0" />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">Email</p>
+                  <a href={`mailto:${journalInfo.contactEmail}`} className="text-foreground hover:text-secondary transition-colors">
+                    {journalInfo.contactEmail}
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 p-4">
+                <Mail className="h-5 w-5 text-secondary shrink-0" />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">General Enquiries</p>
+                  <a href={`mailto:${journalInfo.infoEmail}`} className="text-foreground hover:text-secondary transition-colors">
+                    {journalInfo.infoEmail}
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 p-4">
+                <Phone className="h-5 w-5 text-secondary shrink-0" />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">Phone</p>
+                  <span className="text-foreground">{journalInfo.phone}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Journal Details */}
+          <section>
+            <h2 className="font-serif font-bold text-2xl mb-6 text-primary">Journal Details</h2>
+            <div className="bg-card border border-border rounded-lg overflow-hidden">
+              <table className="w-full text-sm">
+                <tbody>
+                  {[
+                    ["Journal Title", journalInfo.name],
+                    ["ISSN (Online)", journalInfo.issn],
+                    ["Frequency", journalInfo.frequency],
+                    ["Language", journalInfo.language],
+                    ["Subject Area", journalInfo.subjectArea],
+                    ["Access Model", journalInfo.accessPolicy],
+                    ["Licence", journalInfo.license],
+                    ["Website", journalInfo.websiteUrl],
+                  ].map(([label, value], idx) => (
+                    <tr key={label} className={idx !== 0 ? "border-t border-border" : ""}>
+                      <td className="px-4 py-3 font-medium text-muted-foreground bg-muted/30 w-1/3">{label}</td>
+                      <td className="px-4 py-3 text-foreground">{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </>
+  );
+}

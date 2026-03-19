@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  role      Role     @default(AUTHOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  manuscripts     Manuscript[] @relation("AuthorManuscripts")
+  reviews         Review[]
+}
+
+model Manuscript {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  abstract    String?
+  status      Status   @default(SUBMITTED)
+  fileUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  authorId    String   @db.ObjectId
+  author      User     @relation("AuthorManuscripts", fields: [authorId], references: [id])
+  
+  reviews     Review[]
+}
+
+model Review {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  content      String
+  decision     Decision
+  createdAt    DateTime @default(now())
+  
+  reviewerId   String   @db.ObjectId
+  reviewer     User     @relation(fields: [reviewerId], references: [id])
+  
+  manuscriptId String   @db.ObjectId
+  manuscript   Manuscript @relation(fields: [manuscriptId], references: [id])
+}
+
+enum Role {
+  AUTHOR
+  REVIEWER
+  EDITOR
+  ADMIN
+}
+
+enum Status {
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  PUBLISHED
+}
+
+enum Decision {
+  ACCEPT
+  MINOR_REVISIONS
+  MAJOR_REVISIONS
+  REJECT
+}

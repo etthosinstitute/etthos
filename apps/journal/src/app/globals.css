@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: var(--font-serif), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+:root {
+  /* Landing-aligned palette */
+  --background: 223 100% 98.6%;
+  /* #f8faff surface-base */
+  --foreground: 220 63.2% 7.5%;
+  /* #070f1f text-high */
+
+  --primary: 220 63.2% 7.5%;
+  /* #070f1f brand-ink */
+  --primary-foreground: 223 100% 98.6%;
+  /* #f8faff */
+
+  --secondary: 229 91.8% 61.6%;
+  /* #4364f7 brand-cobalt */
+  --secondary-foreground: 223 100% 98.6%;
+
+  --accent: 216 100% 97.1%;
+  /* #f0f6ff surface-soft */
+  --accent-foreground: 220 63.2% 7.5%;
+
+  --muted: 216 100% 97.1%;
+  --muted-foreground: 221 20% 44.1%;
+  /* #5a6887 text-muted */
+
+  --card: 0 0% 100%;
+  --card-foreground: 220 63.2% 7.5%;
+
+  --border: 210 25.7% 86.3%;
+  /* #d3dce5 */
+  --input: 210 25.7% 86.3%;
+  --ring: 229 91.8% 61.6%;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 224 65.5% 5.7%;
+  /* #050a18 surface-base */
+  --foreground: 223 100% 98.6%;
+  /* #f8faff text-high */
+
+  --primary: 228 100% 98%;
+  /* #f5f7ff surface-contrast */
+  --primary-foreground: 224 65.5% 5.7%;
+
+  --secondary: 192 91.4% 36.5%;
+  /* #0891b2 brand-cyan */
+  --secondary-foreground: 223 100% 98.6%;
+
+  --accent: 222 51.6% 17.8%;
+  /* #162445 surface-soft */
+  --accent-foreground: 223 100% 98.6%;
+
+  --muted: 222 51.6% 17.8%;
+  --muted-foreground: 225 27% 68.8%;
+  /* #9aa5c5 text-muted */
+
+  --card: 222 51.5% 12.9%;
+  /* #101a32 surface-card */
+  --card-foreground: 223 100% 98.6%;
+
+  --border: 222 34% 24%;
+  --input: 222 34% 24%;
+  --ring: 233 100% 74.3%;
+  /* #7c8bff brand-iris */
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

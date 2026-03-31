@@ -12,11 +12,44 @@ const ContactPage = () => {
     comment: "",
     agreedToTerms: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    setIsSubmitting(true);
+    setStatusMessage(null);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(result.message || "Unable to send your message right now.");
+      }
+
+      setStatusMessage(result.message || "Your message has been sent successfully.");
+      setFormData({
+        fullName: "",
+        email: "",
+        subject: "",
+        comment: "",
+        agreedToTerms: false,
+      });
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to send your message right now.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -62,7 +95,7 @@ const ContactPage = () => {
           <div className="relative z-10 mx-auto max-w-[1440px] px-4 md:px-10 text-center">
             <div className="inline-block mb-6 px-6 py-2 rounded-full bg-brand-cyan/10 dark:bg-brand-cyan/20 border border-brand-cyan/30 backdrop-blur-sm">
               <span className="text-brand-cyan text-sm font-semibold tracking-wider uppercase">
-                Let's Connect
+                Let&apos;s Connect
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-white">
@@ -149,7 +182,7 @@ const ContactPage = () => {
                 Send us a <span className="text-brand-cyan">Message</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                Fill out the form below and we'll get back to you as soon as
+                Fill out the form below and we&apos;ll get back to you as soon as
                 possible.
               </p>
             </div>
@@ -269,16 +302,29 @@ const ContactPage = () => {
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="group relative w-full bg-gradient-to-r from-brand-cyan to-brand-cyan/80 hover:from-brand-cyan/90 hover:to-brand-cyan text-white font-bold py-5 px-8 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl hover:shadow-2xl overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-3">
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                     <span className="group-hover:translate-x-1 transition-transform">
                       →
                     </span>
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-brand-iris to-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
                 </button>
+
+                {statusMessage ? (
+                  <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-700">
+                    {statusMessage}
+                  </div>
+                ) : null}
+
+                {errorMessage ? (
+                  <div className="rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm text-rose-700">
+                    {errorMessage}
+                  </div>
+                ) : null}
               </form>
             </div>
           </div>
@@ -347,4 +393,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-

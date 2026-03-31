@@ -11,6 +11,8 @@ type EnquiryModalProps = {
 
 export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,17 +25,39 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setStatusMessage(null);
+    setErrorMessage(null);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          courseTitle,
+        }),
+      });
 
-    console.log("Form Submitted:", { ...formData, course: courseTitle });
-    
-    // Reset and close
-    setIsLoading(false);
-    setFormData({ name: "", email: "", phone: "", age: "" });
-    onClose();
-    alert("Enquiry submitted successfully! We will contact you soon.");
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(result.message || "Unable to submit your enquiry right now.");
+      }
+
+      setStatusMessage(result.message || "Enquiry submitted successfully.");
+      setFormData({ name: "", email: "", phone: "", age: "" });
+
+      window.setTimeout(() => {
+        onClose();
+        setStatusMessage(null);
+      }, 1200);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to submit your enquiry right now.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -138,6 +162,18 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
                 )}
               </button>
             </div>
+
+            {statusMessage ? (
+              <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                {statusMessage}
+              </p>
+            ) : null}
+
+            {errorMessage ? (
+              <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                {errorMessage}
+              </p>
+            ) : null}
           </form>
         </div>
       </div>

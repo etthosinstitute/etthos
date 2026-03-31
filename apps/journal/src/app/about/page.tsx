@@ -1,7 +1,8 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Check } from "lucide-react";
-import { journalInfo, subjectAreas } from "@/lib/data";
+import { getAboutContent, getJournalInfo } from "@/lib/public-site";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,42 +10,77 @@ export const metadata: Metadata = {
   description: "Learn about the Etthos Journal of Psychology — mission, scope, editorial policies, and publication frequency.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [aboutPage, journalInfo] = await Promise.all([
+    getAboutContent(),
+    getJournalInfo(),
+  ]);
+
+  const { content } = aboutPage;
+
   return (
     <>
       <PageHeader 
-        title="About the Journal" 
-        description="An overview of the mission, scope, and editorial policies of the Etthos Journal of Psychology." 
+        title={aboutPage.title}
+        description={aboutPage.description || "An overview of the mission, scope, and editorial policies of the Etthos Journal of Psychology."}
       />
       
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
           
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-12">
-            <section>
-              <h2 className="font-serif font-bold text-2xl mb-4 text-primary">Journal Overview</h2>
+            <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Journal Overview</p>
+              <h2 className="font-serif font-bold text-3xl mb-4 text-primary">A scholarly home for psychology research</h2>
               <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">
-                <p className="mb-4">
-                  The <em>Etthos Journal of Psychology</em> (EJP) is a peer-reviewed, open-access academic journal published by <strong>Etthos</strong>. The journal is dedicated to the dissemination of high-quality original research, review articles, and scholarly discourse across the full spectrum of psychology and behavioural sciences.
-                </p>
-                <p className="mb-4">
-                  EJP aspires to serve as a credible scholarly platform for researchers, academicians, and practitioners — particularly those working in the Indian and South Asian context — to share rigorous empirical work and contribute to the advancement of psychological knowledge. The journal welcomes methodologically sound contributions from clinical, cognitive, developmental, social, educational, organisational, and health psychology, among other sub-disciplines.
-                </p>
-                <p>
-                  The journal is committed to maintaining the highest standards of publication ethics and scholarly rigour. All submissions undergo a double-blind peer review process conducted by experts in the relevant field.
-                </p>
+                {content.overviewParagraphs.map((paragraph, index) => (
+                  <p key={paragraph} className={index < content.overviewParagraphs.length - 1 ? "mb-4" : undefined}>
+                    {paragraph}
+                  </p>
+                ))}
               </div>
             </section>
 
-            <section>
-              <h2 className="font-serif font-bold text-2xl mb-4 text-primary">Aims and Scope</h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                The Etthos Journal of Psychology welcomes original research articles, review papers, case studies, short communications, and theoretical contributions in the following areas:
+            <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Founding Leadership</p>
+              <h2 className="font-serif font-bold text-3xl mb-4 text-primary">{content.foundersTitle}</h2>
+              <p className="text-muted-foreground leading-7 mb-8">
+                {content.foundersDescription}
+              </p>
+              <div className="grid gap-6 md:grid-cols-2">
+                {content.founders.map((founder) => (
+                  <div key={founder.name} className="rounded-[1.5rem] border border-border bg-background/70 p-5">
+                    <div className="flex items-center gap-5">
+                      <div className="relative h-24 w-24 overflow-hidden rounded-2xl border border-border">
+                        <Image
+                          src={founder.image}
+                          alt={founder.name}
+                          fill
+                          className="object-cover object-top"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="font-serif text-2xl font-bold text-primary">{founder.name}</h3>
+                        <p className="mt-1 text-sm font-medium uppercase tracking-[0.22em] text-secondary">
+                          {founder.role}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Editorial Positioning</p>
+              <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Aims and Scope</h2>
+              <p className="text-muted-foreground mb-6 leading-7">
+                {content.aimsIntro}
               </p>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {subjectAreas.map((field) => (
-                  <li key={field} className="flex items-start gap-3 text-muted-foreground">
+                {journalInfo.subjectAreas.map((field) => (
+                  <li key={field} className="flex items-start gap-3 rounded-2xl border border-border bg-background/70 px-4 py-3 text-muted-foreground">
                     <div className="mt-1 bg-secondary/10 p-1 rounded-full text-secondary">
                       <Check className="h-3 w-3" />
                     </div>
@@ -59,17 +95,18 @@ export default function AboutPage() {
               </div>
             </section>
 
-             <section>
-              <h2 className="font-serif font-bold text-2xl mb-4 text-primary">Publication Frequency</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                The journal is published <strong>quarterly</strong> (4 issues per year) in March, June, September, and December. Special issues dedicated to specific topics may also be published.
+             <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Publishing Rhythm</p>
+              <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Publication Frequency</h2>
+              <p className="text-muted-foreground leading-7">
+                {content.publicationFrequencyText}
               </p>
             </section>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-8">
-            <div className="bg-muted/50 p-6 rounded-lg border border-border">
+            <div className="rounded-[1.5rem] border border-border bg-card p-7 shadow-[0_18px_50px_-42px_rgba(19,34,56,0.42)]">
               <h3 className="font-serif font-bold text-lg mb-4 text-primary">Key Facts</h3>
               <ul className="space-y-4 text-sm">
                  <li className="flex justify-between border-b border-border/50 pb-2">
@@ -103,10 +140,10 @@ export default function AboutPage() {
               </ul>
             </div>
 
-             <div className="bg-primary text-primary-foreground p-6 rounded-lg">
-              <h3 className="font-serif font-bold text-lg mb-4">Submit Your Work</h3>
+             <div className="rounded-[1.5rem] bg-primary p-7 text-primary-foreground shadow-[0_22px_60px_-46px_rgba(19,34,56,0.8)]">
+              <h3 className="font-serif font-bold text-lg mb-4">{content.submitCtaTitle}</h3>
               <p className="text-primary-foreground/80 text-sm mb-6">
-                Ready to publish with us? Check our author guidelines and submit your manuscript today.
+                {content.submitCtaDescription}
               </p>
               <a href="/submit" className="inline-block bg-secondary text-secondary-foreground font-medium px-4 py-2 rounded-md text-sm hover:bg-secondary/90 transition-colors w-full text-center">
                 Start Submission

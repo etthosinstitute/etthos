@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Check } from "lucide-react";
-import { subjectAreas, journalInfo } from "@/lib/data";
+import { getAimsScopeContent, getJournalInfo } from "@/lib/public-site";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,39 +8,44 @@ export const metadata: Metadata = {
   description: "The Etthos Journal of Psychology publishes research across clinical, cognitive, developmental, social, and other areas of psychology and behavioural sciences.",
 };
 
-export default function AimsScopePage() {
+export default async function AimsScopePage() {
+  const [aimsScopePage, journalInfo] = await Promise.all([
+    getAimsScopeContent(),
+    getJournalInfo(),
+  ]);
+
+  const { content } = aimsScopePage;
+
   return (
     <>
       <PageHeader
-        title="Aims & Scope"
-        description="The scope of the Etthos Journal of Psychology covers the full breadth of psychology and behavioural sciences."
+        title={aimsScopePage.title}
+        description={aimsScopePage.description || "The scope of the Etthos Journal of Psychology covers the full breadth of psychology and behavioural sciences."}
       />
 
       <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          <section className="mb-12">
-            <h2 className="font-serif font-bold text-2xl mb-4 text-primary">Aims</h2>
+        <div className="max-w-5xl mx-auto space-y-10">
+          <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Editorial Mission</p>
+            <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Aims</h2>
             <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">
-              <p className="mb-4">
-                The <em>Etthos Journal of Psychology</em> (EJP) aims to serve as a credible, peer-reviewed scholarly platform for the publication of original research, review articles, case studies, theoretical contributions, and short communications in the domain of psychology and behavioural sciences.
-              </p>
-              <p className="mb-4">
-                The journal is particularly committed to amplifying scholarship emerging from the Indian and South Asian research context, while remaining open to contributions from researchers across the globe. EJP seeks to bridge the gap between academic theory and applied practice by encouraging methodologically rigorous, ethically conducted, and socially relevant psychological inquiry.
-              </p>
-              <p>
-                The journal upholds the highest standards of publication ethics, transparency, and scholarly integrity, guided by the principles of the Committee on Publication Ethics (COPE).
-              </p>
+              {content.aimsParagraphs.map((paragraph, index) => (
+                <p key={paragraph} className={index < content.aimsParagraphs.length - 1 ? "mb-4" : undefined}>
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </section>
 
-          <section className="mb-12">
-            <h2 className="font-serif font-bold text-2xl mb-4 text-primary">Scope</h2>
-            <p className="text-muted-foreground mb-6 leading-relaxed">
+          <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Subject Coverage</p>
+            <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Scope</h2>
+            <p className="text-muted-foreground mb-6 leading-7">
               The Etthos Journal of Psychology welcomes submissions in the following areas of psychology and behavioural sciences, including but not limited to:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {subjectAreas.map((field) => (
-                <div key={field} className="flex items-start gap-3 p-3 rounded-lg border border-border bg-card hover:bg-muted/30 transition-colors">
+              {journalInfo.subjectAreas.map((field) => (
+                <div key={field} className="flex items-start gap-3 rounded-2xl border border-border bg-background/70 p-4 transition-colors hover:border-secondary/25 hover:bg-accent/40">
                   <div className="mt-0.5 bg-secondary/10 p-1 rounded-full text-secondary shrink-0">
                     <Check className="h-3.5 w-3.5" />
                   </div>
@@ -50,25 +55,23 @@ export default function AimsScopePage() {
             </div>
           </section>
 
-          <section className="mb-12">
-            <h2 className="font-serif font-bold text-2xl mb-4 text-primary">Article Types</h2>
+          <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Submission Categories</p>
+            <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Article Types</h2>
             <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">
               <p className="mb-4">The journal considers the following types of submissions:</p>
               <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Original Research Articles:</strong> Empirical studies reporting new findings based on primary data.</li>
-                <li><strong>Review Articles:</strong> Systematic reviews, meta-analyses, and narrative reviews synthesising existing literature.</li>
-                <li><strong>Case Studies:</strong> In-depth analyses of individual or group cases with clinical or theoretical significance.</li>
-                <li><strong>Short Communications:</strong> Brief empirical reports or preliminary findings of high relevance.</li>
-                <li><strong>Theoretical Papers:</strong> Contributions advancing conceptual frameworks or proposing new models.</li>
-                <li><strong>Letters to the Editor:</strong> Scholarly responses to previously published articles.</li>
-                <li><strong>Book Reviews:</strong> Critical reviews of recently published academic texts relevant to psychology.</li>
+                {content.articleTypes.map((item) => (
+                  <li key={item.title}><strong>{item.title}:</strong> {item.description}</li>
+                ))}
               </ul>
             </div>
           </section>
 
-          <section>
-            <h2 className="font-serif font-bold text-2xl mb-4 text-primary">Journal Information</h2>
-            <div className="bg-card border border-border rounded-lg overflow-hidden">
+          <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Publication Details</p>
+            <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Journal Information</h2>
+            <div className="overflow-hidden rounded-2xl border border-border">
               <table className="w-full text-sm">
                 <tbody>
                   {[

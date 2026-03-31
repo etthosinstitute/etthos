@@ -17,44 +17,69 @@ datasource db {
 
 // Singleton journal configuration
 model Journal {
-  id          String   @id @default(cuid())
-  name        String   @default("Etthos Journal of Psychology")
-  shortName   String   @default("EJP")
-  description String?
-  issn        String?  @unique // Once obtained from ISSN India
-  eissn       String?  @unique // Electronic ISSN
-  publisher   String   @default("Etthos")
-  frequency   String   @default("Quarterly") // Quarterly, Bi-annual, etc.
-  language    String   @default("English")
-  country     String   @default("India")
-  
-  // Contact & Publisher Info (ISSN Requirement)
+  id               String   @id @default(cuid())
+  name             String   @default("Etthos Journal of Psychology")
+  shortName        String   @default("EJP")
+  description      String?
+  issn             String?  @unique
+  eissn            String?  @unique
+  publisher        String   @default("Etthos")
+  frequency        String   @default("Quarterly")
+  language         String   @default("English")
+  country          String   @default("India")
   publisherAddress String
   publisherCity    String
   publisherState   String
   publisherCountry String
   publisherZip     String
   contactEmail     String
+  infoEmail        String?
   contactPhone     String?
-  
-  // URLs
-  websiteUrl      String @default("https://journal.etthos.com")
-  mainWebsiteUrl  String @default("https://etthos.com")
-  
-  // Subject Classification
-  subjectArea     String @default("Psychology")
-  subjectKeywords String[] // ["Clinical Psychology", "Cognitive Psychology", etc.]
-  
-  // Settings
-  articlesPerIssue Int    @default(5) // Minimum for ISSN compliance
-  isActive         Boolean @default(true)
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
+  websiteUrl       String   @default("https://journal.etthos.com")
+  mainWebsiteUrl   String   @default("https://etthos.com")
+  subjectArea      String   @default("Psychology")
+  subjectKeywords  String[]
+  registeredOfficeLabel String @default("Registered Office")
+  corporateOfficeLabel  String?
+  corporateOfficeAddress String?
+  license          String   @default("CC BY 4.0")
+  reviewModel      String   @default("Double-Blind Peer Review")
+  accessPolicy     String   @default("Open Access")
+  establishedYear  Int?
+  articlesPerIssue Int      @default(5)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
   volumes Volume[]
   
   @@map("journals")
+}
+
+model SiteContent {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?
+  content     Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("site_contents")
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([email])
+  @@map("contact_submissions")
 }
 
 // Volume (typically one per year)

@@ -3,50 +3,351 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  firstName String?
-  lastName  String?
-  role      Role     @default(AUTHOR)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Journal {
+  id               String   @id @default(cuid())
+  name             String   @default("Etthos Journal of Psychology")
+  shortName        String   @default("EJP")
+  description      String?
+  issn             String?  @unique
+  eissn            String?  @unique
+  publisher        String   @default("Etthos")
+  frequency        String   @default("Quarterly")
+  language         String   @default("English")
+  country          String   @default("India")
+  publisherAddress String
+  publisherCity    String
+  publisherState   String
+  publisherCountry String
+  publisherZip     String
+  contactEmail     String
+  infoEmail        String?
+  contactPhone     String?
+  websiteUrl       String   @default("https://journal.etthos.com")
+  mainWebsiteUrl   String   @default("https://etthos.com")
+  subjectArea      String   @default("Psychology")
+  subjectKeywords  String[]
+  registeredOfficeLabel String @default("Registered Office")
+  corporateOfficeLabel  String?
+  corporateOfficeAddress String?
+  license          String   @default("CC BY 4.0")
+  reviewModel      String   @default("Double-Blind Peer Review")
+  accessPolicy     String   @default("Open Access")
+  establishedYear  Int?
+  articlesPerIssue Int      @default(5)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
-  manuscripts     Manuscript[] @relation("AuthorManuscripts")
-  reviews         Review[]
+  volumes Volume[]
+
+  @@map("journals")
 }
 
-model Manuscript {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  abstract    String?
-  status      Status   @default(SUBMITTED)
-  fileUrl     String?
+model Volume {
+  id          String   @id @default(cuid())
+  number      Int
+  year        Int
+  description String?
+  journalId   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
-  authorId    String   @db.ObjectId
-  author      User     @relation("AuthorManuscripts", fields: [authorId], references: [id])
-  
-  reviews     Review[]
+
+  journal Journal @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  issues  Issue[]
+
+  @@unique([journalId, number])
+  @@unique([journalId, year])
+  @@index([journalId, year])
+  @@map("volumes")
 }
 
-model Review {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  content      String
-  decision     Decision
-  createdAt    DateTime @default(now())
-  
-  reviewerId   String   @db.ObjectId
-  reviewer     User     @relation(fields: [reviewerId], references: [id])
-  
-  manuscriptId String   @db.ObjectId
-  manuscript   Manuscript @relation(fields: [manuscriptId], references: [id])
+model Issue {
+  id            String    @id @default(cuid())
+  number        Int
+  title         String?
+  description   String?
+  published     Boolean   @default(false)
+  publishedDate DateTime?
+  coverImageUrl String?
+  volumeId      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  volume      Volume       @relation(fields: [volumeId], references: [id], onDelete: Cascade)
+  articles    Article[]
+  manuscripts Manuscript[]
+
+  @@unique([volumeId, number])
+  @@index([volumeId])
+  @@index([published, publishedDate])
+  @@map("issues")
+}
+
+model Article {
+  id                   String      @id @default(cuid())
+  title                String
+  slug                 String      @unique
+  abstract             String
+  type                 ArticleType @default(RESEARCH_ARTICLE)
+  published            Boolean     @default(false)
+  publishedDate        DateTime?
+  submittedDate        DateTime?
+  acceptedDate         DateTime?
+  pageStart            Int?
+  pageEnd              Int?
+  doi                  String?     @unique
+  pdfUrl               String?
+  pdfSize              Int?
+  supplementaryFiles   Json?
+  fullText             String?
+  views                Int         @default(0)
+  downloads            Int         @default(0)
+  fundingInfo          String?
+  conflictOfInterest   String?
+  acknowledgments      String?
+  dataAvailability     String?
+  ethicsApproval       String?
+  issueId              String
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  issue                 Issue           @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  authors               ArticleAuthor[]
+  keywords              ArticleKeyword[]
+  references            Reference[]
+  citations             Citation[]
+  manuscriptPublication Manuscript?
+
+  @@index([slug])
+  @@index([issueId])
+  @@index([published, publishedDate])
+  @@index([type])
+  @@map("articles")
+}
+
+enum ArticleType {
+  RESEARCH_ARTICLE
+  REVIEW_ARTICLE
+  CASE_STUDY
+  SHORT_COMMUNICATION
+  EDITORIAL
+  LETTER_TO_EDITOR
+  BOOK_REVIEW
+}
+
+model Author {
+  id              String              @id @default(cuid())
+  firstName       String
+  lastName        String
+  middleName      String?
+  email           String              @unique
+  orcid           String?             @unique
+  title           String?
+  biography       String?
+  website         String?
+  phone           String?
+  profileImageUrl String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  articles     ArticleAuthor[]
+  affiliations AuthorAffiliation[]
+
+  @@index([email])
+  @@index([orcid])
+  @@map("authors")
+}
+
+model Affiliation {
+  id          String                 @id @default(cuid())
+  institution String
+  department  String?
+  city        String
+  state       String?
+  country     String
+  website     String?
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+
+  authors      AuthorAffiliation[]
+  boardMembers EditorialBoardMember[]
+
+  @@unique([institution, department, city, country])
+  @@map("affiliations")
+}
+
+model AuthorAffiliation {
+  id            String      @id @default(cuid())
+  authorId      String
+  affiliationId String
+  isPrimary     Boolean     @default(false)
+  position      String?
+  startDate     DateTime?
+  endDate       DateTime?
+  current       Boolean     @default(true)
+
+  author      Author      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  affiliation Affiliation @relation(fields: [affiliationId], references: [id], onDelete: Cascade)
+
+  @@unique([authorId, affiliationId])
+  @@map("author_affiliations")
+}
+
+model ArticleAuthor {
+  id                       String   @id @default(cuid())
+  articleId                String
+  authorId                 String
+  order                    Int
+  isCorresponding          Boolean  @default(false)
+  correspondingEmail       String?
+  affiliationAtPublication String?
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  author  Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, authorId])
+  @@unique([articleId, order])
+  @@index([articleId])
+  @@index([authorId])
+  @@map("article_authors")
+}
+
+model Keyword {
+  id        String           @id @default(cuid())
+  name      String           @unique
+  createdAt DateTime         @default(now())
+
+  articles ArticleKeyword[]
+
+  @@index([name])
+  @@map("keywords")
+}
+
+model ArticleKeyword {
+  id        String  @id @default(cuid())
+  articleId String
+  keywordId String
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  keyword Keyword @relation(fields: [keywordId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, keywordId])
+  @@index([articleId])
+  @@index([keywordId])
+  @@map("article_keywords")
+}
+
+model Reference {
+  id       String  @id @default(cuid())
+  articleId String
+  order    Int
+  text     String
+  doi      String?
+  pmid     String?
+  url      String?
+  authors  String?
+  title    String?
+  journal  String?
+  year     Int?
+  volume   String?
+  issue    String?
+  pages    String?
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, order])
+  @@index([articleId])
+  @@map("references")
+}
+
+model Citation {
+  id        String         @id @default(cuid())
+  articleId String
+  format    CitationFormat
+  text      String
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, format])
+  @@map("citations")
+}
+
+enum CitationFormat {
+  APA
+  MLA
+  CHICAGO
+  HARVARD
+  IEEE
+  BIBTEX
+  RIS
+}
+
+model EditorialBoardMember {
+  id              String    @id @default(cuid())
+  firstName       String
+  lastName        String
+  title           String?
+  email           String    @unique
+  role            BoardRole
+  position        String?
+  designation     String
+  department      String
+  affiliationId   String
+  country         String
+  orcid           String?
+  biography       String?
+  expertise       String[]
+  profileImageUrl String?
+  website         String?
+  displayOrder    Int
+  isActive        Boolean   @default(true)
+  joinedDate      DateTime  @default(now())
+  endDate         DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  affiliation Affiliation @relation(fields: [affiliationId], references: [id])
+
+  @@index([role])
+  @@index([isActive, displayOrder])
+  @@map("editorial_board")
+}
+
+enum BoardRole {
+  EDITOR_IN_CHIEF
+  MANAGING_EDITOR
+  ASSOCIATE_EDITOR
+  SECTION_EDITOR
+  EDITORIAL_BOARD_MEMBER
+  REVIEWER
+}
+
+model User {
+  id                 String             @id @default(cuid())
+  email              String             @unique
+  password           String
+  firstName          String?
+  lastName           String?
+  role               Role               @default(AUTHOR)
+  isActive           Boolean            @default(true)
+  lastLoginAt        DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  manuscripts        Manuscript[]       @relation("AuthorManuscripts")
+  submittedReviews   Review[]           @relation("SubmittedReviews")
+  reviewAssignments  ReviewAssignment[] @relation("ReviewerAssignments")
+  managedAssignments ReviewAssignment[] @relation("EditorAssignments")
+  passwordResetTokens PasswordResetToken[]
+  auditLogs          AuditLog[]         @relation("AuditActor")
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
 }
 
 enum Role {
@@ -54,14 +355,96 @@ enum Role {
   REVIEWER
   EDITOR
   ADMIN
+  SUPER_ADMIN
+}
+
+model Manuscript {
+  id                 String             @id @default(cuid())
+  title              String
+  abstract           String?
+  keywords           String[]
+  status             Status             @default(SUBMITTED)
+  fileUrl            String?
+  editorNotes        String?
+  decisionNote       String?
+  submittedAt        DateTime           @default(now())
+  decidedAt          DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  authorId           String
+  issueId            String?
+  publishedArticleId String?            @unique
+
+  author             User               @relation("AuthorManuscripts", fields: [authorId], references: [id])
+  issue              Issue?             @relation(fields: [issueId], references: [id], onDelete: SetNull)
+  publishedArticle   Article?           @relation(fields: [publishedArticleId], references: [id], onDelete: SetNull)
+  reviews            Review[]
+  assignments        ReviewAssignment[]
+
+  @@index([authorId])
+  @@index([status, submittedAt])
+  @@index([issueId])
+  @@map("manuscripts")
+}
+
+model ReviewAssignment {
+  id          String           @id @default(cuid())
+  status      AssignmentStatus @default(ASSIGNED)
+  invitedAt   DateTime         @default(now())
+  respondedAt DateTime?
+  dueDate     DateTime?
+  submittedAt DateTime?
+  editorNotes String?
+  manuscriptId String
+  reviewerId  String
+  editorId    String?
+
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+  reviewer   User       @relation("ReviewerAssignments", fields: [reviewerId], references: [id], onDelete: Cascade)
+  editor     User?      @relation("EditorAssignments", fields: [editorId], references: [id], onDelete: SetNull)
+  review     Review?    @relation("AssignmentReview")
+
+  @@index([manuscriptId, status])
+  @@index([reviewerId, status])
+  @@map("review_assignments")
+}
+
+model Review {
+  id                   String    @id @default(cuid())
+  content              String
+  confidentialComments String?
+  decision             Decision
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  reviewerId           String
+  manuscriptId         String
+  assignmentId         String?   @unique
+
+  reviewer   User              @relation("SubmittedReviews", fields: [reviewerId], references: [id], onDelete: Cascade)
+  manuscript Manuscript        @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+  assignment ReviewAssignment? @relation("AssignmentReview", fields: [assignmentId], references: [id], onDelete: SetNull)
+
+  @@index([reviewerId, createdAt])
+  @@index([manuscriptId, createdAt])
+  @@map("reviews")
 }
 
 enum Status {
   SUBMITTED
   UNDER_REVIEW
+  REVISION_REQUESTED
+  REVISED
   ACCEPTED
   REJECTED
   PUBLISHED
+  WITHDRAWN
+}
+
+enum AssignmentStatus {
+  ASSIGNED
+  ACCEPTED
+  DECLINED
+  SUBMITTED
 }
 
 enum Decision {
@@ -69,4 +452,88 @@ enum Decision {
   MINOR_REVISIONS
   MAJOR_REVISIONS
   REJECT
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("password_reset_tokens")
+}
+
+model AuditLog {
+  id          String          @id @default(cuid())
+  actorId     String?
+  actorRole   Role?
+  action      AuditAction
+  entityType  AuditEntityType
+  entityId    String?
+  summary     String
+  metadata    Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime        @default(now())
+
+  actor User? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId, createdAt])
+  @@index([entityType, entityId, createdAt])
+  @@index([action, createdAt])
+  @@map("audit_logs")
+}
+
+enum AuditAction {
+  LOGIN
+  LOGOUT
+  PASSWORD_CHANGED
+  PASSWORD_RESET_REQUESTED
+  PASSWORD_RESET_COMPLETED
+  MANUSCRIPT_SUBMITTED
+  REVIEWER_ASSIGNED
+  REVIEW_INVITATION_ACCEPTED
+  REVIEW_INVITATION_DECLINED
+  REVIEW_SUBMITTED
+  REVIEWER_CREATED
+  MANUSCRIPT_PUBLISHED
+}
+
+enum AuditEntityType {
+  USER
+  MANUSCRIPT
+  REVIEW_ASSIGNMENT
+  REVIEW
+  ARTICLE
+  PASSWORD_RESET_TOKEN
+}
+
+model ArticleView {
+  id         String   @id @default(cuid())
+  articleId  String
+  ipHash     String
+  userAgent  String?
+  country    String?
+  referrer   String?
+  viewedAt   DateTime @default(now())
+
+  @@index([articleId, viewedAt])
+  @@map("article_views")
+}
+
+model ArticleDownload {
+  id           String   @id @default(cuid())
+  articleId    String
+  ipHash       String
+  userAgent    String?
+  country      String?
+  downloadedAt DateTime @default(now())
+
+  @@index([articleId, downloadedAt])
+  @@map("article_downloads")
 }

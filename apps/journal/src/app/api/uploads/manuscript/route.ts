@@ -1,0 +1,38 @@
+import { NextRequest, NextResponse } from "next/server";
+import { requireAuth } from "@/lib/auth";
+import { enforceRateLimit } from "@/lib/rate-limit";
+import { saveManuscriptFile } from "@/lib/storage";
+
+export async function POST(req: NextRequest) {
+  const user = await requireAuth(req);
+  if (user instanceof NextResponse) return user;
+
+  const limited = enforceRateLimit(req, {
+    bucket: "manuscript:upload",
+    key: user.userId,
+    limit: 12,
+    windowMs: 15 * 60 * 1000,
+  });
+  if (limited) return limited;
+
+  try {
+    const formData = await req.formData();
+    const file = formData.get("file");
+
+    if (!(file instanceof File)) {
+      return NextResponse.json({ error: "File is required" }, { status: 400 });
+    }
+
+    const uploaded = await saveManuscriptFile(file);
+
+    return NextResponse.json({ file: uploaded }, { status: 201 });
+  } catch (error) {
+    console.error("Manuscript upload error:", error);
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : "Failed to upload manuscript",
+      },
+      { status: 400 }
+    );
+  }
+}

@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { signToken, setAuthCookie } from "@/lib/auth";
+import { handleRouteError } from "@/lib/utils";
+import { enforceRateLimit } from "@/lib/rate-limit";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { z } from "zod";
 
 const signupSchema = z.object({
@@ -11,20 +13,21 @@ const signupSchema = z.object({
   lastName: z.string().optional(),
 });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const limited = enforceRateLimit(req, {
+      bucket: "auth:signup",
+      limit: 5,
+      windowMs: 60 * 60 * 1000,
+    });
+    if (limited) return limited;
+
     const body = await req.json();
     const { email, password, firstName, lastName } = signupSchema.parse(body);
 
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
-
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return NextResponse.json(
-        { error: "User already exists" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -35,16 +38,12 @@ export async function POST(req: Request) {
         password: hashedPassword,
         firstName,
         lastName,
-        role: "AUTHOR", // Default role
+        role: "AUTHOR",
+        isActive: true,
       },
     });
 
-    // Create JWT token
-    const token = jwt.sign(
-      { userId: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || "fallback_secret_do_not_use_in_prod",
-      { expiresIn: "7d" }
-    );
+    const token = signToken(user.id, user.email, user.role);
 
     const response = NextResponse.json(
       {
@@ -59,24 +58,10 @@ export async function POST(req: Request) {
       { status: 201 }
     );
 
-    // Set cookie
-    response.cookies.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-      path: "/",
-    });
-
+    setAuthCookie(response, token);
     return response;
   } catch (error) {
     console.error("Signup error:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
-    }
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

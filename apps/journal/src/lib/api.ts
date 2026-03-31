@@ -19,7 +19,26 @@ export async function apiRequest<T>(
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || "Something went wrong");
+    const errorPayload = data?.error;
+
+    if (Array.isArray(errorPayload)) {
+      const firstIssue = errorPayload[0];
+      const message =
+        typeof firstIssue?.message === "string"
+          ? firstIssue.message
+          : "Something went wrong";
+      throw new Error(message);
+    }
+
+    if (typeof errorPayload === "string") {
+      throw new Error(errorPayload);
+    }
+
+    if (errorPayload && typeof errorPayload.message === "string") {
+      throw new Error(errorPayload.message);
+    }
+
+    throw new Error("Something went wrong");
   }
 
   return data as T;

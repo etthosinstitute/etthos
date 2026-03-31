@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-serif",
   display: "swap",
+  weight: ["500", "600", "700"],
 });
 
-const inter = Inter({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -65,8 +67,8 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-full bg-background font-sans text-foreground antialiased",
-          playfair.variable,
-          inter.variable
+          cormorant.variable,
+          sourceSans.variable
         )}
       >
         <div className="min-h-screen flex flex-col">

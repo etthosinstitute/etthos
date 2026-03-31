@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { apiRequest } from "@/lib/api";
-import { Logo } from "@repo/ui/logo";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
 
 export default function SignupPage() {
   const router = useRouter();
@@ -27,19 +28,18 @@ export default function SignupPage() {
     try {
       await apiRequest("/api/auth/signup", "POST", formData);
       router.push("/auth/login?registered=true");
-    } catch (err: any) {
-      setError(err.message || "Failed to sign up");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, "Failed to sign up"));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-foreground bg-background">
-      <Navbar />
-      <main className="flex-1 flex items-center justify-center py-16 px-4 bg-muted/10">
-        <div className="w-full max-w-md bg-card border border-border rounded-lg shadow-sm p-8">
+      <main className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-md rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
             <div className="text-center mb-8">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-secondary">Join the Journal</p>
                 <h1 className="font-serif text-3xl font-bold text-primary mb-2">Create Account</h1>
                 <p className="text-sm text-muted-foreground">Join the academic community</p>
             </div>
@@ -122,7 +122,5 @@ export default function SignupPage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
   );
 }

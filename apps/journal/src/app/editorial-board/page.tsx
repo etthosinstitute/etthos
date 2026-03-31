@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/PageHeader";
-import { editorialBoard } from "@/lib/data";
+import { getEditorialBoardMembers } from "@/lib/public-site";
 import { Mail, MapPin, Globe } from "lucide-react";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   description: "Meet the distinguished scholars guiding the Etthos Journal of Psychology — profiles, affiliations, and areas of expertise.",
 };
 
-export default function EditorialBoardPage() {
+export default async function EditorialBoardPage() {
+  const sortedBoard = await getEditorialBoardMembers();
+
   return (
     <>
       <PageHeader 
@@ -18,13 +20,20 @@ export default function EditorialBoardPage() {
       />
       
       <div className="container mx-auto px-4 py-16">
+        <div className="mx-auto mb-10 max-w-4xl text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-secondary">Academic Leadership</p>
+          <h2 className="font-serif text-3xl font-bold text-primary">Scholars guiding editorial quality and integrity</h2>
+          <p className="mt-4 text-muted-foreground leading-7">
+            The journal is supported by academics and practitioners with institutional affiliations, disciplinary expertise, and a shared commitment to rigorous review standards.
+          </p>
+        </div>
         
         {/* All Board Members */}
         <div className="space-y-8">
-          {editorialBoard.map((member, idx) => (
+          {sortedBoard.map((member) => (
             <div
               key={member.id}
-              className="bg-card border border-border rounded-lg p-6 md:p-8 hover:shadow-md transition-shadow"
+              className="rounded-[1.75rem] border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/25 hover:shadow-[0_24px_65px_-50px_rgba(19,34,56,0.42)] md:p-8"
             >
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Photo or Avatar */}
@@ -35,10 +44,10 @@ export default function EditorialBoardPage() {
                       alt={member.name}
                       width={120}
                       height={120}
-                      className="w-28 h-28 rounded-lg object-cover border border-border"
+                      className="h-28 w-28 rounded-2xl object-cover border border-border shadow-sm"
                     />
                   ) : (
-                    <div className="w-28 h-28 rounded-lg bg-primary/10 flex items-center justify-center text-3xl font-serif font-bold text-primary">
+                    <div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-[hsl(var(--highlight)/0.12)] text-3xl font-serif font-bold text-[hsl(var(--highlight))]">
                       {member.name
                         .replace(/^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*(\(Dr\.\))?\s*/i, "")
                         .charAt(0)}
@@ -50,8 +59,8 @@ export default function EditorialBoardPage() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between flex-wrap gap-2 mb-2">
                     <div>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-2 py-0.5 rounded-full">
-                        Editorial Board Member {String(idx + 1).padStart(2, "0")}
+                      <span className="rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
+                        {member.role}
                       </span>
                     </div>
                   </div>
@@ -99,7 +108,7 @@ export default function EditorialBoardPage() {
                     {member.expertise.map((area) => (
                       <span
                         key={area}
-                        className="text-[11px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground"
+                        className="rounded-full bg-[hsl(var(--highlight)/0.12)] px-2.5 py-1 text-[11px] font-semibold text-[hsl(var(--highlight))]"
                       >
                         {area}
                       </span>

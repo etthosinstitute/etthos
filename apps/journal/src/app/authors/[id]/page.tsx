@@ -1,6 +1,5 @@
-import { articles, editorialBoard, journalInfo } from "@/lib/data";
 import { ArticleCard } from "@/components/ArticleCard";
-import { PageHeader } from "@/components/PageHeader";
+import { getAuthorProfileBySlug, getJournalInfo } from "@/lib/public-site";
 import { notFound } from "next/navigation";
 import { Mail, MapPin, Globe, BookOpen } from "lucide-react";
 import Image from "next/image";
@@ -12,8 +11,11 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  // Check editorial board
-  const member = editorialBoard.find((m) => m.id === id);
+  const [profile, journalInfo] = await Promise.all([
+    getAuthorProfileBySlug(id),
+    getJournalInfo(),
+  ]);
+  const member = profile?.member;
   if (member) {
     return {
       title: `${member.name} — Author Profile`,
@@ -28,17 +30,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function AuthorProfilePage({ params }: PageProps) {
   const { id } = await params;
 
-  // Look up in editorial board as primary author data source
-  const member = editorialBoard.find((m) => m.id === id);
+  const [profile, journalInfo] = await Promise.all([
+    getAuthorProfileBySlug(id),
+    getJournalInfo(),
+  ]);
+  const member = profile?.member;
+  const authorArticles = profile?.articles || [];
 
   if (!member) {
     notFound();
   }
-
-  // Find articles by this author (match by name)
-  const authorArticles = articles.filter((a) =>
-    a.authors.some((auth) => auth.name === member.name)
-  );
 
   return (
     <>

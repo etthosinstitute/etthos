@@ -268,6 +268,118 @@ export const trainingCourses: TrainingCourse[] = [
     ]
   },
   {
+    slug: "certificate-programme-in-clinical-neuropsychology",
+    title: "Certificate Programme in Clinical Neuropsychology",
+    category: "Certification",
+    shortDescription:
+      "A practice-oriented certification in neuropsychological assessment, psychometrics, report writing, and rehabilitation delivered by RCI Licensed Clinical Psychologists.",
+    overview:
+      "The Certificate Programme in Clinical Neuropsychology is designed to equip counsellors, psychologists, social workers, educators, and allied mental health practitioners with clinically operational knowledge of neuropsychological assessment, psychometric instruments, and therapeutic modalities used in neuropsychological rehabilitation. The programme is unapologetically practical: each session moves from instrument rationale to administration, scoring, interpretation, and applied clinical decision-making.",
+    whoShouldJoin: [
+      "Counsellors and Psychologists seeking applied neuropsychology training",
+      "Social Workers, Educators, and Allied Mental Health Practitioners",
+      "Professionals who want structured training in cognitive and neuropsychological assessment",
+      "Learners looking to strengthen reporting and rehabilitation-linked formulation skills",
+    ],
+    keyModules: [
+      "Clinical Foundations and Neuroanatomical Mapping for Brain-Behaviour Understanding",
+      "Intelligence and Memory Batteries including WAIS, WISC, WMS, RAVLT, RCFT, and related tools",
+      "Attention, Executive Function, Visuospatial, and Language Assessment in Clinical Populations",
+      "Specialised Batteries, Cognitive Screening, and Neuropsychological Report Writing",
+      "Psychometrics in Neuropsychological Practice including Personality, Behavioural, and Validity Testing",
+      "Clinical Syndromes and Applied Assessment for TBI, Stroke, Dementia, ADHD, Dyslexia, and ASD",
+      "Therapeutic Modalities in Neuropsychological Rehabilitation including APT, GMT, Errorless Learning, CBT, ACT, DBT, MI, and MBCT",
+      "Neuroimaging, Ethics, Forensics, and Professional Integration in Neuropsychology",
+    ],
+    durationOptions: ["4-6 Weeks", "16 Online Sessions"],
+    deliveryMode:
+      "Live Online + Lifetime Recorded Access with case-based, instrument-focused, applied teaching",
+    certification:
+      "Certificate in Clinical Neuropsychology issued on successful completion of the programme.",
+    benefits: [
+      "Covers over 45 named neuropsychological and psychometric tools across key clinical domains",
+      "Builds competence in assessment selection, administration, scoring, interpretation, and reporting",
+      "Connects assessment findings directly with rehabilitation and therapeutic planning",
+      "Delivered by RCI Licensed Clinical Psychologists with active neuropsychological practice experience",
+    ],
+    faqs: [
+      {
+        question: "Is this programme focused on practical assessment work or only theory?",
+        answer:
+          "It is strongly practice-oriented. Sessions move step by step from tool selection and administration to scoring, interpretation, and report writing.",
+      },
+      {
+        question: "Will therapeutic and rehabilitation modalities also be covered?",
+        answer:
+          "Yes. The programme includes evidence-based cognitive rehabilitation methods and adaptations of CBT, ACT, DBT, MI, and MBCT for neuropsychological populations.",
+      },
+      {
+        question: "Who is this programme designed for?",
+        answer:
+          "It is designed for counsellors, psychologists, social workers, educators, and allied mental health practitioners seeking clinically relevant neuropsychology training.",
+      },
+      {
+        question: "Does the programme include neuroimaging and forensic relevance?",
+        answer:
+          "Yes. The final module covers MRI, CT, PET, interdisciplinary integration, ethics, and forensic neuropsychology considerations.",
+      },
+    ],
+  },
+  {
+    slug: "certificate-programme-in-psychopharmacology-for-mental-health-professionals",
+    title: "Certificate Programme in Psychopharmacology for Mental Health Professionals",
+    category: "Certification",
+    shortDescription:
+      "A clinical literacy programme for counsellors and mental health professionals to understand psychiatric medications, side effects, adherence, and collaborative care.",
+    overview:
+      "The Certificate Programme in Psychopharmacology for Mental Health Professionals equips non-prescribing practitioners with clinically relevant pharmacological knowledge that enhances the quality, safety, and effectiveness of their therapeutic work. This is not a prescribing course. It is a structured programme in psychopharmacology literacy, helping practitioners understand how psychiatric medications work, recognise side effects and medication emergencies, support adherence, and collaborate effectively with prescribing clinicians.",
+    whoShouldJoin: [
+      "Counsellors, Psychologists, Social Workers, and Mental Health Practitioners",
+      "Professionals who regularly work with clients taking psychiatric medications",
+      "Therapists seeking stronger collaboration skills with psychiatrists and prescribers",
+      "Learners who want medication literacy without stepping outside non-prescribing scope",
+    ],
+    keyModules: [
+      "Foundations of Psychopharmacology covering neuroscience, pharmacokinetics, pharmacodynamics, receptor pharmacology, and medication safety",
+      "Drug Classes in Clinical Practice including antidepressants, antipsychotics, mood stabilisers, anxiolytics, stimulants, and addiction pharmacotherapy",
+      "Clinical Applications for Counsellors across lifespan prescribing, side effects, adherence, and presentation-specific treatment understanding",
+      "Ethics, Legal Issues, Emerging Topics, and Integrated Clinical Reasoning including psychedelic-assisted therapies and pharmacogenomics",
+    ],
+    durationOptions: ["4-6 Weeks", "16 Online Sessions"],
+    deliveryMode:
+      "Live Online + Lifetime Recorded Access with session quizzes and a final integration paper",
+    certification:
+      "Certificate in Psychopharmacology for Mental Health Professionals upon successful completion.",
+    benefits: [
+      "Improves confidence in discussing medication-related concerns within ethical professional boundaries",
+      "Helps practitioners recognise side effects, adverse reactions, toxicity signs, and referral urgency",
+      "Strengthens medication adherence support and psychoeducation skills in therapy settings",
+      "Builds better interdisciplinary communication with psychiatrists and prescribing clinicians",
+    ],
+    faqs: [
+      {
+        question: "Is this a prescribing course?",
+        answer:
+          "No. It is a clinical literacy programme for non-prescribing mental health professionals and stays within ethical counselling scope.",
+      },
+      {
+        question: "Will the programme cover major psychiatric drug classes in detail?",
+        answer:
+          "Yes. It covers antidepressants, antipsychotics, mood stabilisers, anxiolytics, ADHD medications, and medications for substance use disorders.",
+      },
+      {
+        question: "Does it include medication adherence and collaborative care?",
+        answer:
+          "Yes. A full module focuses on side effects, adherence, counsellor communication, and the psychiatrist-counsellor interface.",
+      },
+      {
+        question: "Are ethics and legal boundaries included?",
+        answer:
+          "Yes. The programme covers scope of practice, legal issues, emerging treatments, and client rights in the Indian mental healthcare context.",
+      },
+    ],
+  },
+  {
     slug: "professional-certification-in-research-statistical-methodology",
     title: "Professional Certification in Research & Statistical Methodology",
     category: "Certification",
@@ -312,44 +424,61 @@ export const trainingCourses: TrainingCourse[] = [
   },
   {
     slug: "professional-certification-in-psychological-assessments",
-    title: "Professional Certification in Psychological Assessments",
+    title: "Professional Certification in Psychometric Assessment",
     category: "Certification",
-    shortDescription: "Learn to administer, interpret, and ethically report standardized psychological assessments under the supervision of RCI Licensed Clinical Psychologists.",
-    overview: "The Professional Certification in Psychological Assessments offered by Etthos Institute of Behavioral Research and Training Pvt Ltd is a focused program that builds your competence in using psychological tools across clinical, academic, and occupational settings. This certification emphasizes hands-on learning and interpretation skills guided by experienced practitioners.",
-    keyModules: [
-        "Introduction to Psychological Testing: History, Ethics, and Classification",
-        "Intelligence and Cognitive Functioning Tests (WISC, WAIS, Bhatia, RPM)",
-        "Personality Assessments (MMPI, 16PF, NEO-PI-R)",
-        "Emotional and Behavioral Assessments (DASS-21, BASC, CBCL)",
-        "Neuropsychological Screening and Diagnostic Tools (Trail Making Test, Bender Gestalt, Stroop Test)",
-        "Academic and Career Assessments (Aptitude, Interest Inventories)",
-        "Report Writing, Clinical Judgment, and Test Selection"
+    shortDescription:
+      "A procedurally specific, clinically applied certification that teaches you how to administer, score, interpret, and report psychometric assessments with confidence.",
+    overview:
+      "The Professional Certification in Psychometric Assessment is built around one practical principle: knowing what a test measures is not enough. You must be able to select the right instrument, administer it correctly, score it accurately, interpret the profile, and communicate findings professionally. Every session follows a hands-on sequence of instrument selection, standardised administration, step-by-step scoring, clinical profile interpretation, integration across tools, and report writing application.",
+    whoShouldJoin: [
+      "Psychologists and Counsellors building deeper assessment competence",
+      "HR Professionals, Educators, Researchers, and Allied Practitioners",
+      "Learners seeking practical training in assessment administration and report writing",
+      "Professionals who want structured exposure to cognitive, personality, adaptive, and forensic tools",
     ],
-    durationOptions: ["4 Weeks", "6 Weeks", "8 Weeks"],
-    deliveryMode: "Live Online Training with Tool Demonstrations, Practice Sheets, and Case-Based Feedback",
-    certification: "Hardcopy of Certificate issued under the supervision of RCI Licensed Clinical Psychologists with evaluation-based feedback",
+    keyModules: [
+        "Assessment Planning and Pre-Testing Setup including referral analysis, battery design, consent, and standardised administration rules",
+        "Intelligence Testing from Administration to Interpretation using WAIS-IV, WISC-V, Raven's Matrices, BKS, and DAT",
+        "Memory and Achievement Testing with WMS-IV, RAVLT, RCFT, WIAT-III, WJ-IV, and SLD-oriented assessment logic",
+        "Attention and Executive Function Testing using TMT, Stroop, WCST, CPT, D-KEFS, and Bender-Gestalt II",
+        "Objective Personality Assessment using MMPI-2, MMPI-2-RF, PAI, NEO-PI-3, and 16PF",
+        "Projective Assessment with Rorschach R-PAS, TAT, and Sentence Completion methods",
+        "Clinical and Adaptive Psychometrics including BDI-II, PHQ-9, GAD-7, BASC-3, CBCL, Conners-3, Vineland-3, and ABAS-3",
+        "Validity Testing and Differential Assessment including TOMM, WMT, RDS, and cross-battery integration",
+        "Career, Emotional Intelligence, Wellbeing, and Forensic Assessment tools including SDS, SII, EQ-i 2.0, PERMA, HCR-20v3, and SIRS-2",
+        "Report Writing, Ethics, Test Security, and Legal Practice in Psychometric Work",
+    ],
+    durationOptions: ["4-6 Weeks", "16 Online Sessions"],
+    deliveryMode:
+      "Live Online + Recorded with procedural walkthroughs, scoring labs, and report writing workshops",
+    certification:
+      "Professional Certificate in Psychometric Assessment issued on successful completion.",
     benefits: [
-        "Exposure to widely used psychological assessment tools",
-        "Training in ethical and professional administration practices",
-        "Learn test interpretation across child, adult, and special populations",
-        "Certification enhances eligibility for internships, clinical jobs, and academic portfolios"
+        "Covers 60+ instruments from administration through interpretation and feedback delivery",
+        "Focuses on doing the assessment work, not just learning theory about tools",
+        "Builds strong competence in report writing, score integration, and professional communication",
+        "Delivered by RCI Licensed Clinical Psychologists with active psychometric caseloads",
     ],
     faqs: [
         {
-            question: "Will I get to practice with actual psychological tools?",
-            answer: "Yes. You will engage in case-based tool demonstrations and mock interpretations."
+            question: "How is this different from a theory-heavy testing course?",
+            answer:
+              "This programme is procedural and practice-led. Each module walks through instrument selection, administration, scoring, interpretation, and report writing step by step."
         },
         {
-            question: "Is this program suitable for school or career counsellors?",
-            answer: "Yes. We include modules on academic, aptitude, and behavioral tools used in school and career settings."
+            question: "Will career, emotional intelligence, and forensic tools also be covered?",
+            answer:
+              "Yes. The programme includes modules on career assessment, wellbeing, emotional intelligence, and selected forensic assessment frameworks."
         },
         {
-            question: "Will the certificate be valid for applying to internships or further studies?",
-            answer: "Absolutely. The certificate is widely accepted across institutions for practical training in assessments."
+            question: "Is report writing part of the programme or just an add-on topic?",
+            answer:
+              "Report writing is a core part of the training. The programme teaches score tables, integrated interpretation, recommendations, and structured feedback delivery."
         },
         {
-            question: "Are neuropsychological tools also covered?",
-            answer: "Yes. A basic introduction to commonly used cognitive and screening tools is included."
+            question: "Who should join this programme?",
+            answer:
+              "It is suitable for psychologists, counsellors, HR professionals, educators, researchers, and allied practitioners who want practical psychometric assessment training.",
         }
     ]
   },
@@ -440,6 +569,67 @@ export const trainingCourses: TrainingCourse[] = [
     ]
   },
 
+  {
+    slug: "leadership-emotional-intelligence-train-the-trainer",
+    title: "Leadership & Emotional Intelligence - Train The Trainer",
+    category: "Train The Trainer",
+    shortDescription:
+      "A 5-week online train-the-trainer programme focused on leadership, emotional intelligence, inclusive management, and organisational impact.",
+    overview:
+      "The Train The Trainer Program on Leadership and Emotional Intelligence is a 5-week online programme designed for professionals who want to lead, mentor, and train others using psychologically informed leadership frameworks. The curriculum combines neuroscience of behaviour, emotional intelligence, inclusive leadership, coaching, decision-making, culture building, change leadership, and capstone implementation planning in a practical trainer-ready format.",
+    whoShouldJoin: [
+      "Managers, HR Professionals, Coaches, and Organisational Consultants",
+      "Learning and Development professionals designing leadership interventions",
+      "Corporate trainers and facilitators building EQ-led leadership programmes",
+      "Professionals who want to mentor teams and drive people-centred organisational change",
+    ],
+    keyModules: [
+      "Introduction to Leadership, Neuroscience of Behaviour, and Emotional Intelligence Foundations",
+      "Self-Awareness and Emotional Regulation for Leadership Readiness",
+      "Social Awareness, Empathy, and Inclusive Leadership in Organisational Contexts",
+      "Motivation, Resilience, and Leading Through Uncertainty",
+      "Communication, Assertiveness, and Difficult Conversations",
+      "Decision-Making, Accountability, and Ethical Leadership",
+      "Coaching, Delegation, and Building High-Performance Teams",
+      "Organisational Culture, Psychological Safety, and DEI Leadership",
+      "Strategic Influence, Stakeholder Management, and Negotiation",
+      "Change Leadership, Crisis Management, and Adaptive Thinking",
+      "Capstone Simulation, Assessment, and 30-60-90 Day Leadership Implementation Planning",
+    ],
+    durationOptions: ["5 Weeks", "Weekly Live Sessions"],
+    deliveryMode:
+      "Online with weekly live sessions, assessments, reflective practice, peer feedback, and capstone evaluation",
+    certification:
+      "Participants receive the TTT Leadership Excellence Certificate and the TTT EQ Enabler Certificate on successful completion.",
+    benefits: [
+      "Connects leadership development with neuroscience, emotional intelligence, and organisational behaviour",
+      "Includes weekly assessments, reflective journals, peer feedback, and applied leadership exercises",
+      "Provides practical tools like GROW coaching templates, culture audit worksheets, stakeholder maps, and decision audit formats",
+      "Designed for trainer-readiness with capstone simulation and implementation planning",
+    ],
+    faqs: [
+      {
+        question: "Is this programme only for trainers?",
+        answer:
+          "No. It is suitable for trainers, managers, HR professionals, coaches, and organisational consultants who want to lead and train with stronger emotional intelligence.",
+      },
+      {
+        question: "What makes the programme practice-oriented?",
+        answer:
+          "Participants work through weekly assessments, scenario-based exercises, peer feedback, capstone simulation, and a 30-60-90 day implementation plan.",
+      },
+      {
+        question: "Does the programme cover inclusive leadership and psychological safety?",
+        answer:
+          "Yes. It includes empathy, DEI, microaggressions, psychological safety, stakeholder influence, and organisational culture modules.",
+      },
+      {
+        question: "What certification is awarded after completion?",
+        answer:
+          "Participants receive dual certification: the TTT Leadership Excellence Certificate and the TTT EQ Enabler Certificate.",
+      },
+    ],
+  },
   {
     slug: "posh-train-the-trainer",
     title: "POSH - Train The Trainer",

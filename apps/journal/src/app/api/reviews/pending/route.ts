@@ -1,36 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getAuthUser } from "@/lib/auth";
+import { prisma, USER_SELECT } from "@/lib/prisma";
+import { requireAuth } from "@/lib/auth";
+import { handleRouteError } from "@/lib/utils";
 
 export async function GET(req: NextRequest) {
-  const user = await getAuthUser(req);
-
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const user = await requireAuth(req);
+  if (user instanceof NextResponse) return user;
 
   try {
-    // fetching reviews submitted by this user
-    const submittedReviews = await prisma.review.findMany({
+    const [pendingAssignments, submittedReviews] = await Promise.all([
+      prisma.reviewAssignment.findMany({
+        where: {
+          reviewerId: user.userId,
+          status: { in: ["ASSIGNED", "ACCEPTED"] },
+        },
+        include: {
+          manuscript: {
+            select: {
+              id: true,
+              title: true,
+              status: true,
+              fileUrl: true,
+              updatedAt: true,
+              author: { select: USER_SELECT },
+            },
+          },
+          editor: { select: USER_SELECT },
+        },
+        orderBy: { invitedAt: "desc" },
+      }),
+      prisma.review.findMany({
         where: { reviewerId: user.userId },
         include: {
-            manuscript: {
-                select: { title: true }
-            }
-        }
-    });
+          manuscript: { select: { id: true, title: true, status: true } },
+          assignment: { select: { id: true, status: true, submittedAt: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
 
-    // fetching manuscripts that *might* be assigned to this user??
-    // As noted in the assignment route, we don't track assignments in a separate table yet.
-    // So "Pending" reviews are hard to determine without schema changes.
-    // For now, we return the reviews they HAVE done.
-    
-    return NextResponse.json({ submittedReviews });
+    return NextResponse.json({ pendingAssignments, submittedReviews });
   } catch (error) {
     console.error("Get reviews error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

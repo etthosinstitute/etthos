@@ -1,11 +1,295 @@
-# Etthos Journal Seed Script
+// Etthos Journal Seed Script
+// This script seeds the database with initial data following ISSN India requirements.
 
-This script seeds the database with initial data following ISSN India requirements.
-
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@repo/database';
+import type { ArticleType, BoardRole } from '@repo/database';
 import { hash } from 'bcryptjs';
 
+declare const process: {
+  exit: (code?: number) => never;
+};
+
 const prisma = new PrismaClient();
+const journalClient = prisma as unknown as {
+  journal: {
+    upsert: (args: {
+      where: { id: string };
+      update: Record<string, unknown>;
+      create: Record<string, unknown>;
+    }) => Promise<{ id: string; name: string }>;
+  };
+};
+const siteContentClient = prisma as unknown as {
+  siteContent: {
+    upsert: (args: {
+      where: { slug: string };
+      update: { title: string; description?: string; content: unknown };
+      create: { slug: string; title: string; description?: string; content: unknown };
+    }) => Promise<unknown>;
+  };
+};
+
+const siteContents = [
+  {
+    slug: 'home',
+    title: 'Etthos Journal of Psychology',
+    description: 'Peer-reviewed scholarly publication in psychology and behavioural sciences.',
+    content: {
+      eyebrow: 'Peer-Reviewed Scholarly Publication',
+      heroDescription: 'An open-access academic journal for original research, review scholarship, and evidence-based discourse in psychology and behavioural sciences, published under the academic stewardship of Etthos.',
+      heroNotice: 'Now Accepting Submissions',
+      profileCards: [
+        { title: 'Open Access', subtitle: 'Publication Model', icon: 'book-open' },
+        { title: 'Peer-Reviewed', subtitle: 'Double-Blind', icon: 'shield' },
+        { title: 'Psychology', subtitle: 'Behavioural Sciences', icon: 'brain' },
+        { title: 'Quarterly', subtitle: 'Publication Frequency', icon: 'globe' },
+      ],
+      features: [
+        {
+          eyebrow: 'Scope',
+          title: 'Psychology Focused',
+          description: 'Dedicated exclusively to psychology and behavioural sciences — from clinical and cognitive to developmental and social psychology.',
+          icon: 'brain',
+        },
+        {
+          eyebrow: 'Review',
+          title: 'Rigorous Peer Review',
+          description: 'Every manuscript undergoes double-blind peer review by experts, ensuring the highest standards of scholarly integrity.',
+          icon: 'shield',
+        },
+        {
+          eyebrow: 'Access',
+          title: 'Open Access',
+          description: 'All articles are freely accessible for researchers, practitioners, and students across the world.',
+          icon: 'globe',
+        },
+      ],
+    },
+  },
+  {
+    slug: 'about',
+    title: 'About the Journal',
+    description: 'An overview of the mission, scope, and editorial policies of the Etthos Journal of Psychology.',
+    content: {
+      overviewParagraphs: [
+        'The Etthos Journal of Psychology (EJP) is a peer-reviewed, open-access academic journal published by Etthos. The journal is dedicated to the dissemination of high-quality original research, review articles, and scholarly discourse across the full spectrum of psychology and behavioural sciences.',
+        'EJP aspires to serve as a credible scholarly platform for researchers, academicians, and practitioners — particularly those working in the Indian and South Asian context — to share rigorous empirical work and contribute to the advancement of psychological knowledge.',
+        'The journal is committed to maintaining the highest standards of publication ethics and scholarly rigour. All submissions undergo a double-blind peer review process conducted by experts in the relevant field.',
+      ],
+      foundersTitle: 'The people behind the Etthos vision',
+      foundersDescription: 'Etthos Institute of Behavioral Research and Training Pvt. Ltd. was established with a vision to elevate the standards of psychological education, research, and applied training. The journal extends that broader institutional commitment into scholarly publishing.',
+      founders: [
+        {
+          name: 'Ram Vinoy Tiwari',
+          role: 'Director & Chairman',
+          image: '/aboutusimages/ram-vinay-tiwari.jpeg',
+        },
+        {
+          name: 'Vishal Anand',
+          role: 'Director & CEO',
+          image: '/aboutusimages/vishal-anand.jpeg',
+        },
+      ],
+      aimsIntro: 'The Etthos Journal of Psychology welcomes original research articles, review papers, case studies, short communications, and theoretical contributions in the following areas:',
+      publicationFrequencyText: 'The journal is published quarterly (4 issues per year) in March, June, September, and December. Special issues dedicated to specific topics may also be published.',
+      submitCtaTitle: 'Submit Your Work',
+      submitCtaDescription: 'Ready to publish with us? Check our author guidelines and submit your manuscript today.',
+    },
+  },
+  {
+    slug: 'aims-scope',
+    title: 'Aims & Scope',
+    description: 'The scope of the Etthos Journal of Psychology covers the full breadth of psychology and behavioural sciences.',
+    content: {
+      aimsParagraphs: [
+        'The Etthos Journal of Psychology aims to serve as a credible, peer-reviewed scholarly platform for the publication of original research, review articles, case studies, theoretical contributions, and short communications in the domain of psychology and behavioural sciences.',
+        'The journal is particularly committed to amplifying scholarship emerging from the Indian and South Asian research context, while remaining open to contributions from researchers across the globe.',
+        'The journal upholds the highest standards of publication ethics, transparency, and scholarly integrity, guided by the principles of the Committee on Publication Ethics (COPE).',
+      ],
+      articleTypes: [
+        { title: 'Original Research Articles', description: 'Empirical studies reporting new findings based on primary data.' },
+        { title: 'Review Articles', description: 'Systematic reviews, meta-analyses, and narrative reviews synthesising existing literature.' },
+        { title: 'Case Studies', description: 'In-depth analyses of individual or group cases with clinical or theoretical significance.' },
+        { title: 'Short Communications', description: 'Brief empirical reports or preliminary findings of high relevance.' },
+        { title: 'Theoretical Papers', description: 'Contributions advancing conceptual frameworks or proposing new models.' },
+        { title: 'Letters to the Editor', description: 'Scholarly responses to previously published articles.' },
+        { title: 'Book Reviews', description: 'Critical reviews of recently published academic texts relevant to psychology.' },
+      ],
+    },
+  },
+  {
+    slug: 'publisher',
+    title: 'Publisher Information',
+    description: 'Official publisher details for the Etthos Journal of Psychology.',
+    content: {
+      introParagraphs: [
+        'Etthos is the publisher of the Etthos Journal of Psychology (EJP). Etthos is dedicated to fostering rigorous academic scholarship and advancing knowledge through high-quality, open-access publications.',
+        'The journal operates under strict adherence to international publication ethics standards and the guidelines of the Committee on Publication Ethics (COPE).',
+      ],
+    },
+  },
+  {
+    slug: 'guidelines',
+    title: 'Author Guidelines',
+    description: 'Everything you need to know to prepare and submit your manuscript to the Etthos Journal of Psychology.',
+    content: {
+      sections: [
+        {
+          title: 'Submission Process',
+          paragraphs: [
+            'Manuscripts must be submitted online via the Journal Submission System. First-time users must register for an account. Submissions via email are not accepted.',
+          ],
+        },
+        {
+          title: 'Manuscript Preparation',
+          paragraphs: [
+            'Authors should ensure their manuscripts strictly follow the formatting guidelines below. Incomplete submissions or those not adhering to the guidelines may be returned without review.',
+          ],
+          listType: 'bullet',
+          items: [
+            'File Format: Microsoft Word (.doc, .docx) or PDF.',
+            'Font: Times New Roman or Arial, 12pt.',
+            'Spacing: Double-spaced throughout.',
+            'Margins: 1 inch (2.54 cm) on all sides.',
+            'Page Numbers: Included on every page.',
+            'Word Count: Research articles 5,000–8,000 words; review articles up to 10,000 words; short communications up to 3,000 words.',
+          ],
+        },
+        {
+          title: 'Structure of the Manuscript',
+          listType: 'numbered',
+          items: [
+            'Title Page: Title, author names, affiliations, ORCID IDs, and corresponding author contact details.',
+            'Abstract: Structured abstract (Background, Objectives, Methods, Results, Conclusion) of max 250 words.',
+            'Keywords: 4–6 keywords for indexing.',
+            'Introduction: Context, literature review, and purpose of the study.',
+            'Methods: Detailed description of participants, measures, and procedures. Include ethics approval details (IRB or institutional ethics committee).',
+            'Results: Clear presentation of findings with appropriate statistical analyses.',
+            'Discussion: Interpretation of results, implications, limitations, and directions for future research.',
+            'References: APA Style (7th Edition).',
+          ],
+          paragraphs: [],
+        },
+        {
+          title: 'Ethical Requirements',
+          paragraphs: [
+            'All research involving human participants must have received approval from an appropriate Institutional Review Board (IRB) or Ethics Committee. Authors must include a statement confirming ethical approval, including the name of the approving body and the approval reference number.',
+            'Studies involving clinical populations must comply with the Declaration of Helsinki. Informed consent must be obtained from all participants, and confidentiality of participant data must be maintained throughout.',
+            'Authors must affirm that the work is original, has not been published previously, and is not under consideration elsewhere. Any potential conflicts of interest must be disclosed.',
+          ],
+        },
+        {
+          title: 'Statistical Reporting',
+          paragraphs: [
+            'Authors should report effect sizes, confidence intervals, and exact p-values where possible. The use of APA-recommended statistical reporting conventions is strongly encouraged. For qualitative research, authors should clearly describe their methodological framework and data analysis procedures.',
+          ],
+        },
+      ],
+      resources: [
+        {
+          title: 'Manuscript Template',
+          description: 'Request the current manuscript template with APA 7th edition styles.',
+          icon: 'file-text',
+          href: 'mailto:info@etthos.com?subject=Manuscript%20Template%20Request',
+          ctaLabel: 'Request Template',
+        },
+        {
+          title: 'Cover Letter Template',
+          description: 'Request the standard submission cover letter format from the editorial office.',
+          icon: 'file-text',
+          href: 'mailto:info@etthos.com?subject=Cover%20Letter%20Template%20Request',
+          ctaLabel: 'Request Template',
+        },
+        {
+          title: 'Submission Checklist',
+          description: 'Get the editorial checklist before completing your submission.',
+          icon: 'check-circle',
+          href: 'mailto:info@etthos.com?subject=Submission%20Checklist%20Request',
+          ctaLabel: 'Request Checklist',
+        },
+      ],
+    },
+  },
+  {
+    slug: 'policies',
+    title: 'Policies & Ethics',
+    description: 'Our commitment to ethical publishing and research integrity in psychology and behavioural sciences.',
+    content: {
+      sections: [
+        {
+          id: 'peer-review',
+          title: 'Peer Review Policy',
+          icon: 'check',
+          paragraphs: [
+            'The Etthos Journal of Psychology employs a strict double-blind peer review process. Both reviewer and author identities are concealed throughout the review process to ensure unbiased and objective evaluation of scholarly work.',
+            'All submitted manuscripts are initially screened by the editorial office for suitability, scope alignment, and compliance with the journal guidelines. Manuscripts passing this screening are assigned to independent expert reviewers with relevant domain expertise.',
+          ],
+          bullets: [
+            'Initial Screening: 3–5 working days',
+            'Peer Review Process: 4–6 weeks',
+            'Revision Period: Authors are typically given 2–4 weeks for revisions',
+            'Editorial Decision: Accept, Minor Revisions, Major Revisions, or Reject',
+          ],
+        },
+        {
+          id: 'ethics',
+          title: 'Publication Ethics',
+          icon: 'shield',
+          paragraphs: [
+            'The Etthos Journal of Psychology strictly adheres to the guidelines of the Committee on Publication Ethics (COPE). Authors, editors, and reviewers are expected to maintain the highest standards of publication ethics.',
+            'Authorship should be limited to those who have made a significant intellectual contribution to the conception, design, execution, or interpretation of the reported study. All listed authors must have approved the final version of the manuscript and agreed to its submission.',
+            'Authors may be asked to provide raw data in connection with a paper for editorial review. Fabrication or falsification of data constitutes a serious breach of ethics and will result in immediate rejection and potential sanctions.',
+            'All authors must disclose any financial or personal relationships that could be perceived as influencing their work.',
+          ],
+        },
+        {
+          id: 'human-subjects',
+          title: 'Human Subjects Research',
+          icon: 'shield',
+          paragraphs: [
+            'All research involving human participants published in the Etthos Journal of Psychology must have been conducted in accordance with the Declaration of Helsinki and must have received approval from an appropriate Institutional Review Board (IRB) or Ethics Committee.',
+            'Authors must include a clear statement in the manuscript confirming the name of the approving ethics body, the approval reference number, and that informed consent was obtained from all participants or their legal guardians.',
+            'Research involving deception, vulnerable populations, or sensitive topics must provide additional ethical justifications.',
+          ],
+        },
+        {
+          id: 'plagiarism',
+          title: 'Plagiarism Policy',
+          icon: 'lock',
+          paragraphs: [
+            'The journal has a zero-tolerance policy towards plagiarism. All submissions are checked for similarity using industry-standard software.',
+            'Similarity index must be below 15% excluding references and direct quotations. Any manuscript found to contain plagiarised material will be rejected immediately.',
+          ],
+        },
+        {
+          id: 'copyright',
+          title: 'Copyright & Licensing',
+          icon: 'file-text',
+          paragraphs: [
+            'This is an Open Access journal. All articles are distributed under the terms of the Creative Commons Attribution License (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.',
+            'Authors retain the copyright of their work. By submitting a manuscript, authors grant the journal a non-exclusive licence to publish and disseminate the work.',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    slug: 'contact',
+    title: 'Contact Us',
+    description: 'We welcome enquiries from authors, reviewers, and readers.',
+    content: {
+      formIntro: 'Use the form below for editorial, submission, review, or technical questions. Messages are delivered to the editorial inbox and stored in the database for follow-up.',
+      subjects: [
+        'Manuscript Submission',
+        'Editorial Enquiry',
+        'Peer Review',
+        'Technical Issue',
+        'General Enquiry',
+      ],
+      successMessage: 'Thanks for reaching out. Our editorial team will get back to you shortly.',
+    },
+  },
+];
 
 async function main() {
   console.log('🌱 Starting database seed...');
@@ -15,9 +299,43 @@ async function main() {
   // ============================================================================
   console.log('\n📰 Creating journal...');
   
-  const journal = await prisma.journal.upsert({
+  const journal = await journalClient.journal.upsert({
     where: { id: 'journal-singleton' },
-    update: {},
+    update: {
+      description: 'A peer-reviewed open-access journal dedicated to advancing psychological research and practice in India and beyond.',
+      publisher: 'Etthos',
+      frequency: 'Quarterly',
+      language: 'English',
+      country: 'India',
+      publisherAddress: 'Etthos Institute of Behavioral Research and Training Pvt. Ltd.',
+      publisherCity: 'New Delhi',
+      publisherState: 'Delhi',
+      publisherCountry: 'India',
+      publisherZip: '110001',
+      contactEmail: 'journal@etthos.com',
+      infoEmail: 'info@etthos.com',
+      contactPhone: '+91-11-12345678',
+      websiteUrl: 'https://journal.etthos.com',
+      mainWebsiteUrl: 'https://etthos.com',
+      subjectArea: 'Psychology',
+      subjectKeywords: [
+        'Clinical Psychology',
+        'Cognitive Psychology',
+        'Developmental Psychology',
+        'Educational Psychology',
+        'Social Psychology',
+        'Neuropsychology',
+      ],
+      registeredOfficeLabel: 'Registered Office',
+      corporateOfficeLabel: 'Corporate Office',
+      corporateOfficeAddress: 'Etthos, New Delhi, Delhi, India',
+      license: 'CC BY 4.0',
+      reviewModel: 'Double-Blind Peer Review',
+      accessPolicy: 'Open Access',
+      establishedYear: 2024,
+      articlesPerIssue: 5,
+      isActive: true,
+    },
     create: {
       id: 'journal-singleton',
       name: 'Etthos Journal of Psychology',
@@ -35,6 +353,7 @@ async function main() {
       publisherCountry: 'India',
       publisherZip: '110001',
       contactEmail: 'journal@etthos.com',
+      infoEmail: 'info@etthos.com',
       contactPhone: '+91-11-12345678',
       
       websiteUrl: 'https://journal.etthos.com',
@@ -49,6 +368,13 @@ async function main() {
         'Social Psychology',
         'Neuropsychology'
       ],
+      registeredOfficeLabel: 'Registered Office',
+      corporateOfficeLabel: 'Corporate Office',
+      corporateOfficeAddress: 'Etthos, New Delhi, Delhi, India',
+      license: 'CC BY 4.0',
+      reviewModel: 'Double-Blind Peer Review',
+      accessPolicy: 'Open Access',
+      establishedYear: 2024,
       
       articlesPerIssue: 5, // ISSN minimum requirement
       isActive: true,
@@ -56,6 +382,18 @@ async function main() {
   });
   
   console.log('✅ Journal created:', journal.name);
+
+  for (const siteContent of siteContents) {
+    await siteContentClient.siteContent.upsert({
+      where: { slug: siteContent.slug },
+      update: {
+        title: siteContent.title,
+        description: siteContent.description,
+        content: siteContent.content,
+      },
+      create: siteContent,
+    });
+  }
 
   // ============================================================================
   // 2. CREATE AFFILIATIONS
@@ -149,7 +487,22 @@ async function main() {
   // ============================================================================
   console.log('\n👥 Creating editorial board members...');
   
-  const boardMembers = [
+  const boardMembers: Array<{
+    firstName: string;
+    lastName: string;
+    title: string;
+    email: string;
+    role: BoardRole;
+    position: string;
+    designation: string;
+    department: string;
+    affiliationId: string;
+    country: string;
+    orcid: string;
+    biography: string;
+    expertise: string[];
+    displayOrder: number;
+  }> = [
     {
       firstName: 'Priya',
       lastName: 'Sharma',
@@ -399,7 +752,20 @@ async function main() {
   // ============================================================================
   console.log('\n📄 Creating articles...');
   
-  const articles = [
+  const articles: Array<{
+    title: string;
+    slug: string;
+    abstract: string;
+    type: ArticleType;
+    pageStart: number;
+    pageEnd: number;
+    doi: string;
+    publishedDate: Date;
+    published: boolean;
+    issueId: string;
+    authorIds: string[];
+    keywordIds: string[];
+  }> = [
     {
       title: 'Efficacy of Cognitive Behavioral Therapy in Treating Depression: A Meta-Analysis',
       slug: 'efficacy-cbt-treating-depression-meta-analysis',
@@ -486,6 +852,7 @@ async function main() {
         pageStart: articleData.pageStart,
         pageEnd: articleData.pageEnd,
         doi: articleData.doi,
+        pdfUrl: `https://journal.etthos.com/articles/${articleData.slug}.pdf`,
         publishedDate: articleData.publishedDate,
         published: articleData.published,
         issueId: articleData.issueId,
@@ -496,6 +863,14 @@ async function main() {
 
     // Link authors
     for (let j = 0; j < articleData.authorIds.length; j++) {
+      const correspondingAuthor =
+        j === 0
+          ? await prisma.author.findUnique({
+              where: { id: articleData.authorIds[j] },
+              select: { email: true },
+            })
+          : null;
+
       await prisma.articleAuthor.upsert({
         where: {
           articleId_authorId: {
@@ -509,7 +884,7 @@ async function main() {
           authorId: articleData.authorIds[j],
           order: j + 1,
           isCorresponding: j === 0,
-          correspondingEmail: j === 0 ? await prisma.author.findUnique({ where: { id: articleData.authorIds[j] } }).then(a => a?.email) : undefined,
+          correspondingEmail: correspondingAuthor?.email,
         },
       });
     }
@@ -573,6 +948,8 @@ async function main() {
   console.log('\n👤 Creating admin user...');
   
   const hashedPassword = await hash('admin123', 10);
+  const editorPassword = await hash('Editor@123', 10);
+  const reviewerPassword = await hash('Reviewer@123', 10);
   
   await prisma.user.upsert({
     where: { email: 'admin@etthos.com' },
@@ -583,6 +960,44 @@ async function main() {
       firstName: 'Admin',
       lastName: 'User',
       role: 'SUPER_ADMIN',
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'editor@journal.com' },
+    update: {
+      password: editorPassword,
+      firstName: 'Dr.',
+      lastName: 'Smarth',
+      role: 'EDITOR',
+      isActive: true,
+    },
+    create: {
+      email: 'editor@journal.com',
+      password: editorPassword,
+      firstName: 'Dr.',
+      lastName: 'Smarth',
+      role: 'EDITOR',
+      isActive: true,
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'reviewer@journal.com' },
+    update: {
+      password: reviewerPassword,
+      firstName: 'Aarav',
+      lastName: 'Khanna',
+      role: 'REVIEWER',
+      isActive: true,
+    },
+    create: {
+      email: 'reviewer@journal.com',
+      password: reviewerPassword,
+      firstName: 'Aarav',
+      lastName: 'Khanna',
+      role: 'REVIEWER',
+      isActive: true,
     },
   });
 

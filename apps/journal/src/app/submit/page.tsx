@@ -4,17 +4,25 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/lib/api";
 import { PageHeader } from "@/components/PageHeader";
+import { Button } from "@/components/ui/button";
+
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
 
 export default function SubmitPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
     abstract: "",
-    fileUrl: "",
   });
+  const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const abstractCount = formData.abstract.trim().length;
+  const titleCount = formData.title.trim().length;
+  const submitReady = titleCount > 0 && abstractCount >= 50 && !!file;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,25 +31,44 @@ export default function SubmitPage() {
     setSuccess("");
 
     try {
+      if (!file) {
+        throw new Error("Please upload your manuscript file.");
+      }
+
+      const uploadForm = new FormData();
+      uploadForm.append("file", file);
+      const uploadResponse = await fetch("/api/uploads/manuscript", {
+        method: "POST",
+        body: uploadForm,
+      });
+
+      const uploadJson = await uploadResponse.json();
+      if (!uploadResponse.ok) {
+        throw new Error(uploadJson.error || "Failed to upload manuscript file");
+      }
+
       const payload = {
         ...formData,
-        fileUrl: formData.fileUrl || "https://example.com/placeholder.pdf", 
+        fileUrl: uploadJson.file.url as string,
       };
 
       await apiRequest("/api/manuscripts", "POST", payload);
       setSuccess("Manuscript submitted successfully!");
-      setFormData({ title: "", abstract: "", fileUrl: "" });
+      setFormData({ title: "", abstract: "" });
+      setFile(null);
       
       setTimeout(() => {
-          router.push("/");
+          router.push("/dashboard");
       }, 2000);
 
-    } catch (err: any) {
-      if (err.message.includes("Unauthorized")) {
+    } catch (err: unknown) {
+      const message = getErrorMessage(err, "Failed to submit manuscript");
+
+      if (message.includes("Unauthorized")) {
         setError("You must be logged in to submit.");
         setTimeout(() => router.push("/auth/login"), 2000);
       } else {
-        setError(err.message || "Failed to submit manuscript");
+        setError(message);
       }
     } finally {
       setLoading(false);
@@ -56,23 +83,30 @@ export default function SubmitPage() {
       />
         
         <div className="container mx-auto px-4 py-16">
-          <div className="max-w-2xl mx-auto bg-card border border-border rounded-lg shadow-sm p-8">
+          <div className="mx-auto max-w-3xl rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+            <div className="mb-8 text-center">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-secondary">Submission Portal</p>
+              <h2 className="font-serif text-3xl font-bold text-primary">Prepare your manuscript for editorial review</h2>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Submit your title, abstract, and manuscript file link. You will be redirected after successful submission.
+              </p>
+            </div>
             
             {success && (
-              <div className="bg-green-500/10 text-green-600 text-sm p-4 rounded mb-6 border border-green-500/20">
+              <div className="mb-6 rounded-2xl border border-green-500/20 bg-green-500/10 p-4 text-sm text-green-700">
                 {success}
               </div>
             )}
 
             {error && (
-              <div className="bg-destructive/10 text-destructive text-sm p-4 rounded mb-6 border border-destructive/20">
+              <div className="mb-6 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive">
                 {error}
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium mb-1 font-serif text-lg">Manuscript Title</label>
+                <label className="mb-1.5 block text-sm font-semibold text-primary">Manuscript Title</label>
                 <input
                   type="text"
                   required
@@ -83,10 +117,16 @@ export default function SubmitPage() {
                   }
                   placeholder="Enter the full title of your manuscript"
                 />
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Use the final scholarly title that should appear in editorial records.
+                </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1 font-serif text-lg">Abstract</label>
+                <div className="mb-1.5 flex items-center justify-between gap-3">
+                  <label className="block text-sm font-semibold text-primary">Abstract</label>
+                  <span className="text-xs text-muted-foreground">{abstractCount}/50 minimum</span>
+                </div>
                 <textarea
                   required
                   rows={6}
@@ -97,38 +137,47 @@ export default function SubmitPage() {
                   }
                   placeholder="Provide a concise summary of your research..."
                 />
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Please provide at least 50 characters so the editors can assess scope and fit quickly.
+                </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1 font-serif text-lg">File URL (PDF)</label>
+                <label className="mb-1.5 block text-sm font-semibold text-primary">Manuscript File</label>
                 <p className="text-xs text-muted-foreground mb-2">
-                  Please provide a direct link to your PDF file (e.g., from Dropbox, Google Drive, or S3).
+                  Upload a PDF, DOC, or DOCX file up to 10MB. The file will be stored and attached to your submission.
                 </p>
                 <input
-                  type="url"
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-1 focus:ring-primary"
-                  value={formData.fileUrl}
-                  onChange={(e) =>
-                    setFormData({ ...formData, fileUrl: e.target.value })
-                  }
-                  placeholder="https://..."
+                  type="file"
+                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  required
+                  className="w-full rounded-md border border-input bg-background px-4 py-3 focus:outline-none focus:ring-1 focus:ring-primary"
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
                 />
+                {file && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    Selected: {file.name}
+                  </p>
+                )}
               </div>
 
               <div className="pt-4">
-                <button
+                <Button
                   type="submit"
-                  disabled={loading}
-                  className="w-full bg-primary text-primary-foreground py-3 rounded-md hover:bg-primary/90 transition-colors font-medium text-lg disabled:opacity-50"
+                  disabled={loading || !submitReady}
+                  className="h-12 w-full text-base"
                 >
                   {loading ? "Submitting..." : "Submit Manuscript"}
-                </button>
+                </Button>
+                {!submitReady ? (
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    Add a title, an abstract of at least 50 characters, and your manuscript file to continue.
+                  </p>
+                ) : null}
               </div>
             </form>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </>
   );
 }

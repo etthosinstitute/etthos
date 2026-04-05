@@ -18,6 +18,18 @@ export function fullName(
   return [first, last].filter(Boolean).join(" ") || fallback;
 }
 
+export function formatPersonName(person?: {
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+} | null) {
+  return fullName(person?.firstName, person?.lastName, person?.email || "Unknown");
+}
+
+export function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
+
 export function slugify(value: string): string {
   return value
     .toLowerCase()

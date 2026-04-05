@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma, USER_SELECT } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { fullName, handleRouteError } from "@/lib/utils";
-import { sendReviewAssignmentEmail } from "@/lib/mail";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createAuditLog } from "@/lib/audit";
+import { prisma, USER_SELECT } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { fullName, handleRouteError } from "@/shared/utils";
+import { sendReviewAssignmentEmail } from "@/server/mail";
+import { trySendEmail } from "@/server/mailer";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createAuditLog } from "@/server/audit";
 import { z } from "zod";
 
 const assignSchema = z.object({
@@ -98,25 +99,20 @@ export async function POST(
       },
     });
 
-    let emailSent = false;
-    let emailError: string | null = null;
-
-    try {
-      await sendReviewAssignmentEmail({
-        reviewerEmail: assignment.reviewer.email,
-        reviewerName: fullName(assignment.reviewer.firstName, assignment.reviewer.lastName, assignment.reviewer.email),
-        editorName: fullName(editor?.firstName, editor?.lastName, editor?.email),
-        manuscriptTitle: manuscript.title,
-        manuscriptId: manuscript.id,
-        dueDate: assignment.dueDate?.toISOString() || null,
-        dashboardUrl: `${req.nextUrl.origin}/dashboard`,
-      });
-      emailSent = true;
-    } catch (mailError) {
-      console.error("Assign reviewer email error:", mailError);
-      emailError =
-        mailError instanceof Error ? mailError.message : "Failed to send assignment email";
-    }
+    const { emailSent, emailError } = await trySendEmail(
+      async () =>
+        sendReviewAssignmentEmail({
+          reviewerEmail: assignment.reviewer.email,
+          reviewerName: fullName(assignment.reviewer.firstName, assignment.reviewer.lastName, assignment.reviewer.email),
+          editorName: fullName(editor?.firstName, editor?.lastName, editor?.email),
+          manuscriptTitle: manuscript.title,
+          manuscriptId: manuscript.id,
+          dueDate: assignment.dueDate?.toISOString() || null,
+          dashboardUrl: `${req.nextUrl.origin}/dashboard`,
+        }),
+      "Failed to send assignment email",
+      "Assign reviewer email error"
+    );
 
     await createAuditLog({
       actorId: user.userId,

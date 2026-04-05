@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getAuthUser } from "@/lib/auth";
-import { sendReviewerAccountEmail } from "@/lib/mail";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createAuditLog } from "@/lib/audit";
+import { prisma } from "@/server/db/prisma";
+import { getAuthUser } from "@/server/auth";
+import { sendReviewerAccountEmail } from "@/server/mail";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createAuditLog } from "@/server/audit";
+import { trySendEmail } from "@/server/mailer";
 import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 import { z } from "zod";
+import { handleRouteError } from "@/shared/utils";
 
 const reviewerSchema = z.object({
   firstName: z.string().min(1),
@@ -80,24 +82,19 @@ export async function POST(req: NextRequest) {
       }),
     ]);
 
-    let emailSent = false;
-    let emailError: string | null = null;
-
-    try {
-      await sendReviewerAccountEmail({
-        reviewerEmail: email,
-        reviewerName: `${firstName} ${lastName}`,
-        tempPassword,
-        createdByName:
-          [creator?.firstName, creator?.lastName].filter(Boolean).join(" ") || creator?.email,
-        dashboardUrl: `${req.nextUrl.origin}/auth/login`,
-      });
-      emailSent = true;
-    } catch (mailError) {
-      console.error("Reviewer account email error:", mailError);
-      emailError =
-        mailError instanceof Error ? mailError.message : "Failed to send reviewer account email";
-    }
+    const { emailSent, emailError } = await trySendEmail(
+      async () =>
+        sendReviewerAccountEmail({
+          reviewerEmail: email,
+          reviewerName: `${firstName} ${lastName}`,
+          tempPassword,
+          createdByName:
+            [creator?.firstName, creator?.lastName].filter(Boolean).join(" ") || creator?.email,
+          dashboardUrl: `${req.nextUrl.origin}/auth/login`,
+        }),
+      "Failed to send reviewer account email",
+      "Reviewer account email error"
+    );
 
     await createAuditLog({
       actorId: user.userId,
@@ -123,12 +120,6 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error("Create reviewer error:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 400 });
-    }
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleRouteError(error);
   }
 }

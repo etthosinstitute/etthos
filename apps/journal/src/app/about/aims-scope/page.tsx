@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Check } from "lucide-react";
-import { getAimsScopeContent, getJournalInfo } from "@/lib/public-site";
+import { getAimsScopeContent, getJournalInfo } from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

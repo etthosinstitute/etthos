@@ -1,4 +1,4 @@
-import type { PoliciesContent } from "../lib/public-site";
+import type { PoliciesContent } from "../features/public-site/types";
 
 export const policiesContent: PoliciesContent = {
   sections: [

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 

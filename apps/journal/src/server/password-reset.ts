@@ -1,5 +1,5 @@
 import { randomBytes, createHash } from "crypto";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db/prisma";
 
 const RESET_TOKEN_TTL_MS = 1000 * 60 * 60;
 

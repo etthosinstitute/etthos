@@ -1,8 +1,8 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Calendar, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
-import type { PublicIssue } from "@/lib/public-site";
-import { getJournalInfo, getPublishedIssues } from "@/lib/public-site";
+import type { PublicIssue } from "@/features/public-site/queries";
+import { getJournalInfo, getPublishedIssues } from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

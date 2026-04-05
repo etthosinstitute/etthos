@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma, MANUSCRIPT_INCLUDE } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { sendManuscriptSubmissionEmail } from "@/lib/public-mail";
-import { handleRouteError } from "@/lib/utils";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createAuditLog } from "@/lib/audit";
+import { prisma, MANUSCRIPT_INCLUDE } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { sendManuscriptSubmissionEmail } from "@/server/public-mail";
+import { handleRouteError } from "@/shared/utils";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createAuditLog } from "@/server/audit";
 import type { Prisma, Role } from "@repo/database";
 import { z } from "zod";
 

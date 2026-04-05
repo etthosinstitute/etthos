@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createPasswordResetToken, buildPasswordResetUrl } from "@/lib/password-reset";
-import { sendPasswordResetEmail } from "@/lib/mail";
-import { createAuditLog } from "@/lib/audit";
+import { prisma } from "@/server/db/prisma";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createPasswordResetToken, buildPasswordResetUrl } from "@/server/password-reset";
+import { sendPasswordResetEmail } from "@/server/mail";
+import { createAuditLog } from "@/server/audit";
+import { handleRouteError } from "@/shared/utils";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
@@ -66,9 +67,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Forgot password error:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues[0]?.message || "Invalid email address" }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return handleRouteError(error);
   }
 }

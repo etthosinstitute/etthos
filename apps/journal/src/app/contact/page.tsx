@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ContactForm } from "@/components/contact/ContactForm";
-import { getContactContent, getJournalInfo } from "@/lib/public-site";
+import { getContactContent, getJournalInfo } from "@/features/public-site/queries";
 import { Mail, Phone, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 

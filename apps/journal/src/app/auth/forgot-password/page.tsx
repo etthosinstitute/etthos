@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { apiRequest } from "@/lib/api";
+import { apiRequest } from "@/shared/api-client";
 import { Button } from "@/components/ui/button";
+import { getErrorMessage } from "@/shared/utils";
+import { AuthCard } from "@/components/AuthCard";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -23,15 +25,14 @@ export default function ForgotPasswordPage() {
       });
       setMessage(response.message);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to request password reset");
+      setError(getErrorMessage(err, "Failed to request password reset"));
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <main className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+      <AuthCard>
         <div className="mb-8 text-center">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-secondary">Account Recovery</p>
           <h1 className="font-serif text-3xl font-bold text-primary mb-2">Reset your password</h1>
@@ -75,7 +76,6 @@ export default function ForgotPasswordPage() {
             Back to login
           </Link>
         </div>
-      </div>
-    </main>
+      </AuthCard>
   );
 }

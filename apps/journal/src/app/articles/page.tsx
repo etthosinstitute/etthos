@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ArticleCard } from "@/components/ArticleCard";
-import { getJournalInfo, getPublishedArticles } from "@/lib/public-site";
+import { getJournalInfo, getPublishedArticles } from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

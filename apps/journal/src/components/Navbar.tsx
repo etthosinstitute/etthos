@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@repo/ui/logo";
 import { Search, Menu, X, ChevronDown, ExternalLink, LogIn, LogOut, LayoutDashboard } from "lucide-react";
-import { apiRequest } from "@/lib/api";
+import { apiRequest } from "@/shared/api-client";
 
 const navLinks = [
   { href: "/", label: "Home" },

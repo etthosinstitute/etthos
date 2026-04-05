@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/server/db/prisma";
 import type { AuditAction, AuditEntityType, Prisma, Role } from "@repo/database";
 import { NextRequest } from "next/server";
 

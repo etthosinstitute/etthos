@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Button } from "@/components/ui/button";
-import { getPublishedArticles } from "@/lib/public-site";
+import { getPublishedArticles } from "@/features/public-site/queries";
 import { ArrowRight } from "lucide-react";
 
 export async function LatestArticles() {

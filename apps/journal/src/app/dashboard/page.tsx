@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { apiRequest } from "@/lib/api";
+import { apiRequest } from "@/shared/api-client";
+import { formatPersonName, getErrorMessage } from "@/shared/utils";
 
 type DashboardData = {
   user: {
@@ -135,11 +136,6 @@ type DashboardMessage = {
   text: string;
 };
 
-function formatName(person?: { firstName?: string | null; lastName?: string | null; email?: string | null } | null) {
-  const fullName = [person?.firstName, person?.lastName].filter(Boolean).join(" ");
-  return fullName || person?.email || "Unknown";
-}
-
 function formatDate(value?: string | null) {
   if (!value) return "Not set";
   return new Date(value).toLocaleDateString("en-IN", {
@@ -215,7 +211,7 @@ export default function DashboardPage() {
       setData(response);
       setError("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load dashboard");
+      setError(getErrorMessage(err, "Failed to load dashboard"));
     } finally {
       setLoading(false);
     }
@@ -259,7 +255,7 @@ export default function DashboardPage() {
     } catch (err) {
       setMessage({
         tone: "error",
-        text: err instanceof Error ? err.message : "Failed to assign reviewer",
+        text: getErrorMessage(err, "Failed to assign reviewer"),
       });
     } finally {
       setBusyKey(null);
@@ -285,7 +281,7 @@ export default function DashboardPage() {
     } catch (err) {
       setMessage({
         tone: "error",
-        text: err instanceof Error ? err.message : "Failed to update assignment",
+        text: getErrorMessage(err, "Failed to update assignment"),
       });
     } finally {
       setBusyKey(null);
@@ -328,7 +324,7 @@ export default function DashboardPage() {
     } catch (err) {
       setMessage({
         tone: "error",
-        text: err instanceof Error ? err.message : "Failed to submit review",
+        text: getErrorMessage(err, "Failed to submit review"),
       });
     } finally {
       setBusyKey(null);
@@ -369,7 +365,7 @@ export default function DashboardPage() {
     } catch (err) {
       setMessage({
         tone: "error",
-        text: err instanceof Error ? err.message : "Failed to create reviewer",
+        text: getErrorMessage(err, "Failed to create reviewer"),
       });
     } finally {
       setBusyKey(null);
@@ -421,7 +417,7 @@ export default function DashboardPage() {
     } catch (err) {
       setMessage({
         tone: "error",
-        text: err instanceof Error ? err.message : "Failed to publish manuscript",
+        text: getErrorMessage(err, "Failed to publish manuscript"),
       });
     } finally {
       setBusyKey(null);
@@ -450,7 +446,7 @@ export default function DashboardPage() {
     } catch (err) {
       setMessage({
         tone: "error",
-        text: err instanceof Error ? err.message : "Failed to change password",
+        text: getErrorMessage(err, "Failed to change password"),
       });
     } finally {
       setBusyKey(null);
@@ -488,7 +484,7 @@ export default function DashboardPage() {
               <CardHeader className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <CardTitle className="font-serif text-3xl text-primary">
-                    {formatName(data.user)}
+                    {formatPersonName(data.user)}
                   </CardTitle>
                   <CardDescription className="mt-2 text-sm">
                     Signed in as {data.user.role.toLowerCase()} • {data.user.email}
@@ -559,7 +555,7 @@ export default function DashboardPage() {
                               <div key={assignment.id} className="rounded-xl border border-border/80 bg-card p-4 text-sm">
                                 <div className="flex flex-wrap items-center justify-between gap-2">
                                   <span className="font-medium text-primary">
-                                    Reviewer: {formatName(assignment.reviewer)}
+                                    Reviewer: {formatPersonName(assignment.reviewer)}
                                   </span>
                                   <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${statusClasses(assignment.status)}`}>
                                     {assignment.status.replaceAll("_", " ")}
@@ -604,7 +600,7 @@ export default function DashboardPage() {
                             <div>
                               <h3 className="font-serif text-2xl text-primary">{assignment.manuscript?.title}</h3>
                               <p className="mt-2 text-sm text-muted-foreground">
-                                Assigned by {formatName(assignment.editor)} • Due {formatDate(assignment.dueDate)}
+                                Assigned by {formatPersonName(assignment.editor)} • Due {formatDate(assignment.dueDate)}
                               </p>
                             </div>
                             <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${statusClasses(assignment.status)}`}>
@@ -922,7 +918,7 @@ export default function DashboardPage() {
                           <div>
                             <h3 className="font-serif text-2xl text-primary">{manuscript.title}</h3>
                             <p className="mt-2 text-sm text-muted-foreground">
-                              Author: {formatName(manuscript.author)} • Status {manuscript.status.replaceAll("_", " ")}
+                              Author: {formatPersonName(manuscript.author)} • Status {manuscript.status.replaceAll("_", " ")}
                             </p>
                           </div>
                           <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${statusClasses(manuscript.status)}`}>
@@ -935,7 +931,7 @@ export default function DashboardPage() {
                             {manuscript.assignments.map((assignment) => (
                               <div key={assignment.id} className="rounded-xl border border-border bg-card p-4 text-sm">
                                 <div className="flex items-center justify-between gap-2">
-                                  <p className="font-medium text-primary">{formatName(assignment.reviewer)}</p>
+                                  <p className="font-medium text-primary">{formatPersonName(assignment.reviewer)}</p>
                                   <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${statusClasses(assignment.status)}`}>
                                     {assignment.status.replaceAll("_", " ")}
                                   </span>
@@ -968,7 +964,7 @@ export default function DashboardPage() {
                                 <option value="">Select reviewer</option>
                                 {data.editor.reviewers.map((reviewer) => (
                                   <option key={reviewer.id} value={reviewer.id}>
-                                    {formatName(reviewer)} ({reviewer.role})
+                                    {formatPersonName(reviewer)} ({reviewer.role})
                                   </option>
                                 ))}
                               </select>
@@ -1295,7 +1291,7 @@ export default function DashboardPage() {
                               {entry.action.replaceAll("_", " ")} • {entry.entityType.replaceAll("_", " ")}
                             </p>
                             <p className="mt-2 text-sm text-muted-foreground">
-                              {entry.actor ? `By ${formatName(entry.actor)}` : "System action"} • {formatDate(entry.createdAt)}
+                              {entry.actor ? `By ${formatPersonName(entry.actor)}` : "System action"} • {formatDate(entry.createdAt)}
                             </p>
                           </div>
                         </div>

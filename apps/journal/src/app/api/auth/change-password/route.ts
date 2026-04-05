@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createAuditLog } from "@/lib/audit";
+import { prisma } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createAuditLog } from "@/server/audit";
+import { handleRouteError } from "@/shared/utils";
 
 const changePasswordSchema = z
   .object({
@@ -68,9 +69,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Change password error:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues[0]?.message || "Invalid password update request" }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return handleRouteError(error);
   }
 }

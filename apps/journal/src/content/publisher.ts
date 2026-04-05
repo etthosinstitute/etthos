@@ -1,4 +1,4 @@
-import type { PublisherContent } from "../lib/public-site";
+import type { PublisherContent } from "../features/public-site/types";
 
 export const publisherContent: PublisherContent = {
   introParagraphs: [

@@ -3,11 +3,9 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { apiRequest } from "@/lib/api";
-
-function getErrorMessage(error: unknown, fallback: string) {
-  return error instanceof Error ? error.message : fallback;
-}
+import { apiRequest } from "@/shared/api-client";
+import { getErrorMessage } from "@/shared/utils";
+import { AuthCard } from "@/components/AuthCard";
 
 function LoginContent() {
   const router = useRouter();
@@ -43,7 +41,7 @@ function LoginContent() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+    <AuthCard>
              <div className="text-center mb-8">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-secondary">Author Access</p>
                 <h1 className="font-serif text-3xl font-bold text-primary mb-2">Welcome Back</h1>
@@ -109,16 +107,14 @@ function LoginContent() {
               Sign up
             </Link>
           </div>
-        </div>
+        </AuthCard>
   );
 }
 
 export default function LoginPage() {
   return (
-    <main className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-16">
-      <Suspense fallback={<div className="text-center text-muted-foreground p-8">Loading login...</div>}>
+      <Suspense fallback={<main className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-16"><div className="text-center text-muted-foreground p-8">Loading login...</div></main>}>
         <LoginContent />
       </Suspense>
-    </main>
   );
 }

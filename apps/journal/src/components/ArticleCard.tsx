@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Download, FileText, User } from "lucide-react";
-import type { PublicArticle } from "@/lib/public-site";
+import type { PublicArticle } from "@/features/public-site/queries";
 
 export function ArticleCard({ article }: { article: PublicArticle }) {
   return (

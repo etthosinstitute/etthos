@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { fullName, handleRouteError } from "@/lib/utils";
-import { sendReviewStatusEmail } from "@/lib/mail";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createAuditLog } from "@/lib/audit";
+import { prisma } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { fullName, handleRouteError } from "@/shared/utils";
+import { sendReviewStatusEmail } from "@/server/mail";
+import { trySendEmail } from "@/server/mailer";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createAuditLog } from "@/server/audit";
 import type { Role } from "@repo/database";
 import { z } from "zod";
 
@@ -61,27 +62,22 @@ export async function POST(
       });
     }
 
-    let emailSent = false;
-    let emailError: string | null = null;
-
-    try {
-      await sendReviewStatusEmail({
-        reviewerEmail: assignment.reviewer.email,
-        reviewerName: fullName(
-          assignment.reviewer.firstName,
-          assignment.reviewer.lastName,
-          assignment.reviewer.email
-        ),
-        manuscriptTitle: assignment.manuscript.title,
-        manuscriptId: assignment.manuscript.id,
-        status,
-      });
-      emailSent = true;
-    } catch (mailError) {
-      console.error("Review response email error:", mailError);
-      emailError =
-        mailError instanceof Error ? mailError.message : "Failed to send reviewer response";
-    }
+    const { emailSent, emailError } = await trySendEmail(
+      async () =>
+        sendReviewStatusEmail({
+          reviewerEmail: assignment.reviewer.email,
+          reviewerName: fullName(
+            assignment.reviewer.firstName,
+            assignment.reviewer.lastName,
+            assignment.reviewer.email
+          ),
+          manuscriptTitle: assignment.manuscript.title,
+          manuscriptId: assignment.manuscript.id,
+          status,
+        }),
+      "Failed to send reviewer response",
+      "Review response email error"
+    );
 
     await createAuditLog({
       actorId: user.userId,

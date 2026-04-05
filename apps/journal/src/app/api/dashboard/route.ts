@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma, MANUSCRIPT_INCLUDE, USER_SELECT, REVIEWER_SELECT } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { handleRouteError } from "@/lib/utils";
+import { prisma, MANUSCRIPT_INCLUDE, USER_SELECT, REVIEWER_SELECT } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { handleRouteError } from "@/shared/utils";
 import type { Role } from "@repo/database";
 
 export async function GET(req: NextRequest) {

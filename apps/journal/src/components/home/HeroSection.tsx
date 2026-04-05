@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Brain, Globe, Shield } from "lucide-react";
-import { getHomeContent, getJournalInfo, getLatestPublishedIssue } from "@/lib/public-site";
+import { getHomeContent, getJournalInfo, getLatestPublishedIssue } from "@/features/public-site/queries";
 
 const iconMap = {
   "book-open": BookOpen,

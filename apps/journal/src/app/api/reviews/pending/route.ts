@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma, USER_SELECT } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { handleRouteError } from "@/lib/utils";
+import { prisma, USER_SELECT } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { handleRouteError } from "@/shared/utils";
 
 export async function GET(req: NextRequest) {
   const user = await requireAuth(req);

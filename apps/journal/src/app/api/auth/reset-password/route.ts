@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { consumePasswordResetToken } from "@/lib/password-reset";
-import { createAuditLog } from "@/lib/audit";
+import { prisma } from "@/server/db/prisma";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { consumePasswordResetToken } from "@/server/password-reset";
+import { createAuditLog } from "@/server/audit";
+import { handleRouteError } from "@/shared/utils";
 
 const resetPasswordSchema = z.object({
   token: z.string().min(1),
@@ -49,9 +50,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Reset password error:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues[0]?.message || "Invalid reset request" }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return handleRouteError(error);
   }
 }

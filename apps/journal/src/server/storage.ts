@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
-import { env } from "@/lib/env";
+import { env } from "@/server/env";
 
 const ALLOWED_FILE_TYPES = new Map<string, string>([
   ["application/pdf", ".pdf"],

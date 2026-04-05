@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
-import { getGuidelinesContent } from "@/lib/public-site";
+import { getGuidelinesContent } from "@/features/public-site/queries";
 import { Download, FileText, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -35,7 +35,7 @@ export default async function GuidelinesPage() {
               {guidelinesPage.content.sections.map((section) => (
                 <div key={section.title}>
                   <h2 className="text-2xl font-serif font-bold text-primary mt-8 first:mt-0">{section.title}</h2>
-                  {section.paragraphs.map((paragraph) => (
+                  {(section.paragraphs ?? []).map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                   {section.items && section.items.length > 0 && (

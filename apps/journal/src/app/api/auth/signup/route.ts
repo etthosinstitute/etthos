@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { signToken, setAuthCookie } from "@/lib/auth";
-import { handleRouteError } from "@/lib/utils";
-import { enforceRateLimit } from "@/lib/rate-limit";
+import { prisma } from "@/server/db/prisma";
+import { signToken, setAuthCookie } from "@/server/auth";
+import { handleRouteError } from "@/shared/utils";
+import { enforceRateLimit } from "@/server/rate-limit";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 

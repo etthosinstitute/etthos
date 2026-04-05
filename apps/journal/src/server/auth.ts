@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { env, isProduction } from "@/lib/env";
+import { env, isProduction } from "@/server/env";
 
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 

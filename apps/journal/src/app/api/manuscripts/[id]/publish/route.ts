@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { handleRouteError, slugify } from "@/lib/utils";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createAuditLog } from "@/lib/audit";
+import { prisma } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { handleRouteError, slugify } from "@/shared/utils";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createAuditLog } from "@/server/audit";
 import type { Role } from "@repo/database";
 import { z } from "zod";
 

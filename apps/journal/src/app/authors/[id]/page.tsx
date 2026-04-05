@@ -1,5 +1,5 @@
 import { ArticleCard } from "@/components/ArticleCard";
-import { getAuthorProfileBySlug, getJournalInfo } from "@/lib/public-site";
+import { getAuthorProfileBySlug, getJournalInfo } from "@/features/public-site/queries";
 import { notFound } from "next/navigation";
 import { Mail, MapPin, Globe, BookOpen } from "lucide-react";
 import Image from "next/image";

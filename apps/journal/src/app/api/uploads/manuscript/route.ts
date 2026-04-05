@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { saveManuscriptFile } from "@/lib/storage";
+import { requireAuth } from "@/server/auth";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { saveManuscriptFile } from "@/server/storage";
 
 export async function POST(req: NextRequest) {
   const user = await requireAuth(req);

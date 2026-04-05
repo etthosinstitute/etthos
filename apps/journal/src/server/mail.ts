@@ -1,44 +1,13 @@
-import nodemailer from "nodemailer";
-import { fullName } from "@/lib/utils";
-import { env } from "@/lib/env";
+import { fullName } from "@/shared/utils";
+import { env } from "@/server/env";
+import {
+  escapeHtml,
+  getMailerFrom,
+  getMailerTransporter,
+  wrapHtmlEmail,
+} from "@/server/mailer";
 
-const SMTP_HOST = env.EMAIL_HOST;
-const SMTP_PORT = env.EMAIL_PORT;
-const SMTP_SECURE = env.EMAIL_SECURE;
-const SMTP_USER = env.EMAIL_USER;
-const SMTP_PASS = env.EMAIL_PASS;
 const REVIEW_INBOX_EMAIL = env.REVIEW_INBOX_EMAIL;
-
-let transporter: nodemailer.Transporter | null = null;
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function getTransporter() {
-  if (!SMTP_USER || !SMTP_PASS) {
-    throw new Error("SMTP credentials are missing");
-  }
-
-  if (!transporter) {
-    transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: SMTP_PORT,
-      secure: SMTP_SECURE,
-      auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
-      },
-    });
-  }
-
-  return transporter;
-}
 
 interface ReviewEmailPayload {
   reviewerEmail: string;
@@ -81,10 +50,16 @@ interface PasswordResetEmailPayload {
   resetUrl: string;
 }
 
+function resolveReviewerLabel(name?: string | null, email?: string) {
+  return name?.trim() || fullName(undefined, undefined, email || "Reviewer");
+}
+
 export async function sendReviewSubmissionEmail(payload: ReviewEmailPayload) {
-  const mailer = getTransporter();
-  const reviewerLabel = payload.reviewerName?.trim() ||
-    fullName(undefined, undefined, payload.reviewerEmail || "Reviewer");
+  const mailer = getMailerTransporter();
+  const reviewerLabel = resolveReviewerLabel(
+    payload.reviewerName,
+    payload.reviewerEmail
+  );
   const safeReviewerLabel = escapeHtml(reviewerLabel);
   const safeReviewerEmail = escapeHtml(payload.reviewerEmail);
   const safeManuscriptTitle = escapeHtml(payload.manuscriptTitle);
@@ -93,7 +68,7 @@ export async function sendReviewSubmissionEmail(payload: ReviewEmailPayload) {
   const safeContent = escapeHtml(payload.content);
 
   await mailer.sendMail({
-    from: `"Etthos Journal" <${SMTP_USER}>`,
+    from: getMailerFrom(),
     to: REVIEW_INBOX_EMAIL,
     replyTo: payload.reviewerEmail,
     subject: `Review Submission: ${payload.manuscriptTitle}`,
@@ -109,8 +84,7 @@ export async function sendReviewSubmissionEmail(payload: ReviewEmailPayload) {
       "Review Content:",
       payload.content,
     ].join("\n"),
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #132238;">
+    html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">New Review Submission</h2>
         <p>A review has been submitted through the Etthos Journal system.</p>
         <table style="border-collapse: collapse; margin: 16px 0;">
@@ -122,17 +96,18 @@ export async function sendReviewSubmissionEmail(payload: ReviewEmailPayload) {
         </table>
         <h3 style="margin: 20px 0 8px;">Review Content</h3>
         <div style="white-space: pre-wrap; background: #f7f3ec; padding: 16px; border-radius: 12px; border: 1px solid #d9d1c7;">${safeContent}</div>
-      </div>
-    `,
+    `),
   });
 }
 
 export async function sendReviewAssignmentEmail(
   payload: ReviewAssignmentEmailPayload
 ) {
-  const mailer = getTransporter();
-  const reviewerLabel = payload.reviewerName?.trim() ||
-    fullName(undefined, undefined, payload.reviewerEmail || "Reviewer");
+  const mailer = getMailerTransporter();
+  const reviewerLabel = resolveReviewerLabel(
+    payload.reviewerName,
+    payload.reviewerEmail
+  );
   const editorLabel = payload.editorName?.trim() || "Editorial Office";
   const safeReviewerLabel = escapeHtml(reviewerLabel);
   const safeEditorLabel = escapeHtml(editorLabel);
@@ -143,7 +118,7 @@ export async function sendReviewAssignmentEmail(
   const safeDashboardUrl = escapeHtml(dashboardUrl);
 
   await mailer.sendMail({
-    from: `"Etthos Journal" <${SMTP_USER}>`,
+    from: getMailerFrom(),
     to: payload.reviewerEmail,
     replyTo: REVIEW_INBOX_EMAIL,
     subject: `Review Request: ${payload.manuscriptTitle}`,
@@ -159,8 +134,7 @@ export async function sendReviewAssignmentEmail(
       "",
       "Please log in to the reviewer dashboard to accept or submit your review.",
     ].join("\n"),
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #132238;">
+    html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">Review Invitation</h2>
         <p>Dear ${safeReviewerLabel},</p>
         <p>${safeEditorLabel} has invited you to review a manuscript for the Etthos Journal of Psychology.</p>
@@ -173,22 +147,23 @@ export async function sendReviewAssignmentEmail(
           Please log in to your reviewer dashboard to respond and submit your review:
           <a href="${safeDashboardUrl}" style="color: #1f5f5b;">${safeDashboardUrl}</a>
         </p>
-      </div>
-    `,
+    `),
   });
 }
 
 export async function sendReviewStatusEmail(payload: ReviewStatusEmailPayload) {
-  const mailer = getTransporter();
-  const reviewerLabel = payload.reviewerName?.trim() ||
-    fullName(undefined, undefined, payload.reviewerEmail || "Reviewer");
+  const mailer = getMailerTransporter();
+  const reviewerLabel = resolveReviewerLabel(
+    payload.reviewerName,
+    payload.reviewerEmail
+  );
   const safeReviewerLabel = escapeHtml(reviewerLabel);
   const safeStatus = escapeHtml(payload.status);
   const safeTitle = escapeHtml(payload.manuscriptTitle);
   const safeId = escapeHtml(payload.manuscriptId);
 
   await mailer.sendMail({
-    from: `"Etthos Journal" <${SMTP_USER}>`,
+    from: getMailerFrom(),
     to: REVIEW_INBOX_EMAIL,
     replyTo: payload.reviewerEmail,
     subject: `Review Invitation ${payload.status.toLowerCase()}: ${payload.manuscriptTitle}`,
@@ -198,28 +173,28 @@ export async function sendReviewStatusEmail(payload: ReviewStatusEmailPayload) {
       `Manuscript: ${payload.manuscriptTitle}`,
       `Manuscript ID: ${payload.manuscriptId}`,
     ].join("\n"),
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #132238;">
+    html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">Reviewer Response</h2>
         <p>${safeReviewerLabel} has <strong>${safeStatus.toLowerCase()}</strong> a review invitation.</p>
         <p><strong>Manuscript:</strong> ${safeTitle}</p>
         <p><strong>Manuscript ID:</strong> ${safeId}</p>
-      </div>
-    `,
+    `),
   });
 }
 
 export async function sendReviewerAccountEmail(
   payload: ReviewerAccountEmailPayload
 ) {
-  const mailer = getTransporter();
-  const reviewerLabel = payload.reviewerName?.trim() ||
-    fullName(undefined, undefined, payload.reviewerEmail || "Reviewer");
+  const mailer = getMailerTransporter();
+  const reviewerLabel = resolveReviewerLabel(
+    payload.reviewerName,
+    payload.reviewerEmail
+  );
   const creatorLabel = payload.createdByName?.trim() || "The editorial team";
   const dashboardUrl = payload.dashboardUrl || `${env.APP_URL}/auth/login`;
 
   await mailer.sendMail({
-    from: `"Etthos Journal" <${SMTP_USER}>`,
+    from: getMailerFrom(),
     to: payload.reviewerEmail,
     replyTo: REVIEW_INBOX_EMAIL,
     subject: "Your reviewer account for Etthos Journal",
@@ -234,8 +209,7 @@ export async function sendReviewerAccountEmail(
       "",
       "Please log in and change your password after your first access.",
     ].join("\n"),
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #132238;">
+    html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">Reviewer Account Created</h2>
         <p>Dear ${escapeHtml(reviewerLabel)},</p>
         <p>${escapeHtml(creatorLabel)} has created a reviewer account for you on the Etthos Journal of Psychology platform.</p>
@@ -245,19 +219,18 @@ export async function sendReviewerAccountEmail(
           <tr><td style="padding: 6px 12px 6px 0;"><strong>Login URL</strong></td><td><a href="${escapeHtml(dashboardUrl)}" style="color:#1f5f5b;">${escapeHtml(dashboardUrl)}</a></td></tr>
         </table>
         <p>Please log in and change your password after your first access.</p>
-      </div>
-    `,
+    `),
   });
 }
 
 export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload) {
-  const mailer = getTransporter();
+  const mailer = getMailerTransporter();
   const recipientLabel =
     payload.name?.trim() ||
     fullName(undefined, undefined, payload.email || "Journal user");
 
   await mailer.sendMail({
-    from: `"Etthos Journal" <${SMTP_USER}>`,
+    from: getMailerFrom(),
     to: payload.email,
     replyTo: REVIEW_INBOX_EMAIL,
     subject: "Reset your Etthos Journal password",
@@ -269,8 +242,7 @@ export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload)
       "",
       "This link expires in 1 hour. If you did not request this, you can ignore this email.",
     ].join("\n"),
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #132238;">
+    html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">Reset your password</h2>
         <p>Dear ${escapeHtml(recipientLabel)},</p>
         <p>We received a request to reset your Etthos Journal password.</p>
@@ -282,7 +254,6 @@ export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload)
         <p style="margin-top: 12px;">If the button does not work, use this link:</p>
         <p><a href="${escapeHtml(payload.resetUrl)}" style="color:#1f5f5b;">${escapeHtml(payload.resetUrl)}</a></p>
         <p>This link expires in 1 hour. If you did not request this, you can ignore this email.</p>
-      </div>
-    `,
+    `),
   });
 }

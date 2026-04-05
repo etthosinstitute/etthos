@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { handleRouteError } from "@/lib/utils";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { sendContactMessageEmail } from "@/lib/public-mail";
+import { prisma } from "@/server/db/prisma";
+import { handleRouteError } from "@/shared/utils";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { sendContactMessageEmail } from "@/server/public-mail";
 
 const contactSchema = z.object({
   firstName: z.string().min(1),

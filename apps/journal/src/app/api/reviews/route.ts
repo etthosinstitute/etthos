@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma, USER_SELECT, REVIEWER_SELECT } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
-import { fullName, handleRouteError } from "@/lib/utils";
-import { sendReviewSubmissionEmail } from "@/lib/mail";
-import { enforceRateLimit } from "@/lib/rate-limit";
-import { createAuditLog } from "@/lib/audit";
+import { prisma, USER_SELECT, REVIEWER_SELECT } from "@/server/db/prisma";
+import { requireAuth } from "@/server/auth";
+import { fullName, handleRouteError } from "@/shared/utils";
+import { sendReviewSubmissionEmail } from "@/server/mail";
+import { trySendEmail } from "@/server/mailer";
+import { enforceRateLimit } from "@/server/rate-limit";
+import { createAuditLog } from "@/server/audit";
 import type { Role } from "@repo/database";
 import { z } from "zod";
 
@@ -163,24 +164,19 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    let emailSent = false;
-    let emailError: string | null = null;
-
-    try {
-      await sendReviewSubmissionEmail({
-        reviewerEmail: reviewer?.email || user.email,
-        reviewerName: fullName(reviewer?.firstName, reviewer?.lastName, ""),
-        manuscriptTitle: manuscript.title,
-        manuscriptId: manuscript.id,
-        decision,
-        content,
-      });
-      emailSent = true;
-    } catch (mailError) {
-      console.error("Review email send error:", mailError);
-      emailError =
-        mailError instanceof Error ? mailError.message : "Failed to send review email";
-    }
+    const { emailSent, emailError } = await trySendEmail(
+      async () =>
+        sendReviewSubmissionEmail({
+          reviewerEmail: reviewer?.email || user.email,
+          reviewerName: fullName(reviewer?.firstName, reviewer?.lastName, ""),
+          manuscriptTitle: manuscript.title,
+          manuscriptId: manuscript.id,
+          decision,
+          content,
+        }),
+      "Failed to send review email",
+      "Review email send error"
+    );
 
     await createAuditLog({
       actorId: user.userId,

@@ -2,13 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiRequest } from "@/lib/api";
+import { apiRequest } from "@/shared/api-client";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
-
-function getErrorMessage(error: unknown, fallback: string) {
-  return error instanceof Error ? error.message : fallback;
-}
+import { getErrorMessage } from "@/shared/utils";
 
 export default function SubmitPage() {
   const router = useRouter();

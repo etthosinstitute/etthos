@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { apiRequest } from "@/lib/api";
-
-function getErrorMessage(error: unknown, fallback: string) {
-  return error instanceof Error ? error.message : fallback;
-}
+import { apiRequest } from "@/shared/api-client";
+import { getErrorMessage } from "@/shared/utils";
+import { AuthCard } from "@/components/AuthCard";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -36,8 +34,7 @@ export default function SignupPage() {
   };
 
   return (
-      <main className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-16">
-        <div className="w-full max-w-md rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+        <AuthCard>
             <div className="text-center mb-8">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-secondary">Join the Journal</p>
                 <h1 className="font-serif text-3xl font-bold text-primary mb-2">Create Account</h1>
@@ -120,7 +117,6 @@ export default function SignupPage() {
               Log in
             </Link>
           </div>
-        </div>
-      </main>
+        </AuthCard>
   );
 }

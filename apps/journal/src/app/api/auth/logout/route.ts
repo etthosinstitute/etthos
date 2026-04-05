@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthUser } from "@/lib/auth";
-import { createAuditLog } from "@/lib/audit";
-import { isProduction } from "@/lib/env";
+import { getAuthUser } from "@/server/auth";
+import { createAuditLog } from "@/server/audit";
+import { isProduction } from "@/server/env";
 import type { Role } from "@repo/database";
 
 export async function POST(req: NextRequest) {

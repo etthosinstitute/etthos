@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { JournalInfo, PublicArticle } from "@/lib/public-site";
-import { getJournalInfo, getPublishedArticleBySlug } from "@/lib/public-site";
+import type { JournalInfo, PublicArticle } from "@/features/public-site/queries";
+import { getJournalInfo, getPublishedArticleBySlug } from "@/features/public-site/queries";
+import { generateCitation, getRecommendedCitation } from "@/features/public-site/citations";
 import { Calendar, Download, Quote, Share2, User, BookOpen, FileText } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -45,27 +46,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ...(article.pageEnd ? { "citation_lastpage": String(article.pageEnd) } : {}),
     },
   };
-}
-
-function generateCitationAPA(article: PublicArticle, journalInfo: JournalInfo): string {
-  const authorStr = article.authors
-    .map((a) => {
-      const parts = a.name.replace(/^(Dr\.|Prof\.)\s*/i, "").split(" ");
-      const last = parts[parts.length - 1];
-      const initials = parts.slice(0, -1).map((p) => p[0] + ".").join(" ");
-      return `${last}, ${initials}`;
-    })
-    .join(", ");
-  const pageRange = article.pageStart && article.pageEnd ? `${article.pageStart}–${article.pageEnd}` : "Advance online publication";
-  const doiSuffix = article.doi ? ` https://doi.org/${article.doi}` : "";
-  return `${authorStr} (${new Date(article.publishedDate).getFullYear()}). ${article.title}. ${journalInfo.name}, ${article.volume}(${article.issue}), ${pageRange}.${doiSuffix}`;
-}
-
-function generateCitationMLA(article: PublicArticle, journalInfo: JournalInfo): string {
-  const authorStr = article.authors.map((a) => a.name.replace(/^(Dr\.|Prof\.)\s*/i, "")).join(", ");
-  const pages = article.pageStart && article.pageEnd ? `pp. ${article.pageStart}–${article.pageEnd}. ` : "";
-  const doi = article.doi ? `DOI: ${article.doi}.` : "";
-  return `${authorStr}. "${article.title}." ${journalInfo.name}, vol. ${article.volume}, no. ${article.issue}, ${new Date(article.publishedDate).getFullYear()}, ${pages}${doi}`.trim();
 }
 
 function ArticleJsonLd({ article, journalInfo }: { article: PublicArticle; journalInfo: JournalInfo }) {
@@ -132,8 +112,10 @@ export default async function ArticleDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const apaStr = generateCitationAPA(article, journalInfo);
-  const mlaStr = generateCitationMLA(article, journalInfo);
+  const recommendedCitation = getRecommendedCitation(article, journalInfo);
+  const apaStr = generateCitation("APA", article, journalInfo);
+  const mlaStr = generateCitation("MLA", article, journalInfo);
+  const chicagoStr = generateCitation("CHICAGO", article, journalInfo);
   const articleUrl = `${journalInfo.websiteUrl}/articles/${article.slug}`;
   const shareHref = `mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(articleUrl)}`;
 
@@ -288,7 +270,13 @@ export default async function ArticleDetailPage({ params }: PageProps) {
 
                   {/* Citation Formats */}
                   <div id="citation-formats" className="border-t border-border pt-8">
-                    <h3 className="journal-heading mb-4 text-xl font-bold">How to Cite</h3>
+                    <h3 className="journal-heading mb-4 text-xl font-bold">How to Cite This Article</h3>
+                    <div className="journal-panel mb-4 p-4">
+                      <span className="journal-kicker mb-2 block tracking-[0.18em]">Recommended Citation</span>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {recommendedCitation}
+                      </p>
+                    </div>
                     <div className="space-y-4">
                       <div className="journal-panel p-4">
                         <span className="journal-kicker mb-2 block tracking-[0.18em]">APA</span>
@@ -300,6 +288,12 @@ export default async function ArticleDetailPage({ params }: PageProps) {
                         <span className="journal-kicker mb-2 block tracking-[0.18em]">MLA</span>
                         <p className="text-sm text-muted-foreground font-mono leading-relaxed wrap-break-word">
                           {mlaStr}
+                        </p>
+                      </div>
+                      <div className="journal-panel p-4">
+                        <span className="journal-kicker mb-2 block tracking-[0.18em]">Chicago</span>
+                        <p className="text-sm text-muted-foreground font-mono leading-relaxed wrap-break-word">
+                          {chicagoStr}
                         </p>
                       </div>
                     </div>

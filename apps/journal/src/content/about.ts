@@ -1,4 +1,4 @@
-import type { AboutContent } from "../lib/public-site";
+import type { AboutContent } from "../features/public-site/types";
 
 export const aboutContent: AboutContent = {
   overviewParagraphs: [

@@ -1,7 +1,7 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Check } from "lucide-react";
-import { getAboutContent, getJournalInfo } from "@/lib/public-site";
-import { getFounderImage } from "@/lib/site-images";
+import { getAboutContent, getJournalInfo } from "@/features/public-site/queries";
+import { getFounderImage } from "@/features/public-site/images";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";

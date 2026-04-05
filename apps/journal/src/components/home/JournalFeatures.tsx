@@ -1,5 +1,5 @@
 import { BookOpen, Brain, Globe, Shield } from "lucide-react";
-import { getHomeContent } from "@/lib/public-site";
+import { getHomeContent } from "@/features/public-site/queries";
 
 const iconMap = {
   "book-open": BookOpen,

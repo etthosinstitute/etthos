@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/PageHeader";
-import { getJournalInfo, getPublisherContent } from "@/lib/public-site";
+import { getJournalInfo, getPublisherContent } from "@/features/public-site/queries";
 import { MapPin, Mail, Phone, ExternalLink, Building2 } from "lucide-react";
 import type { Metadata } from "next";
 

@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/PageHeader";
-import { getPoliciesContent } from "@/lib/public-site";
+import { getPoliciesContent } from "@/features/public-site/queries";
 import { Check, Shield, Lock, FileText } from "lucide-react";
 import type { Metadata } from "next";
 

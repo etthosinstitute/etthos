@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ArticleCard } from "@/components/ArticleCard";
-import { getJournalInfo, getPublishedIssueBySlug } from "@/lib/public-site";
+import { getJournalInfo, getPublishedIssueBySlug } from "@/features/public-site/queries";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 

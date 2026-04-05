@@ -1,7 +1,7 @@
 import { Logo } from "@repo/ui/logo";
 import Link from "next/link";
 import { Mail, MapPin, Phone, ExternalLink } from "lucide-react";
-import { getJournalInfo } from "@/lib/public-site";
+import { getJournalInfo } from "@/features/public-site/queries";
 
 export async function Footer() {
   const journalInfo = await getJournalInfo();

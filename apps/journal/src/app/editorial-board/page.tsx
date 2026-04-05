@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
-import { getEditorialBoardMembers } from "@/lib/public-site";
-import { getEditorialImage } from "@/lib/site-images";
+import { getEditorialBoardMembers } from "@/features/public-site/queries";
+import { getEditorialImage } from "@/features/public-site/images";
 import { Mail, MapPin, Globe } from "lucide-react";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -109,7 +109,7 @@ export default async function EditorialBoardPage() {
 
                   {/* Expertise */}
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {member.expertise.map((area) => (
+                    {member.expertise.map((area: string) => (
                       <span
                         key={area}
                         className="rounded-full bg-[hsl(var(--highlight)/0.12)] px-2.5 py-1 text-[11px] font-semibold text-[hsl(var(--highlight))]"

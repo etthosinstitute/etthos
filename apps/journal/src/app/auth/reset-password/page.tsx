@@ -3,8 +3,10 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { apiRequest } from "@/lib/api";
+import { apiRequest } from "@/shared/api-client";
 import { Button } from "@/components/ui/button";
+import { getErrorMessage } from "@/shared/utils";
+import { AuthCard } from "@/components/AuthCard";
 
 function ResetPasswordContent() {
   const router = useRouter();
@@ -34,7 +36,7 @@ function ResetPasswordContent() {
         router.push("/auth/login");
       }, 1500);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to reset password");
+      setError(getErrorMessage(err, "Failed to reset password"));
     } finally {
       setLoading(false);
     }
@@ -45,7 +47,7 @@ function ResetPasswordContent() {
     form.confirmPassword.length > 0 && form.password !== form.confirmPassword;
 
   return (
-    <div className="w-full max-w-md rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+    <AuthCard>
       <div className="mb-8 text-center">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-secondary">Account Recovery</p>
         <h1 className="font-serif text-3xl font-bold text-primary mb-2">Choose a new password</h1>
@@ -108,16 +110,14 @@ function ResetPasswordContent() {
           Back to login
         </Link>
       </div>
-    </div>
+    </AuthCard>
   );
 }
 
 export default function ResetPasswordPage() {
   return (
-    <main className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-16">
-      <Suspense fallback={<div className="text-center text-muted-foreground p-8">Loading reset form...</div>}>
+      <Suspense fallback={<main className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-16"><div className="text-center text-muted-foreground p-8">Loading reset form...</div></main>}>
         <ResetPasswordContent />
       </Suspense>
-    </main>
   );
 }

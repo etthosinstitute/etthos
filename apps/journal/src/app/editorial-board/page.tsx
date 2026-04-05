@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { getEditorialBoardMembers } from "@/lib/public-site";
+import { getEditorialImage } from "@/lib/site-images";
 import { Mail, MapPin, Globe } from "lucide-react";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -30,7 +31,10 @@ export default async function EditorialBoardPage() {
         
         {/* All Board Members */}
         <div className="space-y-8">
-          {sortedBoard.map((member) => (
+          {sortedBoard.map((member) => {
+            const editorialImage = getEditorialImage(member.image);
+
+            return (
             <div
               key={member.id}
               className="rounded-[1.75rem] border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/25 hover:shadow-[0_24px_65px_-50px_rgba(19,34,56,0.42)] md:p-8"
@@ -38,9 +42,9 @@ export default async function EditorialBoardPage() {
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Photo or Avatar */}
                 <div className="flex-shrink-0">
-                  {member.image ? (
+                  {editorialImage ? (
                     <Image
-                      src={member.image}
+                      src={editorialImage}
                       alt={member.name}
                       width={120}
                       height={120}
@@ -122,7 +126,8 @@ export default async function EditorialBoardPage() {
                 </div>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
 
       </div>

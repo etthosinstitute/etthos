@@ -10,7 +10,7 @@ Step-by-step guide to get your Etthos Journal system running in production.
 - [ ] Create PostgreSQL database (Vercel Postgres / Supabase / Railway)
 - [ ] Copy connection string
 - [ ] Update `.env.local` with `DATABASE_URL`
-- [ ] Copy schema: `cp packages/database/prisma/schema-journal.prisma packages/database/prisma/schema.prisma`
+- [ ] Confirm `packages/database/prisma/schema.prisma` matches the desired database model
 - [ ] Generate Prisma client: `pnpm db:generate`
 - [ ] Run migrations: `pnpm prisma migrate dev --name init`
 - [ ] Seed database: `pnpm tsx apps/journal/scripts/seed-journal.ts`

@@ -298,7 +298,7 @@ etthos-1/
 ├── packages/
 │   ├── database/
 │   │   ├── prisma/
-│   │   │   ├── schema.prisma                  # Use schema-journal.prisma
+│   │   │   ├── schema.prisma                  # Active Prisma schema
 │   │   │   └── migrations/
 │   │   ├── src/
 │   │   │   └── client.ts                      # Export Prisma client
@@ -338,7 +338,6 @@ etthos-1/
 ├── FOLDER_STRUCTURE.md                         # You are here
 ├── API_ROUTES.md                               # API documentation
 └── README.md
-```
 
 ## Key Files Explanation
 
@@ -454,9 +453,6 @@ pnpm install
 
 ### Step 2: Setup Database
 ```bash
-# Copy schema-journal.prisma to schema.prisma
-cp packages/database/prisma/schema-journal.prisma packages/database/prisma/schema.prisma
-
 # Generate Prisma client
 cd packages/database
 pnpm db:generate

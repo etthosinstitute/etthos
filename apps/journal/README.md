@@ -5,7 +5,7 @@ This app now runs on PostgreSQL and supports a stored review workflow with dashb
 ## Current Stack
 
 - App: Next.js journal app in `/Users/riteshhooda/Desktop/etthos-1/apps/journal`
-- Database: PostgreSQL `journal`
+- Database: PostgreSQL `pencil` for current local development
 - Prisma schema: `/Users/riteshhooda/Desktop/etthos-1/packages/database/prisma/schema.prisma`
 - Mail transport: Gmail SMTP via `nodemailer`
 
@@ -14,7 +14,7 @@ This app now runs on PostgreSQL and supports a stored review workflow with dashb
 The journal app expects these values in `/Users/riteshhooda/Desktop/etthos-1/apps/journal/.env`:
 
 ```env
-DATABASE_URL="postgresql://ritesh:ritesh25@localhost:5432/journal"
+DATABASE_URL="postgresql://ritesh:ritesh25@localhost:5432/pencil"
 APP_URL="http://localhost:3000"
 EMAIL_USER=etthosjournal@gmail.com
 EMAIL_PASS="..."

@@ -41,7 +41,7 @@ Comprehensive documentation is available:
 - 📁 [**Folder Structure**](./FOLDER_STRUCTURE.md) - Detailed project organization
 - 🔌 [**API Documentation**](./API_ROUTES.md) - Complete API reference
 - 🚀 [**Deployment & Security**](./DEPLOYMENT_SECURITY.md) - Production deployment guide
-- 💾 [**Database Schema**](./packages/database/prisma/schema-journal.prisma) - Full Prisma schema
+- 💾 [**Database Schema**](./packages/database/prisma/schema.prisma) - Active Prisma schema
 
 ---
 
@@ -70,7 +70,6 @@ cp apps/journal/.env.example apps/journal/.env.local
 
 # 4. Setup database schema
 cd packages/database
-cp prisma/schema-journal.prisma prisma/schema.prisma
 pnpm db:generate
 pnpm prisma migrate dev --name init
 

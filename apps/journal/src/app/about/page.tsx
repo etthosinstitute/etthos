@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Check } from "lucide-react";
 import { getAboutContent, getJournalInfo } from "@/lib/public-site";
+import { getFounderImage } from "@/lib/site-images";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -49,16 +50,21 @@ export default async function AboutPage() {
                 {content.foundersDescription}
               </p>
               <div className="grid gap-6 md:grid-cols-2">
-                {content.founders.map((founder) => (
+                {content.founders.map((founder) => {
+                  const founderImage = getFounderImage(founder.image);
+
+                  return (
                   <div key={founder.name} className="rounded-[1.5rem] border border-border bg-background/70 p-5">
                     <div className="flex items-center gap-5">
                       <div className="relative h-24 w-24 overflow-hidden rounded-2xl border border-border">
-                        <Image
-                          src={founder.image}
-                          alt={founder.name}
-                          fill
-                          className="object-cover object-top"
-                        />
+                        {founderImage ? (
+                          <Image
+                            src={founderImage}
+                            alt={founder.name}
+                            fill
+                            className="object-cover object-top"
+                          />
+                        ) : null}
                       </div>
                       <div>
                         <h3 className="font-serif text-2xl font-bold text-primary">{founder.name}</h3>
@@ -68,7 +74,8 @@ export default async function AboutPage() {
                       </div>
                     </div>
                   </div>
-                ))}
+                );
+                })}
               </div>
             </section>
 

@@ -116,9 +116,6 @@ railway variables
 ```bash
 cd packages/database
 
-# Copy the journal schema
-cp prisma/schema-journal.prisma prisma/schema.prisma
-
 # Generate Prisma client
 pnpm db:generate
 

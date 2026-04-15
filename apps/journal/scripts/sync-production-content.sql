@@ -2,7 +2,7 @@ BEGIN;
 
 UPDATE journals
 SET
-  name = 'Etthos Journal of Psychology',
+  name = 'Etthos Journal Of Health, Behavior and Applied Psychology',
   "shortName" = 'EJP',
   description = 'A peer-reviewed, open-access academic journal dedicated to advancing research in psychology and behavioural sciences.',
   publisher = 'Etthos',

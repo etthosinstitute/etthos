@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Issues Archive",
-  description: "Browse all published volumes and issues of the Etthos Journal of Psychology.",
+  description: "Browse all published volumes and issues of the Etthos Journal Of Health, Behavior and Applied Psychology.",
 };
 
 // Group issues by year

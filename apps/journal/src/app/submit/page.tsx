@@ -76,7 +76,7 @@ export default function SubmitPage() {
     <>
       <PageHeader 
         title="Submit Manuscript" 
-        description="Share your research in psychology and behavioural sciences with the Etthos Journal of Psychology." 
+        description="Share your research in psychology and behavioural sciences with the Etthos Journal Of Health, Behavior and Applied Psychology." 
       />
         
         <div className="container mx-auto px-4 py-16">

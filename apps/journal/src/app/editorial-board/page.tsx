@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Editorial Board",
-  description: "Meet the distinguished scholars guiding the Etthos Journal of Psychology — profiles, affiliations, and areas of expertise.",
+  description: "Meet the distinguished scholars guiding the Etthos Journal Of Health, Behavior and Applied Psychology — profiles, affiliations, and areas of expertise.",
 };
 
 export default async function EditorialBoardPage() {
@@ -17,7 +17,7 @@ export default async function EditorialBoardPage() {
     <>
       <PageHeader 
         title="Editorial Board" 
-        description="Meet the distinguished scholars and practitioners guiding the Etthos Journal of Psychology." 
+        description="Meet the distinguished scholars and practitioners guiding the Etthos Journal Of Health, Behavior and Applied Psychology." 
       />
       
       <div className="container mx-auto px-4 py-16">

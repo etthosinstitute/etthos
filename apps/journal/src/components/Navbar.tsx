@@ -119,10 +119,10 @@ export function Navbar() {
             <Logo className="h-10 w-auto text-primary" width={80} height={28} />
             <div className="hidden min-w-0 border-l border-border/90 pl-3 min-[1320px]:block">
               <span className="block font-serif text-[1.05rem] font-semibold leading-tight text-primary">
-                Etthos Journal
+                Etthos Journal Of
               </span>
               <span className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-                of Psychology
+                Of Health, Behavior and Applied Psychology
               </span>
             </div>
           </Link>

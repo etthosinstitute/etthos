@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Publisher Information",
-  description: "Publisher information for the Etthos Journal of Psychology — Etthos, postal address, and contact details.",
+  description: "Publisher information for the Etthos Journal Of Health, Behavior and Applied Psychology — Etthos, postal address, and contact details.",
 };
 
 export default async function PublisherPage() {
@@ -18,7 +18,7 @@ export default async function PublisherPage() {
     <>
       <PageHeader
         title={publisherPage.title}
-        description={publisherPage.description || "Official publisher details for the Etthos Journal of Psychology."}
+        description={publisherPage.description || "Official publisher details for the Etthos Journal Of Health, Behavior and Applied Psychology."}
       />
 
       <div className="container mx-auto px-4 py-16">
@@ -32,7 +32,7 @@ export default async function PublisherPage() {
               </div>
               <div>
                 <h2 className="font-serif font-bold text-2xl text-primary">Etthos</h2>
-                <p className="text-muted-foreground text-sm">Publisher of the Etthos Journal of Psychology</p>
+                <p className="text-muted-foreground text-sm">Publisher of the Etthos Journal Of Health, Behavior and Applied Psychology</p>
               </div>
             </div>
             <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">

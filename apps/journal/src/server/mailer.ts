@@ -30,7 +30,7 @@ export function getMailerTransporter() {
 }
 
 export function getMailerFrom() {
-  return `"Etthos Journal" <${SMTP_USER}>`;
+  return `"Etthos Journal Of Health, Behavior and Applied Psychology" <${SMTP_USER}>`;
 }
 
 export function escapeHtml(value: string) {

@@ -20,7 +20,7 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
       <div className="absolute inset-x-0 bottom-0 h-px bg-border" />
       <div className="container relative mx-auto px-4 text-center">
         <div className="mx-auto mb-5 journal-rule" />
-        <p className="journal-kicker mb-4">Etthos Journal of Psychology</p>
+        <p className="journal-kicker mb-4">Etthos Journal Of Health, Behavior and Applied Psychology</p>
         <h1 className="mb-4 font-serif text-4xl font-semibold tracking-tight text-primary md:text-6xl">{title}</h1>
         {description && (
           <p className="mx-auto max-w-3xl text-[17px] leading-8 text-muted-foreground md:text-lg">

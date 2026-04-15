@@ -16,7 +16,7 @@ export async function LatestArticles() {
               Current Scholarship
             </p>
             <h2 className="mb-2 font-serif text-4xl font-semibold text-primary">Latest Articles</h2>
-            <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground">Browse the most recent research published in the Etthos Journal of Psychology.</p>
+            <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground">Browse the most recent research published in the Etthos Journal Of Health, Behavior and Applied Psychology.</p>
           </div>
           <Button asChild variant="ghost" className="hidden gap-2 text-secondary hover:text-secondary/80 md:flex">
             <Link href="/issues">

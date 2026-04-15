@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About the Journal",
-  description: "Learn about the Etthos Journal of Psychology — mission, scope, editorial policies, and publication frequency.",
+  description: "Learn about the Etthos Journal Of Health, Behavior and Applied Psychology — mission, scope, editorial policies, and publication frequency.",
 };
 
 export default async function AboutPage() {
@@ -23,7 +23,7 @@ export default async function AboutPage() {
     <>
       <PageHeader 
         title={aboutPage.title}
-        description={aboutPage.description || "An overview of the mission, scope, and editorial policies of the Etthos Journal of Psychology."}
+        description={aboutPage.description || "An overview of the mission, scope, and editorial policies of the Etthos Journal Of Health, Behavior and Applied Psychology."}
       />
       
       <div className="container mx-auto px-4 py-16">

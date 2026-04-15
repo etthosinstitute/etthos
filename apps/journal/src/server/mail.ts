@@ -86,7 +86,7 @@ export async function sendReviewSubmissionEmail(payload: ReviewEmailPayload) {
     ].join("\n"),
     html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">New Review Submission</h2>
-        <p>A review has been submitted through the Etthos Journal system.</p>
+        <p>A review has been submitted through the Etthos Journal Of Health, Behavior and Applied Psychology system.</p>
         <table style="border-collapse: collapse; margin: 16px 0;">
           <tr><td style="padding: 6px 12px 6px 0;"><strong>Reviewer</strong></td><td>${safeReviewerLabel}</td></tr>
           <tr><td style="padding: 6px 12px 6px 0;"><strong>Reviewer Email</strong></td><td>${safeReviewerEmail}</td></tr>
@@ -125,7 +125,7 @@ export async function sendReviewAssignmentEmail(
     text: [
       `Dear ${reviewerLabel},`,
       "",
-      `${editorLabel} has invited you to review a manuscript for Etthos Journal of Psychology.`,
+      `${editorLabel} has invited you to review a manuscript for Etthos Journal Of Health, Behavior and Applied Psychology.`,
       "",
       `Manuscript: ${payload.manuscriptTitle}`,
       `Manuscript ID: ${payload.manuscriptId}`,
@@ -137,7 +137,7 @@ export async function sendReviewAssignmentEmail(
     html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">Review Invitation</h2>
         <p>Dear ${safeReviewerLabel},</p>
-        <p>${safeEditorLabel} has invited you to review a manuscript for the Etthos Journal of Psychology.</p>
+        <p>${safeEditorLabel} has invited you to review a manuscript for the Etthos Journal Of Health, Behavior and Applied Psychology.</p>
         <table style="border-collapse: collapse; margin: 16px 0;">
           <tr><td style="padding: 6px 12px 6px 0;"><strong>Manuscript</strong></td><td>${safeTitle}</td></tr>
           <tr><td style="padding: 6px 12px 6px 0;"><strong>Manuscript ID</strong></td><td>${safeId}</td></tr>
@@ -197,11 +197,11 @@ export async function sendReviewerAccountEmail(
     from: getMailerFrom(),
     to: payload.reviewerEmail,
     replyTo: REVIEW_INBOX_EMAIL,
-    subject: "Your reviewer account for Etthos Journal",
+    subject: "Your reviewer account for Etthos Journal Of Health, Behavior and Applied Psychology",
     text: [
       `Dear ${reviewerLabel},`,
       "",
-      `${creatorLabel} has created a reviewer account for you on the Etthos Journal of Psychology platform.`,
+      `${creatorLabel} has created a reviewer account for you on the Etthos Journal Of Health, Behavior and Applied Psychology platform.`,
       "",
       `Login email: ${payload.reviewerEmail}`,
       `Temporary password: ${payload.tempPassword}`,
@@ -212,7 +212,7 @@ export async function sendReviewerAccountEmail(
     html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">Reviewer Account Created</h2>
         <p>Dear ${escapeHtml(reviewerLabel)},</p>
-        <p>${escapeHtml(creatorLabel)} has created a reviewer account for you on the Etthos Journal of Psychology platform.</p>
+        <p>${escapeHtml(creatorLabel)} has created a reviewer account for you on the Etthos Journal Of Health, Behavior and Applied Psychology platform.</p>
         <table style="border-collapse: collapse; margin: 16px 0;">
           <tr><td style="padding: 6px 12px 6px 0;"><strong>Login email</strong></td><td>${escapeHtml(payload.reviewerEmail)}</td></tr>
           <tr><td style="padding: 6px 12px 6px 0;"><strong>Temporary password</strong></td><td>${escapeHtml(payload.tempPassword)}</td></tr>
@@ -233,11 +233,11 @@ export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload)
     from: getMailerFrom(),
     to: payload.email,
     replyTo: REVIEW_INBOX_EMAIL,
-    subject: "Reset your Etthos Journal password",
+    subject: "Reset your Etthos Journal Of Health, Behavior and Applied Psychology password",
     text: [
       `Dear ${recipientLabel},`,
       "",
-      "We received a request to reset your Etthos Journal password.",
+      "We received a request to reset your Etthos Journal Of Health, Behavior and Applied Psychology password.",
       `Reset link: ${payload.resetUrl}`,
       "",
       "This link expires in 1 hour. If you did not request this, you can ignore this email.",
@@ -245,7 +245,7 @@ export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload)
     html: wrapHtmlEmail(`
         <h2 style="margin-bottom: 12px;">Reset your password</h2>
         <p>Dear ${escapeHtml(recipientLabel)},</p>
-        <p>We received a request to reset your Etthos Journal password.</p>
+        <p>We received a request to reset your Etthos Journal Of Health, Behavior and Applied Psychology password.</p>
         <p>
           <a href="${escapeHtml(payload.resetUrl)}" style="display:inline-block;padding:10px 16px;border-radius:999px;background:#1f5f5b;color:#ffffff;text-decoration:none;">
             Reset Password

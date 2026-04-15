@@ -8,7 +8,7 @@ import { ServiceHero } from "../../components/ServiceHero";
 import { ServiceCard } from "../../components/ServiceCard";
 import { ServiceCTA } from "../../components/ServiceCTA";
 import { counsellingServices } from "../../lib/counselling-services";
-import { Heart, Phone, Activity, Building2, ClipboardCheck } from "lucide-react";
+import { Heart } from "lucide-react";
 
 const serviceIcons: Record<string, React.ReactNode> = {
   "on-call-text-in-person": <span className="text-2xl">📞</span>,

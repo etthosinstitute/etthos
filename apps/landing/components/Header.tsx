@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@repo/ui/logo";
 import { useTheme } from "./theme-provider";
@@ -14,13 +14,7 @@ const navLinks = [
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const { theme, toggleTheme } = useTheme();
-
-  // Prevent hydration mismatch by only rendering theme-dependent content after mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <>
@@ -58,7 +52,7 @@ export const Header = () => {
               className="rounded-full border border-slate-200/60 dark:border-white/10 p-2 hover:bg-surface-soft transition-colors" 
               aria-label="Toggle theme"
             >
-              {mounted ? (theme === "dark" ? "☀️" : "🌙") : <span className="w-4 h-4 block" />}
+              {theme === "dark" ? "☀️" : "🌙"}
             </button>
           </div>
 
@@ -69,7 +63,7 @@ export const Header = () => {
               className="rounded-full border border-slate-200/60 dark:border-white/10 p-2" 
               aria-label="Toggle theme"
             >
-              {mounted ? (theme === "dark" ? "☀️" : "🌙") : <span className="w-4 h-4 block" />}
+              {theme === "dark" ? "☀️" : "🌙"}
             </button>
             <button 
               className="text-2xl p-2" 

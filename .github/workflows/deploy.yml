@@ -1,0 +1,152 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      journal: ${{ steps.filter.outputs.journal }}
+      landing: ${{ steps.filter.outputs.landing }}
+      shared: ${{ steps.filter.outputs.shared }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            journal:
+              - 'apps/journal/**'
+            landing:
+              - 'apps/landing/**'
+            shared:
+              - 'packages/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
+
+  deploy-landing-vercel:
+    name: Deploy landing to Vercel
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.landing == 'true' || needs.changes.outputs.shared == 'true'
+
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_LANDING_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "${DEPLOY_HOOK_URL}" ]; then
+            echo "Missing secret VERCEL_LANDING_DEPLOY_HOOK_URL"
+            exit 1
+          fi
+
+          curl --fail --show-error --silent -X POST "${DEPLOY_HOOK_URL}"
+          echo "Landing deploy hook triggered."
+
+  deploy-journal-ec2:
+    name: Deploy journal to EC2 (AWS SSM)
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.journal == 'true' || needs.changes.outputs.shared == 'true'
+    permissions:
+      id-token: write
+      contents: read
+    environment: production
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Validate required deployment settings
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          INSTANCE_ID: ${{ secrets.AWS_EC2_INSTANCE_ID }}
+          DEPLOY_PATH: ${{ vars.JOURNAL_DEPLOY_PATH }}
+          RESTART_CMD: ${{ vars.JOURNAL_RESTART_COMMAND }}
+        run: |
+          test -n "${AWS_REGION}" || (echo "Missing variable AWS_REGION" && exit 1)
+          test -n "${INSTANCE_ID}" || (echo "Missing secret AWS_EC2_INSTANCE_ID" && exit 1)
+          test -n "${DEPLOY_PATH}" || (echo "Missing variable JOURNAL_DEPLOY_PATH" && exit 1)
+          test -n "${RESTART_CMD}" || (echo "Missing variable JOURNAL_RESTART_COMMAND" && exit 1)
+
+      - name: Deploy on EC2 through SSM
+        env:
+          INSTANCE_ID: ${{ secrets.AWS_EC2_INSTANCE_ID }}
+          DEPLOY_PATH: ${{ vars.JOURNAL_DEPLOY_PATH }}
+          RESTART_CMD: ${{ vars.JOURNAL_RESTART_COMMAND }}
+          SHA: ${{ github.sha }}
+        run: |
+          COMMANDS=$(cat <<JSON
+          [
+            "set -euo pipefail",
+            "cd ${DEPLOY_PATH}",
+            "git fetch --all --prune",
+            "git checkout ${SHA}",
+            "git reset --hard ${SHA}",
+            "pnpm install --frozen-lockfile",
+            "if [ -d packages/database/prisma/migrations ]; then pnpm --dir packages/database exec prisma migrate deploy; fi",
+            "pnpm --filter @repo/database db:generate",
+            "pnpm --filter journal build",
+            "${RESTART_CMD}",
+            "echo Journal deploy completed for ${SHA}"
+          ]
+          JSON
+          )
+
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "${INSTANCE_ID}" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Journal deploy ${SHA}" \
+            --parameters "commands=${COMMANDS}" \
+            --query "Command.CommandId" \
+            --output text)
+
+          echo "SSM command id: ${COMMAND_ID}"
+
+          aws ssm wait command-executed \
+            --command-id "${COMMAND_ID}" \
+            --instance-id "${INSTANCE_ID}"
+
+          STATUS=$(aws ssm list-command-invocations \
+            --command-id "${COMMAND_ID}" \
+            --details \
+            --query "CommandInvocations[0].Status" \
+            --output text)
+
+          echo "SSM status: ${STATUS}"
+          if [ "${STATUS}" != "Success" ]; then
+            aws ssm list-command-invocations \
+              --command-id "${COMMAND_ID}" \
+              --details \
+              --query "CommandInvocations[0].CommandPlugins[0].Output" \
+              --output text
+            exit 1
+          fi
+
+      - name: Post-deploy health check
+        env:
+          HEALTHCHECK_URL: ${{ vars.JOURNAL_HEALTHCHECK_URL }}
+        run: |
+          if [ -z "${HEALTHCHECK_URL}" ]; then
+            echo "JOURNAL_HEALTHCHECK_URL not set, skipping health check."
+            exit 0
+          fi
+
+          curl --fail --show-error --silent "${HEALTHCHECK_URL}" >/dev/null
+          echo "Health check passed."

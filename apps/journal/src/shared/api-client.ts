@@ -2,7 +2,7 @@
 export async function apiRequest<T>(
   endpoint: string,
   method: string = "GET",
-  body?: any
+  body?: unknown
 ): Promise<T> {
   const options: RequestInit = {
     method,
@@ -16,10 +16,13 @@ export async function apiRequest<T>(
   }
 
   const response = await fetch(endpoint, options);
-  const data = await response.json();
+  const data: unknown = await response.json();
 
   if (!response.ok) {
-    const errorPayload = data?.error;
+    const errorPayload =
+      typeof data === "object" && data !== null && "error" in data
+        ? (data as { error?: unknown }).error
+        : undefined;
 
     if (Array.isArray(errorPayload)) {
       const firstIssue = errorPayload[0];
@@ -34,8 +37,13 @@ export async function apiRequest<T>(
       throw new Error(errorPayload);
     }
 
-    if (errorPayload && typeof errorPayload.message === "string") {
-      throw new Error(errorPayload.message);
+    if (
+      typeof errorPayload === "object" &&
+      errorPayload !== null &&
+      "message" in errorPayload &&
+      typeof (errorPayload as { message?: unknown }).message === "string"
+    ) {
+      throw new Error((errorPayload as { message: string }).message);
     }
 
     throw new Error("Something went wrong");

@@ -33,7 +33,7 @@ const RefundPolicyPage = () => {
                   <span className="text-brand-cyan mr-2">1.</span>Our Commitment
                 </h2>
                 <p className="text-text-muted leading-relaxed">
-                  We truly appreciate the opportunity to serve you and are committed to delivering the highest standard of service in everything we do. If for any reason you are not fully satisfied with our service, we're here to help.
+                  We truly appreciate the opportunity to serve you and are committed to delivering the highest standard of service in everything we do. If for any reason you are not fully satisfied with our service, we&apos;re here to help.
                 </p>
               </section>
 

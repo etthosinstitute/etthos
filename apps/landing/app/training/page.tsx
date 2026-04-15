@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { trainingCourses, TrainingCourseCategory } from "../../lib/training-courses";
-import { ArrowRight, Clock, BookOpen, Sparkles, GraduationCap, Users, Briefcase } from "lucide-react";
+import { ArrowRight, Clock, Sparkles, GraduationCap, Users, Briefcase } from "lucide-react";
 
 const TrainingPage = () => {
   // Group courses by category

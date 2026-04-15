@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/server/auth";
 import { enforceRateLimit } from "@/server/rate-limit";
 import { saveManuscriptFile } from "@/server/storage";
+import { handleRouteError } from "@/shared/utils";
 
 export async function POST(req: NextRequest) {
   const user = await requireAuth(req);
@@ -28,11 +29,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ file: uploaded }, { status: 201 });
   } catch (error) {
     console.error("Manuscript upload error:", error);
-    return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Failed to upload manuscript",
-      },
-      { status: 400 }
-    );
+    return handleRouteError(error);
   }
 }

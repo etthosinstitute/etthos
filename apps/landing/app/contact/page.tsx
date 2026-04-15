@@ -62,7 +62,7 @@ const ContactPage = () => {
           <div className="relative z-10 mx-auto max-w-[1440px] px-4 md:px-10 text-center">
             <div className="inline-block mb-6 px-6 py-2 rounded-full bg-brand-cyan/10 dark:bg-brand-cyan/20 border border-brand-cyan/30 backdrop-blur-sm">
               <span className="text-brand-cyan text-sm font-semibold tracking-wider uppercase">
-                Let's Connect
+                Let&apos;s Connect
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-white">
@@ -149,7 +149,7 @@ const ContactPage = () => {
                 Send us a <span className="text-brand-cyan">Message</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                Fill out the form below and we'll get back to you as soon as
+                Fill out the form below and we&apos;ll get back to you as soon as
                 possible.
               </p>
             </div>

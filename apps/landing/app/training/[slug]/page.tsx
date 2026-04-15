@@ -10,7 +10,6 @@ import {
   Monitor, 
   Award, 
   CheckCircle2, 
-  BookOpen, 
   HelpCircle,
   Mail,
   ChevronRight

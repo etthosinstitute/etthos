@@ -6,7 +6,7 @@ module.exports = {
       script: "bash",
       args: [
         "-lc",
-        "pnpm --filter journal run build && pnpm --filter journal run start -- --port 3000",
+        "pnpm --filter journal run build && pnpm --filter journal exec next start -H 0.0.0.0 -p 3000",
       ],
       interpreter: "none",
       exec_mode: "fork",
@@ -17,6 +17,7 @@ module.exports = {
       restart_delay: 5000,
       env: {
         NODE_ENV: "production",
+        HOSTNAME: "0.0.0.0",
         PORT: "3000",
       },
       time: true,

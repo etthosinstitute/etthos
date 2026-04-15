@@ -2,11 +2,9 @@ module.exports = {
   apps: [
     {
       name: "journal",
-      cwd: __dirname,
+      cwd: `${__dirname}/apps/journal`,
       script: "pnpm",
       args: [
-        "--filter",
-        "journal",
         "exec",
         "next",
         "start",

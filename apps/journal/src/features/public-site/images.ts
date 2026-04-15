@@ -1,17 +1,17 @@
 import type { StaticImageData } from "next/image";
 
-import drAkshay from "../../lib/editorial_board/dr-akshay.jpeg";
-import drAlkaPandey from "../../lib/editorial_board/dr-alka-pandey.png";
-import drAnnu from "../../lib/editorial_board/dr_annu.jpeg";
-import drAishwarya from "../../lib/editorial_board/dr_aishwarya.jpeg";
-import drLuxita from "../../lib/editorial_board/dr_luxita.jpeg";
-import drNeha from "../../lib/editorial_board/dr_neha.jpeg";
-import drPoojaRana from "../../lib/editorial_board/Dr_pooja_rana.jpeg";
-import drPriyanka from "../../lib/editorial_board/dr_priyanka.jpeg";
-import drSanjay from "../../lib/editorial_board/dr_sanjay.jpeg";
-import profDevara from "../../lib/editorial_board/prof-devara.jpeg";
-import ramVinayTiwari from "../../lib/founders/ram-vinay-tiwari.jpeg";
-import vishalAnand from "../../lib/founders/vishal-anand.jpeg";
+import drAkshay from "../../../lib/editorial_board/dr-akshay.jpeg";
+import drAlkaPandey from "../../../lib/editorial_board/dr-alka-pandey.png";
+import drAnnu from "../../../lib/editorial_board/dr_annu.jpeg";
+import drAishwarya from "../../../lib/editorial_board/dr_aishwarya.jpeg";
+import drLuxita from "../../../lib/editorial_board/dr_luxita.jpeg";
+import drNeha from "../../../lib/editorial_board/dr_neha.jpeg";
+import drPoojaRana from "../../../lib/editorial_board/Dr_pooja_rana.jpeg";
+import drPriyanka from "../../../lib/editorial_board/dr_priyanka.jpeg";
+import drSanjay from "../../../lib/editorial_board/dr_sanjay.jpeg";
+import profDevara from "../../../lib/editorial_board/prof-devara.jpeg";
+import ramVinayTiwari from "../../../lib/founders/ram-vinay-tiwari.jpeg";
+import vishalAnand from "../../../lib/founders/vishal-anand.jpeg";
 
 const editorialImageMap: Record<string, StaticImageData> = {
   "/editorial-board/dr-akshay.jpeg": drAkshay,

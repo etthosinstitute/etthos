@@ -17,13 +17,13 @@ export function ArticleCard({ article }: { article: PublicArticle }) {
           {article.date}
         </div>
       </div>
-      
+
       <h3 className="journal-title mb-4 text-[1.9rem] leading-[1.16] transition-colors group-hover:text-secondary line-clamp-3">
         <Link href={`/articles/${article.slug}`}>
           {article.title}
         </Link>
       </h3>
-      
+
       <div className="mb-4 flex flex-wrap items-center gap-x-1 text-[15px] text-[hsl(var(--ink-soft))]">
         <User className="h-3.5 w-3.5 mr-1 shrink-0" />
         {article.authors.map((a, i) => (

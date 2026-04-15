@@ -1,135 +1,132 @@
-# Turborepo starter
+# Etthos Platform Monorepo 🚀
 
-This Turborepo starter is maintained by the Turborepo core team.
+<div align="center">
 
-## Using this example
+**Production-grade academic journal and public landing platform**
 
-Run the following command:
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Turborepo](https://img.shields.io/badge/Turborepo-Monorepo-EF4444)](https://turbo.build/repo)
+[![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)](https://www.prisma.io/)
+[![ISSN Compliant](https://img.shields.io/badge/ISSN-Compliant-green)](https://www.issn.org/)
 
-```sh
-npx create-turbo@latest
+[Quick Start](#quick-start) • [Workspace Structure](#workspace-structure) • [Journal System](#journal-system) • [Deployment](#deployment)
+
+</div>
+
+---
+
+## Overview
+
+Etthos is a comprehensive, production-ready web ecosystem built upon a modern Turborepo monorepo architecture. 
+
+It powers two core applications:
+1. **Etthos Landing (`apps/landing`)**: The public-facing corporate platform providing general information about the Etthos broader ecosystem.
+2. **Etthos Journal System (`apps/journal`)**: A comprehensive, **ISSN India-compliant** academic journal platform specifically engineered to drive psychology research dissemination and peer-reviewed publishing.
+
+---
+
+## Workspace Structure
+
+This repository uses [Turborepo](https://turbo.build/repo) to manage a full-stack Next.js environment.
+
+```text
+etthos-1/
+├── apps/
+│   ├── landing/          # Main corporate website (etthos.com)
+│   └── journal/          # Journal system (journal.etthos.com)
+└── packages/
+    ├── database/         # Shared Prisma schema & bindings
+    ├── ui/               # Shared Radix/Tailwind components
+    ├── assets/           # Shared static assets 
+    ├── eslint-config/    # Shared linting
+    └── typescript-config/# Shared tsconfig configurations
 ```
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## Quick Start
 
-### Apps and Packages
+### Prerequisites
+- Node.js 20+
+- `pnpm` 8+
+- PostgreSQL 15+ (Local or Vercel Postgres)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Installation
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+```bash
+# 1. Clone & Install
+git clone <repository-url>
+cd etthos-1
+pnpm install
 
-### Utilities
+# 2. Setup Environment Variables
+cp apps/journal/.env.example apps/journal/.env.local
+# Edit .env.local with your standard database strings
 
-This Turborepo has some additional tools already setup for you:
+# 3. Provision Database
+cd packages/database
+pnpm db:generate
+pnpm prisma migrate dev --name init
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+# 4. Optional: Seed Journal Data
+cd ../../apps/journal
+pnpm tsx scripts/seed-journal.ts
 
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+# 5. Start Development Servers
+cd ../..
+pnpm dev
+# Alternatively, start an individual app:
+# pnpm dev --filter=journal
 ```
 
-### Develop
+---
 
-To develop all apps and packages, run the following command:
+## The Journal System 📚
 
-```
-cd my-turborepo
+The **Etthos Journal System** (`journal.etthos.com`) is the flagship application in this ecosystem. It serves as an end-to-end management and public-viewing platform tailored specifically to peer-reviewed Psychology research.
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+### Core Features
+- ✅ **ISSN India Compliant:** Designed natively to meet rigorous regulatory demands including hardcoded minimum issues, volume tracking, publisher verifications, and permanent URLs.
+- 📄 **Article Management:** End-to-end PDF processing, DOIs, references, and citation extraction (APA, MLA, IEEE, BibTeX).
+- 👥 **Editorial Control:** Detailed public profiles for editorial boards linking affiliations and ORCIDs.
+- 🚀 **SEO & Schema.org Optimization:** Integrated metadata specifically formatted for Google Scholar (`citation_*` tags) and OpenGraph indexing.
+- 🔒 **Secure Architecture:** Built on JWTs, Vercel Blob security protocols for PDFs, and robust ORM injection protection.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+### Journal Architecture
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+The architecture functions atop a hierarchical data model leveraging **Prisma** to manage publishing cycles:
+`Journal (Singleton) → Volumes (Annual) → Issues (Periodic) → Articles (Specific Papers)`
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+#### Directory Access (Routing)
+- **`/`**: Issue spotlights and hero discovery.
+- **`/issues`**: Archive directories.
+- **`/articles`**: Paginable research tables including rich PDF viewer routes (`/articles/[slug]`).
+- **`/editorial-board`**: Mandated board visualization.
+- **`/admin/*`**: Secured (JWT) administration panels covering Issue generation, author management, and PDF assignments.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+### Security & Data Protection
+- **Vercel Blob Storage:** Used securely for hosting PDFs; implements URL signing against unauthorized access.
+- **Rate-Limiting:** Active Next.js API route rate limiters guarding open APIs.
+- **Type-Safety:** 100% end-to-end safety spanning from PostgreSQL tables through tRPC/Next-API responses into React Server Components via Zod validation.
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## Deployment Configuration
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Both applications deploy seamlessly to the Vercel edge network using native Next.js build integrations.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+1. **Connect & Authenticate:** Ensure Vercel CLI binds your target to `journal` and `landing`.
+2. **Environment Synchronization:** Apply `DATABASE_URL` (Postgres pooling required) and `BLOB_READ_WRITE_TOKEN`.
+3. **Execution:** 
+   ```bash
+   pnpm build
+   # turbo manages cache pipelines for rapid deployments.
+   ```
+4. **Caching & Optimizations:** The Journal relies heavily on Incremental Static Regeneration (ISR). Article sheets are `SSG` permanently, whereas Issue dashboards revalidate periodically (`s-maxage=86400`) maximizing edge global performance.
 
-```
-cd my-turborepo
+---
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+<div align="center">
+  <b>Built with ❤️ by the Etthos Engineering Team</b>
+</div>

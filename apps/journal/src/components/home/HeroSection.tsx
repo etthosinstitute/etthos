@@ -17,6 +17,9 @@ export async function HeroSection() {
     getLatestPublishedIssue(),
   ]);
 
+  const heroTitleLineOne = "Etthos Journal Of";
+  const heroTitleLineTwo = "Of Health, Behavior and Applied Psychology";
+
   const heroNotice = latestIssue
     ? `${content.heroNotice} — Volume ${latestIssue.volume}, Issue ${latestIssue.issue}`
     : content.heroNotice;
@@ -56,7 +59,10 @@ export async function HeroSection() {
           {content.eyebrow}
         </p>
         <h1 className="mx-auto mb-6 max-w-5xl font-serif text-5xl font-semibold leading-[0.94] tracking-tight text-[#f7f3ec] drop-shadow-[0_10px_30px_rgba(8,15,28,0.55)] animate-fade-in-up delay-100 md:text-7xl">
-          {journalInfo.name}
+          <span className="block">{heroTitleLineOne}</span>
+          <span className="mt-1 block text-[0.58em] leading-[1.02] md:mt-2 md:text-[0.54em]">
+            {heroTitleLineTwo}
+          </span>
         </h1>
 
         <p className="mx-auto mb-10 max-w-3xl text-lg leading-8 text-[#f7f3ec]/80 animate-fade-in-up delay-200 md:text-xl">

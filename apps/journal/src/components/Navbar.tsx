@@ -118,10 +118,10 @@ export function Navbar() {
           <Link href="/" className="flex min-w-0 shrink-0 items-center gap-3">
             <Logo className="h-10 w-auto text-primary" width={80} height={28} />
             <div className="hidden min-w-0 border-l border-border/90 pl-3 min-[1320px]:block">
-              <span className="block font-serif text-[1.05rem] font-semibold leading-tight text-primary">
-                Etthos Journal Of
+              <span className="block font-serif text-[1.02rem] font-semibold leading-tight text-primary">
+                Etthos Journal
               </span>
-              <span className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+              <span className="block max-w-74 text-[9px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Of Health, Behavior and Applied Psychology
               </span>
             </div>
@@ -221,9 +221,26 @@ export function Navbar() {
               <span className="sr-only">Search</span>
             </Button>
             <div className="hidden xl:block">
-              <Button asChild size="sm" className="rounded-full bg-secondary px-4 hover:bg-secondary/90 text-secondary-foreground shadow-[0_12px_24px_-16px_hsl(var(--secondary))]">
-                <Link href="/submit">Submit Manuscript</Link>
-              </Button>
+              {currentUser ? (
+                <Button asChild size="sm" className="rounded-full bg-secondary px-4 hover:bg-secondary/90 text-secondary-foreground shadow-[0_12px_24px_-16px_hsl(var(--secondary))]">
+                  <Link href="/submit">Submit Manuscript</Link>
+                </Button>
+              ) : (
+                <div className="flex flex-col items-end gap-1">
+                  <Button
+                    type="button"
+                    size="sm"
+                    disabled
+                    title="Login or signup first"
+                    className="cursor-not-allowed rounded-full bg-secondary/55 px-4 text-secondary-foreground"
+                  >
+                    Submit Manuscript
+                  </Button>
+                  {!authLoading ? (
+                    <p className="text-[11px] text-muted-foreground">Login or signup first</p>
+                  ) : null}
+                </div>
+              )}
             </div>
             <Button
               variant="ghost"
@@ -314,11 +331,22 @@ export function Navbar() {
                     </Link>
                   </Button>
                 ) : null}
-                <Button asChild className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-                  <Link href="/submit" onClick={() => setMobileOpen(false)}>
-                    Submit Manuscript
-                  </Link>
-                </Button>
+                {currentUser ? (
+                  <Button asChild className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                    <Link href="/submit" onClick={() => setMobileOpen(false)}>
+                      Submit Manuscript
+                    </Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Button type="button" disabled className="w-full cursor-not-allowed bg-secondary/55 text-secondary-foreground">
+                      Submit Manuscript
+                    </Button>
+                    {!authLoading ? (
+                      <p className="mt-2 text-center text-xs text-muted-foreground">Login or signup first</p>
+                    ) : null}
+                  </>
+                )}
               </div>
             </div>
           </div>

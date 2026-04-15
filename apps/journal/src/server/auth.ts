@@ -47,13 +47,35 @@ export function signToken(userId: string, email: string, role: string): string {
   });
 }
 
+function shouldUseSecureCookie(req?: NextRequest): boolean {
+  if (!isProduction()) return false;
+
+  const appUrlProtocol = env.APP_URL.startsWith("https://") ? "https" : "http";
+  const forwardedProto = req?.headers.get("x-forwarded-proto")?.split(",")?.[0]?.trim();
+  const requestProtocol = req?.nextUrl.protocol.replace(":", "");
+  const effectiveProtocol = forwardedProto || requestProtocol || appUrlProtocol;
+
+  return effectiveProtocol === "https";
+}
+
 /** Attaches the auth cookie to a NextResponse. */
-export function setAuthCookie(response: NextResponse, token: string): void {
+export function setAuthCookie(response: NextResponse, token: string, req?: NextRequest): void {
   response.cookies.set("token", token, {
     httpOnly: true,
-    secure: isProduction(),
+    secure: shouldUseSecureCookie(req),
     sameSite: "strict",
     maxAge: COOKIE_MAX_AGE,
+    path: "/",
+  });
+}
+
+/** Clears the auth cookie using matching cookie attributes. */
+export function clearAuthCookie(response: NextResponse, req?: NextRequest): void {
+  response.cookies.set("token", "", {
+    httpOnly: true,
+    secure: shouldUseSecureCookie(req),
+    sameSite: "strict",
+    expires: new Date(0),
     path: "/",
   });
 }

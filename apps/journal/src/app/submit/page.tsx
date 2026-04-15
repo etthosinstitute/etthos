@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/shared/api-client";
 import { PageHeader } from "@/components/PageHeader";
@@ -17,9 +19,38 @@ export default function SubmitPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const abstractCount = formData.abstract.trim().length;
   const titleCount = formData.title.trim().length;
-  const submitReady = titleCount > 0 && abstractCount >= 50 && !!file;
+  const submitReady = titleCount > 0 && abstractCount >= 50 && !!file && isAuthenticated;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadUser() {
+      try {
+        const response = await apiRequest<{ user: { id: string } | null }>("/api/auth/me");
+        if (!cancelled) {
+          setIsAuthenticated(Boolean(response.user));
+        }
+      } catch {
+        if (!cancelled) {
+          setIsAuthenticated(false);
+        }
+      } finally {
+        if (!cancelled) {
+          setAuthLoading(false);
+        }
+      }
+    }
+
+    loadUser();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,12 +192,24 @@ export default function SubmitPage() {
               <div className="pt-4">
                 <Button
                   type="submit"
-                  disabled={loading || !submitReady}
+                  disabled={loading || !submitReady || authLoading || !isAuthenticated}
                   className="h-12 w-full text-base"
                 >
                   {loading ? "Submitting..." : "Submit Manuscript"}
                 </Button>
-                {!submitReady ? (
+                {!authLoading && !isAuthenticated ? (
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    Login or signup first to submit your manuscript. {" "}
+                    <Link href="/auth/login" className="font-medium text-primary underline-offset-2 hover:underline">
+                      Login
+                    </Link>
+                    {" "}or{" "}
+                    <Link href="/auth/signup" className="font-medium text-primary underline-offset-2 hover:underline">
+                      Signup
+                    </Link>
+                    .
+                  </p>
+                ) : !submitReady ? (
                   <p className="mt-3 text-center text-xs text-muted-foreground">
                     Add a title, an abstract of at least 50 characters, and your manuscript file to continue.
                   </p>

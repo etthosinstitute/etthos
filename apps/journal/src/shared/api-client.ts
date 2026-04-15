@@ -6,6 +6,7 @@ export async function apiRequest<T>(
 ): Promise<T> {
   const options: RequestInit = {
     method,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthUser } from "@/server/auth";
+import { clearAuthCookie, getAuthUser } from "@/server/auth";
 import { createAuditLog } from "@/server/audit";
-import { isProduction } from "@/server/env";
 import type { Role } from "@repo/database";
 
 export async function POST(req: NextRequest) {
@@ -20,14 +19,7 @@ export async function POST(req: NextRequest) {
   }
 
   const response = NextResponse.json({ success: true }, { status: 200 });
-
-  response.cookies.set("token", "", {
-    httpOnly: true,
-    secure: isProduction(),
-    sameSite: "strict",
-    expires: new Date(0),
-    path: "/",
-  });
+  clearAuthCookie(response, req);
 
   return response;
 }

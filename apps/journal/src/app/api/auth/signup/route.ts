@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 const signupSchema = z.object({
-  email: z.string().email(),
+  email: z.string().trim().email().transform((value) => value.toLowerCase()),
   password: z.string().min(6),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
@@ -25,7 +25,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { email, password, firstName, lastName } = signupSchema.parse(body);
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        email: {
+          equals: email,
+          mode: "insensitive",
+        },
+      },
+      select: { id: true },
+    });
     if (existingUser) {
       return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
@@ -58,7 +66,7 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
 
-    setAuthCookie(response, token);
+    setAuthCookie(response, token, req);
     return response;
   } catch (error) {
     console.error("Signup error:", error);

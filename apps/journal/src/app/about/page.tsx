@@ -54,24 +54,23 @@ export default async function AboutPage() {
                   const founderImage = getFounderImage(founder.image);
 
                   return (
-                  <div key={founder.name} className="rounded-[1.5rem] border border-border bg-background/70 p-5">
-                    <div className="flex items-center gap-5">
-                      <div className="relative h-24 w-24 overflow-hidden rounded-2xl border border-border">
-                        {founderImage ? (
-                          <Image
-                            src={founderImage}
-                            alt={founder.name}
-                            fill
-                            className="object-cover object-top"
-                          />
-                        ) : null}
-                      </div>
-                      <div>
-                        <h3 className="font-serif text-2xl font-bold text-primary">{founder.name}</h3>
-                        <p className="mt-1 text-sm font-medium uppercase tracking-[0.22em] text-secondary">
-                          {founder.role}
-                        </p>
-                      </div>
+                  <div key={founder.name} className="flex flex-col items-center rounded-[1.75rem] border border-border bg-background/70 p-8 text-center transition-all hover:border-secondary/30 hover:shadow-[0_20px_50px_-30px_rgba(19,34,56,0.3)]">
+                    <div className="relative h-64 w-64 shrink-0 overflow-hidden rounded-2xl border border-border bg-[hsl(var(--highlight)/0.05)] mb-6">
+                      {founderImage ? (
+                        <Image
+                          src={founderImage}
+                          alt={founder.name}
+                          fill
+                          className="object-contain p-2"
+                        />
+                      ) : null}
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <h3 className="font-serif text-2xl font-bold text-primary tracking-tight">{founder.name}</h3>
+                      <div className="mt-3 h-px w-12 bg-secondary/30" />
+                      <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-secondary">
+                        {founder.role}
+                      </p>
                     </div>
                   </div>
                 );

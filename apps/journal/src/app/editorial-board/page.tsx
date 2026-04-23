@@ -32,7 +32,7 @@ export default async function EditorialBoardPage() {
         {/* All Board Members */}
         <div className="space-y-8">
           {sortedBoard.map((member) => {
-            const editorialImage = getEditorialImage(member.image);
+            const editorialImage = getEditorialImage(member.image, member.id);
 
             return (
             <div
@@ -46,12 +46,12 @@ export default async function EditorialBoardPage() {
                     <Image
                       src={editorialImage}
                       alt={member.name}
-                      width={120}
-                      height={120}
-                      className="h-28 w-28 rounded-2xl object-cover border border-border shadow-sm"
+                      width={176}
+                      height={176}
+                      className="h-48 w-48 rounded-2xl object-contain bg-[hsl(var(--highlight)/0.05)] border border-border p-2 shadow-sm"
                     />
                   ) : (
-                    <div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-[hsl(var(--highlight)/0.12)] text-3xl font-serif font-bold text-[hsl(var(--highlight))]">
+                    <div className="flex h-48 w-48 items-center justify-center rounded-2xl bg-[hsl(var(--highlight)/0.12)] text-4xl font-serif font-bold text-[hsl(var(--highlight))]">
                       {member.name
                         .replace(/^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*(\(Dr\.\))?\s*/i, "")
                         .charAt(0)}

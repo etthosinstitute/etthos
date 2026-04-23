@@ -228,8 +228,6 @@ export async function POST(
     revalidatePath("/articles");
     revalidatePath(`/articles/${result.article.slug}`);
     revalidatePath("/dashboard");
-    revalidateTag("articles");
-    revalidateTag("issues");
 
     await createAuditLog({
       actorId: user.userId,

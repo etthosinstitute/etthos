@@ -1,4 +1,4 @@
-import type { GuidelinesContent } from "../features/public-site/types";
+import type { GuidelinesContent } from "../types";
 
 export const guidelinesContent: GuidelinesContent = {
   sections: [

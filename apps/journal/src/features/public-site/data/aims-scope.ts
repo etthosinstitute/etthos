@@ -1,4 +1,4 @@
-import type { AimsScopeContent } from "../features/public-site/types";
+import type { AimsScopeContent } from "../types";
 
 export const aimsScopeContent: AimsScopeContent = {
   aimsParagraphs: [

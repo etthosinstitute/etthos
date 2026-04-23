@@ -1,4 +1,4 @@
-import type { HomeContent } from "../features/public-site/types";
+import type { HomeContent } from "../types";
 
 export const homeContent: HomeContent = {
   eyebrow: "Welcome to",

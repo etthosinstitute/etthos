@@ -1,4 +1,4 @@
-import type { ContactContent } from "../features/public-site/types";
+import type { ContactContent } from "../types";
 
 export const contactContent: ContactContent = {
   formIntro: "We would love to hear from you. Please select the subject of your inquiry and fill out the form below.",

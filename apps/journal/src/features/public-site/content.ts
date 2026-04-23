@@ -1,11 +1,11 @@
 import { cache } from "react";
-import { homeContent } from "../../content/home";
-import { aboutContent } from "../../content/about";
-import { aimsScopeContent } from "../../content/aims-scope";
-import { guidelinesContent } from "../../content/guidelines";
-import { policiesContent } from "../../content/policies";
-import { contactContent } from "../../content/contact";
-import { publisherContent } from "../../content/publisher";
+import { homeContent } from "./data/home";
+import { aboutContent } from "./data/about";
+import { aimsScopeContent } from "./data/aims-scope";
+import { guidelinesContent } from "./data/guidelines";
+import { policiesContent } from "./data/policies";
+import { contactContent } from "./data/contact";
+import { publisherContent } from "./data/publisher";
 
 export const getHomeContent = cache(async () => ({
   title: "Home",

@@ -36,6 +36,7 @@ export function Navbar() {
     firstName?: string | null;
     lastName?: string | null;
     role: string;
+    isReviewer?: boolean;
   } | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -52,6 +53,7 @@ export function Navbar() {
             firstName?: string | null;
             lastName?: string | null;
             role: string;
+            isReviewer?: boolean;
           } | null;
         }>("/api/auth/me");
 
@@ -104,7 +106,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               className="font-semibold text-primary hover:text-secondary transition-colors inline-flex items-center gap-1"
             >
-              Etthos <ExternalLink className="h-3 w-3" />
+              Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd <ExternalLink className="h-3 w-3" />
             </a>
           </span>
           <span className="hidden sm:inline text-muted-foreground">

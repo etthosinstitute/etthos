@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Brain, Globe, Shield } from "lucide-react";
-import { getHomeContent, getJournalInfo, getLatestPublishedIssue } from "@/features/public-site/queries";
+import { HERO_CONFIG } from "@/features/public-site/static-config";
+import { getHomeContent, getLatestPublishedIssue } from "@/features/public-site/queries";
 
 const iconMap = {
   "book-open": BookOpen,
@@ -11,14 +12,13 @@ const iconMap = {
 } as const;
 
 export async function HeroSection() {
-  const [{ content }, journalInfo, latestIssue] = await Promise.all([
+  const [{ content }, latestIssue] = await Promise.all([
     getHomeContent(),
-    getJournalInfo(),
     getLatestPublishedIssue(),
   ]);
 
-  const heroTitleLineOne = "Etthos Journal Of";
-  const heroTitleLineTwo = "Of Health, Behavior and Applied Psychology";
+  const heroTitleLineOne = HERO_CONFIG.titleLineOne;
+  const heroTitleLineTwo = HERO_CONFIG.titleLineTwo;
 
   const heroNotice = latestIssue
     ? `${content.heroNotice} — Volume ${latestIssue.volume}, Issue ${latestIssue.issue}`

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Etthos Journal Of Health, Behavior and Applied Psychology",
   },
   description:
-    "Etthos Journal Of Health, Behavior and Applied Psychology (EJP) is a peer-reviewed, open-access academic journal published by Etthos, dedicated to advancing research in psychology and behavioural sciences.",
+    "Etthos Journal Of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd, dedicated to advancing research in psychology and behavioural sciences.",
   metadataBase: new URL("https://journal.etthos.com"),
   openGraph: {
     type: "website",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "Etthos Journal Of Health, Behavior and Applied Psychology",
     title: "Etthos Journal Of Health, Behavior and Applied Psychology",
     description:
-      "A peer-reviewed, open-access journal publishing original research in psychology and behavioural sciences. Published by Etthos.",
+      "A peer-reviewed, open-access journal publishing original research in psychology and behavioural sciences. Published by Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd.",
   },
   twitter: {
     card: "summary_large_image",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
   other: {
     "citation_journal_title": "Etthos Journal Of Health, Behavior and Applied Psychology",
-    "citation_publisher": "Etthos",
+    "citation_publisher": "Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd",
     "citation_language": "en",
   },
 };

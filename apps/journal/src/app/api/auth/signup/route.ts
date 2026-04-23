@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
         firstName,
         lastName,
         role: "AUTHOR",
+        isReviewer: false,
         isActive: true,
       },
     });
@@ -61,6 +62,7 @@ export async function POST(req: NextRequest) {
           firstName: user.firstName,
           lastName: user.lastName,
           role: user.role,
+          isReviewer: user.isReviewer,
         },
       },
       { status: 201 }

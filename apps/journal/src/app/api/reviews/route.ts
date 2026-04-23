@@ -94,7 +94,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Manuscript not found" }, { status: 404 });
     }
 
-    if (assignment && assignment.reviewerId !== user.userId && user.role === "REVIEWER") {
+    const canModerateReviews =
+      user.role === "EDITOR" || user.role === "ADMIN" || user.role === "SUPER_ADMIN";
+
+    if (assignment && assignment.reviewerId !== user.userId && !canModerateReviews) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 

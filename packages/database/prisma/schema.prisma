@@ -9,12 +9,12 @@ datasource db {
 
 model Journal {
   id               String   @id @default(cuid())
-  name             String   @default("Etthos Journal of Psychology")
-  shortName        String   @default("EJP")
+  name             String   @default("Etthos Journal Of Health, Behavior and Applied Psychology")
+  shortName        String   @default("EJHBAP")
   description      String?
   issn             String?  @unique
   eissn            String?  @unique
-  publisher        String   @default("Etthos")
+  publisher        String   @default("Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd")
   frequency        String   @default("Quarterly")
   language         String   @default("English")
   country          String   @default("India")
@@ -333,6 +333,7 @@ model User {
   firstName          String?
   lastName           String?
   role               Role               @default(AUTHOR)
+  isReviewer         Boolean            @default(false)
   isActive           Boolean            @default(true)
   lastLoginAt        DateTime?
   createdAt          DateTime           @default(now())

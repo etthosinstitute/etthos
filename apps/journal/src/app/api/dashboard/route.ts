@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
         firstName: true,
         lastName: true,
         role: true,
+        isReviewer: true,
       },
     });
 
@@ -24,8 +25,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const reviewerRoles: Role[] = ["REVIEWER", "EDITOR", "ADMIN"];
-    const isEditor = user.role === "EDITOR" || user.role === "ADMIN";
+    const reviewerRoles: Role[] = ["REVIEWER", "EDITOR", "ADMIN", "SUPER_ADMIN"];
+    const isEditor = user.role === "EDITOR" || user.role === "ADMIN" || user.role === "SUPER_ADMIN";
 
     const [myManuscripts, pendingAssignments, submittedReviews, reviewerDirectory, editorManuscripts, auditLogs] =
       await Promise.all([
@@ -64,7 +65,10 @@ export async function GET(req: NextRequest) {
         }),
         isEditor
           ? prisma.user.findMany({
-              where: { role: { in: reviewerRoles }, isActive: true },
+              where: {
+                isActive: true,
+                OR: [{ role: { in: reviewerRoles } }, { isReviewer: true }],
+              },
               select: REVIEWER_SELECT,
               orderBy: [{ role: "asc" }, { firstName: "asc" }],
             })

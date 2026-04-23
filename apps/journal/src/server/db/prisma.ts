@@ -17,6 +17,7 @@ export const REVIEWER_SELECT = {
   lastName: true,
   email: true,
   role: true,
+  isReviewer: true,
 } as const;
 
 /** Shared manuscript include block used by dashboard and manuscripts routes. */

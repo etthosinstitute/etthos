@@ -24,6 +24,13 @@ export async function POST(req: NextRequest) {
   const user = await requireAuth(req);
   if (user instanceof NextResponse) return user;
 
+  if (user.role !== "AUTHOR") {
+    return NextResponse.json(
+      { error: "Only author accounts can submit manuscripts." },
+      { status: 403 }
+    );
+  }
+
   const limited = enforceRateLimit(req, {
     bucket: "manuscript:create",
     key: user.userId,

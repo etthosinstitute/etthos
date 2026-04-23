@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/server/db/prisma";
 import { requireAuth } from "@/server/auth";
 import { handleRouteError, slugify } from "@/shared/utils";
@@ -228,6 +228,8 @@ export async function POST(
     revalidatePath("/articles");
     revalidatePath(`/articles/${result.article.slug}`);
     revalidatePath("/dashboard");
+    revalidateTag("articles");
+    revalidateTag("issues");
 
     await createAuditLog({
       actorId: user.userId,

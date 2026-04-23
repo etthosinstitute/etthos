@@ -21,7 +21,7 @@ export async function POST(
   const user = await requireAuth(req);
   if (user instanceof NextResponse) return user;
 
-  if (user.role !== "ADMIN" && user.role !== "EDITOR") {
+  if (user.role !== "ADMIN" && user.role !== "EDITOR" && user.role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
 
@@ -58,7 +58,11 @@ export async function POST(
 
     if (
       !reviewer ||
-      (reviewer.role !== "REVIEWER" && reviewer.role !== "EDITOR" && reviewer.role !== "ADMIN")
+      (!reviewer.isReviewer &&
+        reviewer.role !== "REVIEWER" &&
+        reviewer.role !== "EDITOR" &&
+        reviewer.role !== "ADMIN" &&
+        reviewer.role !== "SUPER_ADMIN")
     ) {
       return NextResponse.json({ error: "Reviewer not found" }, { status: 404 });
     }

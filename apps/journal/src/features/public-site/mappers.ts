@@ -1,7 +1,7 @@
 import type { Prisma } from "@repo/database";
 import { fullName } from "@/shared/utils";
 import type { JournalInfo, PublicArticle, PublicBoardMember, PublicIssue } from "./types";
-import type { EditorialBoardMemberData } from "./fallback-data";
+import { EDITORIAL_IMAGE_OVERRIDES } from "./static-config";
 
 export const articleInclude = {
   issue: {
@@ -168,9 +168,11 @@ export function mapArticle(article: ArticleRecord) {
 }
 
 export function mapBoardMember(member: BoardMemberRecord) {
+  const slug = createPersonSlug(member.firstName, member.lastName);
+
   return {
     id: member.id,
-    slug: createPersonSlug(member.firstName, member.lastName),
+    slug,
     name: fullName(member.firstName, member.lastName, member.email),
     title: member.title,
     role: formatBoardRole(member.role),
@@ -179,30 +181,7 @@ export function mapBoardMember(member: BoardMemberRecord) {
     institution: member.affiliation.institution,
     email: member.email,
     country: member.country,
-    image: member.profileImageUrl,
-    orcid: member.orcid,
-    expertise: member.expertise,
-    biography: member.biography,
-    displayOrder: member.displayOrder,
-  } satisfies PublicBoardMember;
-}
-
-export function mapStaticBoardMember(member: EditorialBoardMemberData) {
-  return {
-    id: member.id,
-    slug: createPersonSlug(
-      member.name.replace(/^(Prof\.\s*\(Dr\.\)|Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*/i, "").split(" ")[0] || member.name,
-      member.name.replace(/^(Prof\.\s*\(Dr\.\)|Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*/i, "").split(" ").slice(1).join(" ")
-    ),
-    name: member.name,
-    title: member.title,
-    role: member.role,
-    designation: member.designation,
-    department: member.department,
-    institution: member.institution,
-    email: member.email,
-    country: member.country,
-    image: member.image,
+    image: member.profileImageUrl || EDITORIAL_IMAGE_OVERRIDES[slug] || null,
     orcid: member.orcid,
     expertise: member.expertise,
     biography: member.biography,

@@ -16,7 +16,8 @@ type DashboardData = {
     email: string;
     firstName?: string | null;
     lastName?: string | null;
-    role: "AUTHOR" | "REVIEWER" | "EDITOR" | "ADMIN";
+    role: "AUTHOR" | "REVIEWER" | "EDITOR" | "ADMIN" | "SUPER_ADMIN";
+    isReviewer?: boolean;
   };
   author: {
     manuscripts: ManuscriptRecord[];
@@ -38,6 +39,7 @@ type ReviewerRecord = {
   lastName?: string | null;
   email: string;
   role: string;
+  isReviewer?: boolean;
 };
 
 type ManuscriptRecord = {
@@ -344,9 +346,10 @@ export default function DashboardPage() {
       setBusyKey("create-reviewer");
       setMessage(null);
       const response = await apiRequest<{
-        tempPassword: string;
+        tempPassword?: string;
         emailSent?: boolean;
         emailError?: string | null;
+        action: "created" | "promoted";
       }>("/api/reviewers", "POST", reviewerForm);
 
       setReviewerForm({
@@ -357,9 +360,14 @@ export default function DashboardPage() {
 
       setMessage({
         tone: response.emailSent ? "success" : "info",
-        text: response.emailSent
-          ? `Reviewer account created and credentials emailed. Temporary password: ${response.tempPassword}`
-          : `Reviewer account created. Temporary password: ${response.tempPassword}${response.emailError ? `, but email failed: ${response.emailError}` : ""}`,
+        text:
+          response.action === "promoted"
+            ? response.emailSent
+              ? "Reviewer access enabled on the existing author account and the login email was sent."
+              : `Reviewer access enabled on the existing author account${response.emailError ? `, but email failed: ${response.emailError}` : "."}`
+            : response.emailSent
+              ? `Reviewer account created and credentials emailed. Temporary password: ${response.tempPassword}`
+              : `Reviewer account created. Temporary password: ${response.tempPassword}${response.emailError ? `, but email failed: ${response.emailError}` : ""}`,
       });
       await loadDashboard();
     } catch (err) {
@@ -832,13 +840,13 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {(data.user.role === "EDITOR" || data.user.role === "ADMIN") && (
+            {(data.user.role === "EDITOR" || data.user.role === "ADMIN" || data.user.role === "SUPER_ADMIN") && (
               <div className="space-y-8">
               <Card className="journal-shell">
                 <CardHeader>
                   <CardTitle className="font-serif text-2xl text-primary">Reviewer Management</CardTitle>
                   <CardDescription>
-                    Create reviewer accounts from the editor dashboard and send them login credentials automatically.
+                    Create reviewer accounts, or enter an existing author&apos;s name and email to enable reviewer access on that account without removing author access.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -874,7 +882,7 @@ export default function DashboardPage() {
                         placeholder="reviewer@university.edu"
                       />
                       <p className="mt-2 text-xs text-muted-foreground">
-                        The reviewer will receive login credentials and future assignment emails at this address.
+                        If this email already belongs to an author account, that account will keep author access and also gain reviewer access.
                       </p>
                     </div>
                     <div className="flex items-end">
@@ -884,7 +892,7 @@ export default function DashboardPage() {
                         onClick={handleCreateReviewer}
                         disabled={busyKey === "create-reviewer" || !reviewerFormReady}
                       >
-                        {busyKey === "create-reviewer" ? "Creating..." : "Add Reviewer"}
+                        {busyKey === "create-reviewer" ? "Saving..." : "Create or Convert Reviewer"}
                       </Button>
                     </div>
                   </div>
@@ -901,7 +909,7 @@ export default function DashboardPage() {
                 <CardContent className="space-y-6">
                   {data.editor.reviewers.length === 0 && (
                     <div className="journal-panel border-dashed p-6 text-sm text-muted-foreground">
-                      No reviewer accounts are available yet. Create users with the <code>REVIEWER</code>, <code>EDITOR</code>, or <code>ADMIN</code> role to start assigning manuscripts.
+                      No reviewer accounts are available yet. Create users with the <code>REVIEWER</code>, <code>EDITOR</code>, or <code>ADMIN</code> role, or enable reviewer access on an existing author account.
                     </div>
                   )}
 

@@ -39,7 +39,7 @@ interface ReviewStatusEmailPayload {
 interface ReviewerAccountEmailPayload {
   reviewerEmail: string;
   reviewerName?: string | null;
-  tempPassword: string;
+  tempPassword?: string | null;
   createdByName?: string | null;
   dashboardUrl?: string | null;
 }
@@ -192,34 +192,57 @@ export async function sendReviewerAccountEmail(
   );
   const creatorLabel = payload.createdByName?.trim() || "The editorial team";
   const dashboardUrl = payload.dashboardUrl || `${env.APP_URL}/auth/login`;
+  const hasTempPassword = Boolean(payload.tempPassword);
 
   await mailer.sendMail({
     from: getMailerFrom(),
     to: payload.reviewerEmail,
     replyTo: REVIEW_INBOX_EMAIL,
     subject: "Your reviewer account for Etthos Journal Of Health, Behavior and Applied Psychology",
-    text: [
-      `Dear ${reviewerLabel},`,
-      "",
-      `${creatorLabel} has created a reviewer account for you on the Etthos Journal Of Health, Behavior and Applied Psychology platform.`,
-      "",
-      `Login email: ${payload.reviewerEmail}`,
-      `Temporary password: ${payload.tempPassword}`,
-      `Login URL: ${dashboardUrl}`,
-      "",
-      "Please log in and change your password after your first access.",
-    ].join("\n"),
-    html: wrapHtmlEmail(`
-        <h2 style="margin-bottom: 12px;">Reviewer Account Created</h2>
-        <p>Dear ${escapeHtml(reviewerLabel)},</p>
-        <p>${escapeHtml(creatorLabel)} has created a reviewer account for you on the Etthos Journal Of Health, Behavior and Applied Psychology platform.</p>
-        <table style="border-collapse: collapse; margin: 16px 0;">
-          <tr><td style="padding: 6px 12px 6px 0;"><strong>Login email</strong></td><td>${escapeHtml(payload.reviewerEmail)}</td></tr>
-          <tr><td style="padding: 6px 12px 6px 0;"><strong>Temporary password</strong></td><td>${escapeHtml(payload.tempPassword)}</td></tr>
-          <tr><td style="padding: 6px 12px 6px 0;"><strong>Login URL</strong></td><td><a href="${escapeHtml(dashboardUrl)}" style="color:#1f5f5b;">${escapeHtml(dashboardUrl)}</a></td></tr>
-        </table>
-        <p>Please log in and change your password after your first access.</p>
-    `),
+    text: hasTempPassword
+      ? [
+          `Dear ${reviewerLabel},`,
+          "",
+          `${creatorLabel} has created a reviewer account for you on the Etthos Journal Of Health, Behavior and Applied Psychology platform.`,
+          "",
+          `Login email: ${payload.reviewerEmail}`,
+          `Temporary password: ${payload.tempPassword}`,
+          `Login URL: ${dashboardUrl}`,
+          "",
+          "Please log in and change your password after your first access.",
+        ].join("\n")
+      : [
+          `Dear ${reviewerLabel},`,
+          "",
+          `${creatorLabel} has enabled reviewer access on your existing Etthos Journal Of Health, Behavior and Applied Psychology account.`,
+          "",
+          `Login email: ${payload.reviewerEmail}`,
+          `Login URL: ${dashboardUrl}`,
+          "",
+          "Please log in with your existing password to access reviewer assignments.",
+        ].join("\n"),
+    html: hasTempPassword
+      ? wrapHtmlEmail(`
+          <h2 style="margin-bottom: 12px;">Reviewer Account Created</h2>
+          <p>Dear ${escapeHtml(reviewerLabel)},</p>
+          <p>${escapeHtml(creatorLabel)} has created a reviewer account for you on the Etthos Journal Of Health, Behavior and Applied Psychology platform.</p>
+          <table style="border-collapse: collapse; margin: 16px 0;">
+            <tr><td style="padding: 6px 12px 6px 0;"><strong>Login email</strong></td><td>${escapeHtml(payload.reviewerEmail)}</td></tr>
+            <tr><td style="padding: 6px 12px 6px 0;"><strong>Temporary password</strong></td><td>${escapeHtml(payload.tempPassword || "")}</td></tr>
+            <tr><td style="padding: 6px 12px 6px 0;"><strong>Login URL</strong></td><td><a href="${escapeHtml(dashboardUrl)}" style="color:#1f5f5b;">${escapeHtml(dashboardUrl)}</a></td></tr>
+          </table>
+          <p>Please log in and change your password after your first access.</p>
+      `)
+      : wrapHtmlEmail(`
+          <h2 style="margin-bottom: 12px;">Reviewer Access Enabled</h2>
+          <p>Dear ${escapeHtml(reviewerLabel)},</p>
+          <p>${escapeHtml(creatorLabel)} has enabled reviewer access on your existing Etthos Journal Of Health, Behavior and Applied Psychology account.</p>
+          <table style="border-collapse: collapse; margin: 16px 0;">
+            <tr><td style="padding: 6px 12px 6px 0;"><strong>Login email</strong></td><td>${escapeHtml(payload.reviewerEmail)}</td></tr>
+            <tr><td style="padding: 6px 12px 6px 0;"><strong>Login URL</strong></td><td><a href="${escapeHtml(dashboardUrl)}" style="color:#1f5f5b;">${escapeHtml(dashboardUrl)}</a></td></tr>
+          </table>
+          <p>Please log in with your existing password to access reviewer assignments.</p>
+      `),
   });
 }
 

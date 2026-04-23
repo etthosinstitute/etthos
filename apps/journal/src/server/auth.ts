@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { env, isProduction } from "@/server/env";
+import { prisma } from "@/server/db/prisma";
 
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
@@ -8,6 +9,7 @@ export interface AuthUser {
   userId: string;
   email: string;
   role: string;
+  isReviewer: boolean;
 }
 
 /** Reads and verifies the JWT cookie. Returns the decoded user or null. */
@@ -16,7 +18,28 @@ export async function getAuthUser(req: NextRequest): Promise<AuthUser | null> {
   if (!token) return null;
 
   try {
-    return jwt.verify(token, env.JWT_SECRET) as AuthUser;
+    const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: string };
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        isReviewer: true,
+        isActive: true,
+      },
+    });
+
+    if (!user || !user.isActive) {
+      return null;
+    }
+
+    return {
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+      isReviewer: user.isReviewer,
+    };
   } catch {
     return null;
   }
@@ -49,13 +72,8 @@ export function signToken(userId: string, email: string, role: string): string {
 
 function shouldUseSecureCookie(req?: NextRequest): boolean {
   if (!isProduction()) return false;
-
-  const appUrlProtocol = env.APP_URL.startsWith("https://") ? "https" : "http";
-  const forwardedProto = req?.headers.get("x-forwarded-proto")?.split(",")?.[0]?.trim();
-  const requestProtocol = req?.nextUrl.protocol.replace(":", "");
-  const effectiveProtocol = forwardedProto || requestProtocol || appUrlProtocol;
-
-  return effectiveProtocol === "https";
+  void req;
+  return Boolean(env.AUTH_COOKIE_SECURE);
 }
 
 /** Attaches the auth cookie to a NextResponse. */

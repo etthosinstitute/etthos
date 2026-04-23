@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ArticleCard } from "@/components/ArticleCard";
-import { getJournalInfo, getPublishedArticles } from "@/features/public-site/queries";
+import { PaginationNav } from "@/components/PaginationNav";
+import { getJournalInfo, getPublishedArticlesPage } from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,11 +9,20 @@ export const metadata: Metadata = {
   description: "Browse all published articles in the Etthos Journal Of Health, Behavior and Applied Psychology.",
 };
 
-export default async function ArticlesPage() {
-  const [articles, journalInfo] = await Promise.all([
-    getPublishedArticles(),
+interface ArticlesPageProps {
+  searchParams?: Promise<{ page?: string }>;
+}
+
+export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const page = Number.parseInt(resolvedSearchParams?.page || "1", 10);
+  const safePage = Number.isFinite(page) && page > 0 ? page : 1;
+
+  const [articlePage, journalInfo] = await Promise.all([
+    getPublishedArticlesPage({ page: safePage, pageSize: 12 }),
     getJournalInfo(),
   ]);
+  const articles = articlePage.items;
 
   return (
     <>
@@ -32,6 +42,12 @@ export default async function ArticlesPage() {
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>
+
+          <PaginationNav
+            basePath="/articles"
+            page={articlePage.page}
+            totalPages={articlePage.totalPages}
+          />
 
           {articles.length === 0 && (
             <div className="text-center py-16 text-muted-foreground">

@@ -25,7 +25,8 @@ export default function SignupPage() {
 
     try {
       await apiRequest("/api/auth/signup", "POST", formData);
-      router.push("/auth/login?registered=true");
+      router.replace("/dashboard");
+      router.refresh();
     } catch (err: unknown) {
       setError(getErrorMessage(err, "Failed to sign up"));
     } finally {

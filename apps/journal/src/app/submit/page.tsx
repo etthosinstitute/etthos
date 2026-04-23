@@ -21,22 +21,26 @@ export default function SubmitPage() {
   const [loading, setLoading] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const abstractCount = formData.abstract.trim().length;
   const titleCount = formData.title.trim().length;
-  const submitReady = titleCount > 0 && abstractCount >= 50 && !!file && isAuthenticated;
+  const isAuthor = userRole === "AUTHOR";
+  const submitReady = titleCount > 0 && abstractCount >= 50 && !!file && isAuthenticated && isAuthor;
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadUser() {
       try {
-        const response = await apiRequest<{ user: { id: string } | null }>("/api/auth/me");
+        const response = await apiRequest<{ user: { id: string; role: string } | null }>("/api/auth/me");
         if (!cancelled) {
           setIsAuthenticated(Boolean(response.user));
+          setUserRole(response.user?.role || null);
         }
       } catch {
         if (!cancelled) {
           setIsAuthenticated(false);
+          setUserRole(null);
         }
       } finally {
         if (!cancelled) {
@@ -95,6 +99,8 @@ export default function SubmitPage() {
       if (message.includes("Unauthorized")) {
         setError("You must be logged in to submit.");
         setTimeout(() => router.push("/auth/login"), 2000);
+      } else if (message.includes("Only author accounts can submit manuscripts")) {
+        setError("Only author accounts can submit manuscripts.");
       } else {
         setError(message);
       }
@@ -192,7 +198,7 @@ export default function SubmitPage() {
               <div className="pt-4">
                 <Button
                   type="submit"
-                  disabled={loading || !submitReady || authLoading || !isAuthenticated}
+                  disabled={loading || !submitReady || authLoading || !isAuthenticated || !isAuthor}
                   className="h-12 w-full text-base"
                 >
                   {loading ? "Submitting..." : "Submit Manuscript"}
@@ -208,6 +214,10 @@ export default function SubmitPage() {
                       Signup
                     </Link>
                     .
+                  </p>
+                ) : !authLoading && isAuthenticated && !isAuthor ? (
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    Only accounts with the <code>AUTHOR</code> role can submit manuscripts.
                   </p>
                 ) : !submitReady ? (
                   <p className="mt-3 text-center text-xs text-muted-foreground">

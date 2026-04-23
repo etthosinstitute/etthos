@@ -1,14 +1,19 @@
 import { PageHeader } from "@/components/PageHeader";
+import { PaginationNav } from "@/components/PaginationNav";
 import { Calendar, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
 import type { PublicIssue } from "@/features/public-site/queries";
-import { getJournalInfo, getPublishedIssues } from "@/features/public-site/queries";
+import { getJournalInfo, getPublishedIssuesPage } from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Issues Archive",
   description: "Browse all published volumes and issues of the Etthos Journal Of Health, Behavior and Applied Psychology.",
 };
+
+interface IssuesPageProps {
+  searchParams?: Promise<{ page?: string }>;
+}
 
 // Group issues by year
 function groupByYear(issueList: PublicIssue[]) {
@@ -22,11 +27,16 @@ function groupByYear(issueList: PublicIssue[]) {
     .map(([year, items]) => ({ year: Number(year), issues: items }));
 }
 
-export default async function IssuesPage() {
-  const [issues, journalInfo] = await Promise.all([
-    getPublishedIssues(),
+export default async function IssuesPage({ searchParams }: IssuesPageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const page = Number.parseInt(resolvedSearchParams?.page || "1", 10);
+  const safePage = Number.isFinite(page) && page > 0 ? page : 1;
+
+  const [issuesPage, journalInfo] = await Promise.all([
+    getPublishedIssuesPage({ page: safePage, pageSize: 12 }),
     getJournalInfo(),
   ]);
+  const issues = issuesPage.items;
   const grouped = groupByYear(issues);
 
   return (
@@ -91,6 +101,12 @@ export default async function IssuesPage() {
               <p className="text-muted-foreground text-sm">The first issue is currently in preparation.</p>
             </div>
           )}
+
+          <PaginationNav
+            basePath="/issues"
+            page={issuesPage.page}
+            totalPages={issuesPage.totalPages}
+          />
         </div>
       </div>
     </>

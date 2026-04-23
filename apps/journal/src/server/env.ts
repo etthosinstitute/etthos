@@ -14,6 +14,13 @@ const baseSchema = z.object({
       if (value === undefined) return undefined;
       return value === "true";
     }),
+  AUTH_COOKIE_SECURE: z
+    .string()
+    .optional()
+    .transform((value) => {
+      if (value === undefined) return undefined;
+      return value === "true";
+    }),
   EMAIL_USER: z.string().optional(),
   EMAIL_PASS: z.string().optional(),
   REVIEW_INBOX_EMAIL: z.string().email().optional(),
@@ -44,6 +51,10 @@ export const env = {
     parsed.data.CONTACT_INBOX_EMAIL ||
     parsed.data.REVIEW_INBOX_EMAIL ||
     "spider20251@gmail.com",
+  AUTH_COOKIE_SECURE:
+    parsed.data.AUTH_COOKIE_SECURE !== undefined
+      ? parsed.data.AUTH_COOKIE_SECURE
+      : (parsed.data.APP_URL || "http://localhost:3000").startsWith("https://"),
 };
 
 export function isProduction() {

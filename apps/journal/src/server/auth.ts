@@ -18,7 +18,7 @@ export async function getAuthUser(req: NextRequest): Promise<AuthUser | null> {
   if (!token) return null;
 
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET) as any;
+    const decoded = jwt.verify(token, env.JWT_SECRET!) as any;
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
       select: {
@@ -63,7 +63,7 @@ export async function requireAuth(
 
 /** Signs a JWT token with standard payload. */
 export function signToken(userId: string, email: string, role: string): string {
-  return jwt.sign({ userId, email, role }, env.JWT_SECRET, {
+  return jwt.sign({ userId, email, role }, env.JWT_SECRET!, {
     expiresIn: "7d",
     issuer: "etthos-journal",
     audience: "etthos-journal-users",

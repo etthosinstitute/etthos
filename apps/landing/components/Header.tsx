@@ -9,7 +9,7 @@ const navLinks = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
-  { label: "Journal", href: null }, // Non-clickable text
+  { label: "Journal", href: "https://etthosjournal.com/" },
 ];
 
 export const Header = () => {

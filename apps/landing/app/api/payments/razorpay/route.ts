@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     const order = await createRazorpayOrder({
       amountInr: payload.amountInr,
-      receipt: `etthos-${payload.courseSlug}-${Date.now()}`,
+      receipt: `eth_${payload.courseSlug.slice(0, 15)}_${Date.now().toString().slice(-8)}`,
       notes: {
         courseSlug: payload.courseSlug,
         courseTitle: payload.courseTitle,

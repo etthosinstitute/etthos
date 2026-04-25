@@ -1,4 +1,5 @@
 import { env } from "@/lib/env";
+import crypto from "crypto";
 
 export type RazorpayOrderRequest = {
   amountInr: number;
@@ -45,5 +46,17 @@ export async function createRazorpayOrder(payload: RazorpayOrderRequest) {
     currency: string;
     receipt: string;
   }>;
+}
+
+export function verifyRazorpayPayment(orderId: string, paymentId: string, signature: string) {
+  const secret = env.RAZORPAY_KEY_SECRET;
+  if (!secret) throw new Error("Razorpay secret not configured");
+
+  const generated_signature = crypto
+    .createHmac("sha256", secret)
+    .update(`${orderId}|${paymentId}`)
+    .digest("hex");
+
+  return generated_signature === signature;
 }
 

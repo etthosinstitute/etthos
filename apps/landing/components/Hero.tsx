@@ -20,13 +20,13 @@ export const Hero = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f8fbff_0%,#eef5fb_52%,#e8f0fb_100%)] py-20 transition-colors dark:bg-gradient-to-br dark:from-[#050914] dark:via-[#071021] dark:to-[#0a1630] lg:py-28">
+    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f8fbff_0%,#eef5fb_52%,#e8f0fb_100%)] py-20 transition-colors dark:bg-gradient-to-br dark:from-[#02040a] dark:via-[#050a18] dark:to-[#081125] lg:py-28">
       {/* Background Gradients */}
       <div className="absolute inset-0 pointer-events-none">
-         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.12),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.08),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,255,255,0))] dark:bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.16),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.10),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
-         <div className="absolute top-0 right-0 h-200 w-200 rounded-full bg-brand-cyan/12 blur-3xl -translate-y-1/2 translate-x-1/2 dark:bg-brand-cyan/10" />
-         <div className="absolute bottom-0 left-0 h-150 w-150 rounded-full bg-brand-iris/10 blur-3xl translate-y-1/3 -translate-x-1/3 dark:bg-brand-iris/10" />
-         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.16),rgba(255,255,255,0))] dark:bg-[linear-gradient(180deg,rgba(5,9,20,0.18),rgba(5,9,20,0))]" />
+         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.08),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.06),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,255,255,0))] dark:bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.12),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.08),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
+         <div className="absolute top-0 right-0 h-200 w-200 rounded-full bg-brand-cyan/12 blur-3xl -translate-y-1/2 translate-x-1/2 dark:bg-brand-cyan/6" />
+         <div className="absolute bottom-0 left-0 h-150 w-150 rounded-full bg-brand-iris/10 blur-3xl translate-y-1/3 -translate-x-1/3 dark:bg-brand-iris/6" />
+         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.16),rgba(255,255,255,0))] dark:bg-[linear-gradient(180deg,rgba(2,4,10,0.12),rgba(2,4,10,0))]" />
       </div>
 
       <div className="relative z-10 w-full max-w-360 mx-auto px-4 text-text-high md:px-10 dark:text-white">

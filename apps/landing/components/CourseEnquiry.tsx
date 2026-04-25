@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, ChevronRight, CreditCard } from "lucide-react";
+import { Mail, ChevronRight, CreditCard, CheckCircle2 } from "lucide-react";
 import { EnquiryModal } from "./EnquiryModal";
 
 type CourseEnquiryProps = {
@@ -36,11 +36,19 @@ async function loadRazorpayScript() {
 export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: CourseEnquiryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-  const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
+  const [paymentMessage, setPaymentMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [customAmount, setCustomAmount] = useState<string>("500");
 
   const handleRazorpayPreview = async () => {
     setPaymentMessage(null);
     setIsPaymentLoading(true);
+
+    const amount = parseFloat(customAmount);
+    if (isNaN(amount) || amount <= 0) {
+      setPaymentMessage({ type: "error", text: "Please enter a valid amount." });
+      setIsPaymentLoading(false);
+      return;
+    }
 
     try {
       const scriptLoaded = await loadRazorpayScript();
@@ -57,7 +65,7 @@ export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: Course
         body: JSON.stringify({
           courseSlug,
           courseTitle,
-          amountInr: 500,
+          amountInr: amount,
         }),
       });
 
@@ -73,22 +81,52 @@ export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: Course
         throw new Error(result.message || "Razorpay preview is not enabled yet.");
       }
 
-      const razorpay = new window.Razorpay({
+      const options = {
         key: result.keyId,
         amount: result.amount,
         currency: result.currency || "INR",
         order_id: result.orderId,
         name: "Etthos Institute",
-        description: `${courseTitle} - preview token`,
+        description: `${courseTitle} - Enrollment Token`,
         theme: {
           color: "#1F5F5B",
         },
-      });
+        handler: async function (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) {
+          setIsPaymentLoading(true);
+          try {
+            const verifyRes = await fetch("/api/payments/razorpay/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
+              }),
+            });
 
+            if (verifyRes.ok) {
+              setPaymentMessage({ type: "success", text: "Payment successful! Your enrollment token has been secured." });
+            } else {
+              const err = await verifyRes.json();
+              throw new Error(err.message || "Payment verification failed.");
+            }
+          } catch (error) {
+            setPaymentMessage({ type: "error", text: error instanceof Error ? error.message : "Verification failed." });
+          } finally {
+            setIsPaymentLoading(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setIsPaymentLoading(false);
+          },
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
-      setPaymentMessage(error instanceof Error ? error.message : "Razorpay preview is not enabled yet.");
-    } finally {
+      setPaymentMessage({ type: "error", text: error instanceof Error ? error.message : "Razorpay preview is not enabled yet." });
       setIsPaymentLoading(false);
     }
   };
@@ -98,12 +136,27 @@ export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: Course
       <div className="sticky top-24 space-y-8">
         <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-100 dark:border-slate-800 text-center" id="apply">
           <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Ready to Start?</h3>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mb-3">Secure your spot in the upcoming batch.</p>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mb-6">
-            Current fee is shared by admissions. Razorpay preview is scaffolded with a dummy Rs 500 token.
-          </p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">Secure your spot in the upcoming batch.</p>
           
-          <div className="space-y-3">
+          <div className="space-y-4">
+            {razorpayPreviewEnabled && (
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+                  <span className="text-sm font-semibold">₹</span>
+                </div>
+                <input
+                  type="number"
+                  value={customAmount}
+                  onChange={(e) => setCustomAmount(e.target.value)}
+                  placeholder="Enter Amount"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
+                />
+                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">INR</span>
+                </div>
+              </div>
+            )}
+
             <button 
               onClick={() => setIsModalOpen(true)}
               className="flex items-center justify-center gap-2 w-full py-3.5 bg-slate-900 dark:bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 dark:shadow-black/30"
@@ -116,13 +169,13 @@ export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: Course
               type="button"
               onClick={handleRazorpayPreview}
               disabled={!razorpayPreviewEnabled || isPaymentLoading}
-              className="flex items-center justify-center gap-2 w-full py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex items-center justify-center gap-2 w-full py-3.5 bg-indigo-600 dark:bg-indigo-500 text-white font-semibold rounded-xl hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors shadow-lg shadow-indigo-600/20 dark:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <CreditCard className="w-4 h-4" />
               {isPaymentLoading
                 ? "Preparing Checkout..."
                 : razorpayPreviewEnabled
-                  ? "Pay Rs 500 Preview"
+                  ? `Pay ₹${customAmount || '0'} Now`
                   : "Razorpay Ready On Approval"}
             </button>
 
@@ -132,9 +185,20 @@ export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: Course
           </div>
 
           {paymentMessage ? (
-            <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-left text-xs text-amber-700">
-              {paymentMessage}
-            </p>
+            <div className={`mt-6 p-4 rounded-2xl flex items-start gap-3 text-left animate-in fade-in slide-in-from-top-2 duration-300 ${
+              paymentMessage.type === "success" 
+                ? "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-400" 
+                : "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20 text-amber-800 dark:text-amber-400"
+            }`}>
+              {paymentMessage.type === "success" ? (
+                <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
+              ) : (
+                <div className="w-5 h-5 shrink-0 mt-0.5 flex items-center justify-center rounded-full bg-amber-200 text-amber-700 font-bold text-xs">!</div>
+              )}
+              <p className="text-xs font-medium leading-relaxed">
+                {paymentMessage.text}
+              </p>
+            </div>
           ) : null}
 
           <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400">

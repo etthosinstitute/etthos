@@ -8,6 +8,7 @@ type CourseEnquiryProps = {
   courseSlug: string;
   courseTitle: string;
   whoShouldJoin?: string[];
+  showBrochure?: boolean;
 };
 
 declare global {
@@ -33,7 +34,12 @@ async function loadRazorpayScript() {
   });
 }
 
-export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: CourseEnquiryProps) => {
+export const CourseEnquiry = ({ 
+  courseSlug, 
+  courseTitle, 
+  whoShouldJoin,
+  showBrochure = false
+}: CourseEnquiryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -179,9 +185,11 @@ export const CourseEnquiry = ({ courseSlug, courseTitle, whoShouldJoin }: Course
                   : "Razorpay Ready On Approval"}
             </button>
 
-            <button className="flex items-center justify-center gap-2 w-full py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-              Download Brochure
-            </button>
+            {showBrochure && (
+              <button className="flex items-center justify-center gap-2 w-full py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                Download Brochure
+              </button>
+            )}
           </div>
 
           {paymentMessage ? (

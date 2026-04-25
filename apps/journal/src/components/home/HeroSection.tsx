@@ -92,15 +92,25 @@ export async function HeroSection() {
           <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
             {content.profileCards.map((card) => {
               const Icon = iconMap[card.icon];
+              const href = 
+                card.title === "Authors" ? "/submit" :
+                card.title === "Reviewers" ? "/reviewers" :
+                card.title === "Readers" ? "/issues" :
+                card.title === "Editors" ? "/editorial-board" :
+                "#";
 
               return (
-                <div key={`${card.title}-${card.subtitle}`} className="rounded-[1.55rem] border border-white/10 bg-white/8 px-4 py-6 text-center text-[#f7f3ec] shadow-[0_22px_55px_-40px_rgba(8,15,28,0.7)] backdrop-blur-md">
-                  <div className="bg-white/8 p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
-                    <Icon className="h-5 w-5 text-[hsl(var(--highlight))]" />
+                <Link 
+                  key={`${card.title}-${card.subtitle}`} 
+                  href={href}
+                  className="group block rounded-[1.75rem] border border-white/10 bg-white/8 px-4 py-6 text-center text-[#f7f3ec] shadow-[0_22px_55px_-40px_rgba(8,15,28,0.7)] backdrop-blur-md transition-all hover:-translate-y-1 hover:bg-white/12 hover:border-white/20"
+                >
+                  <div className="bg-white/8 p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 transition-colors group-hover:bg-[hsl(var(--highlight))] group-hover:text-white">
+                    <Icon className="h-5 w-5 text-[hsl(var(--highlight))] group-hover:text-white transition-colors" />
                   </div>
                   <div className="font-serif font-semibold text-xl mb-1">{card.title}</div>
                   <div className="text-[11px] uppercase tracking-[0.18em] text-[#f7f3ec]/58">{card.subtitle}</div>
-                </div>
+                </Link>
               );
             })}
           </div>

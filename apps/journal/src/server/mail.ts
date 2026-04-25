@@ -8,6 +8,15 @@ import {
 } from "@/server/mailer";
 
 const REVIEW_INBOX_EMAIL = env.REVIEW_INBOX_EMAIL;
+const CONTACT_INBOX_EMAIL = env.CONTACT_INBOX_EMAIL;
+
+interface ReviewerApplicationPayload {
+  name: string;
+  email: string;
+  affiliation: string;
+  expertise: string;
+  orcid?: string | null;
+}
 
 interface ReviewEmailPayload {
   reviewerEmail: string;
@@ -277,6 +286,48 @@ export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload)
         <p style="margin-top: 12px;">If the button does not work, use this link:</p>
         <p><a href="${escapeHtml(payload.resetUrl)}" style="color:#1f5f5b;">${escapeHtml(payload.resetUrl)}</a></p>
         <p>This link expires in 1 hour. If you did not request this, you can ignore this email.</p>
+    `),
+  });
+}
+
+export async function sendReviewerApplicationEmail(payload: ReviewerApplicationPayload) {
+  const mailer = getMailerTransporter();
+  const safeName = escapeHtml(payload.name);
+  const safeEmail = escapeHtml(payload.email);
+  const safeAffiliation = escapeHtml(payload.affiliation);
+  const safeExpertise = escapeHtml(payload.expertise);
+  const safeOrcid = escapeHtml(payload.orcid || "Not provided");
+
+  await mailer.sendMail({
+    from: getMailerFrom(),
+    to: CONTACT_INBOX_EMAIL,
+    replyTo: payload.email,
+    subject: `Reviewer Application: ${payload.name}`,
+    text: [
+      "A new reviewer application has been received.",
+      "",
+      `Name: ${payload.name}`,
+      `Email: ${payload.email}`,
+      `Affiliation: ${payload.affiliation}`,
+      `Expertise: ${payload.expertise}`,
+      `ORCID: ${payload.orcid || "Not provided"}`,
+      "",
+      "Please review the applicant's credentials and respond accordingly.",
+    ].join("\n"),
+    html: wrapHtmlEmail(`
+        <h2 style="margin-bottom: 12px;">New Reviewer Application</h2>
+        <p>A potential expert has applied to join the Etthos Journal Of Health, Behavior and Applied Psychology peer review board.</p>
+        <table style="border-collapse: collapse; margin: 16px 0; width: 100%;">
+          <tr><td style="padding: 6px 12px 6px 0; border-bottom: 1px solid #eee; width: 150px;"><strong>Name</strong></td><td style="padding: 6px 0; border-bottom: 1px solid #eee;">${safeName}</td></tr>
+          <tr><td style="padding: 6px 12px 6px 0; border-bottom: 1px solid #eee;"><strong>Email</strong></td><td style="padding: 6px 0; border-bottom: 1px solid #eee;">${safeEmail}</td></tr>
+          <tr><td style="padding: 6px 12px 6px 0; border-bottom: 1px solid #eee;"><strong>Affiliation</strong></td><td style="padding: 6px 0; border-bottom: 1px solid #eee;">${safeAffiliation}</td></tr>
+          <tr><td style="padding: 6px 12px 6px 0; border-bottom: 1px solid #eee;"><strong>ORCID</strong></td><td style="padding: 6px 0; border-bottom: 1px solid #eee;">${safeOrcid}</td></tr>
+        </table>
+        <h3 style="margin: 20px 0 8px;">Areas of Expertise</h3>
+        <div style="background: #f7f3ec; padding: 16px; border-radius: 12px; border: 1px solid #d9d1c7; font-size: 14px; line-height: 1.6;">${safeExpertise}</div>
+        <p style="margin-top: 24px; font-size: 13px; color: #666;">
+          You can reply directly to this email to contact the applicant.
+        </p>
     `),
   });
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
+import { CourseEnquiry } from "../../../components/CourseEnquiry";
 import { researchServices } from "../../../lib/research-services";
 import { 
   ArrowLeft, 
@@ -180,33 +181,11 @@ const ResearchServicePage = async ({ params }: PageProps) => {
 
             {/* Sidebar */}
             <div className="space-y-8 lg:sticky lg:top-28">
-              <div className="bg-gradient-to-br from-brand-cyan to-brand-cobalt rounded-2xl p-8 text-white shadow-2xl shadow-brand-cyan/20">
-                <h3 className="text-xl font-bold mb-2">Ready to Start?</h3>
-                <p className="text-white/80 text-sm mb-6">Get expert research support today.</p>
-                
-                <div className="space-y-3">
-                  <a 
-                    href="https://wa.me/+917261028965"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-white text-brand-cyan font-semibold rounded-xl hover:bg-white/90 transition-colors"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    WhatsApp Us
-                  </a>
-                  <a 
-                    href="mailto:info@etthos.com"
-                    className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors backdrop-blur-sm"
-                  >
-                    <Mail className="w-5 h-5" />
-                    Email Us
-                  </a>
-                </div>
-
-                <div className="mt-6 pt-6 border-t border-white/20 text-xs text-white/60">
-                  Professional research guidance and support.
-                </div>
-              </div>
+              <CourseEnquiry
+                courseSlug={service.slug}
+                courseTitle={service.title}
+                whoShouldJoin={service.idealFor}
+              />
             </div>
           </div>
         </div>

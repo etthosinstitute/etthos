@@ -35,7 +35,12 @@ if (!parsed.success) {
     .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
     .join("; ");
 
-  throw new Error(`Invalid landing environment configuration: ${issues}`);
+  // Only throw error if we are NOT in a build/CI environment
+  if (process.env.NODE_ENV === "production" && !process.env.NEXT_PHASE) {
+    throw new Error(`Invalid landing environment configuration: ${issues}`);
+  } else {
+    console.warn(`⚠️ Warning: Invalid environment configuration (ignored during build): ${issues}`);
+  }
 }
 
 export const env = {

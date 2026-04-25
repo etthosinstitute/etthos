@@ -97,8 +97,10 @@ export async function Footer() {
           <p>&copy; {new Date().getFullYear()} {journalInfo.name}. Published by {journalInfo.publisher}. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-5">
             <span>ISSN: {journalInfo.issn || "Pending"} (Online)</span>
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className="hover:text-primary transition-colors">Terms &amp; Conditions</Link>
+            <Link href="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
             <Link href="/policies" className="hover:text-primary transition-colors">Publication Ethics</Link>
-            <Link href="/about/publisher" className="hover:text-primary transition-colors">Publisher Info</Link>
           </div>
         </div>
       </div>

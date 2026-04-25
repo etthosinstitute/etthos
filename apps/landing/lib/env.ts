@@ -43,17 +43,19 @@ if (!parsed.success) {
   }
 }
 
+const data = parsed.success ? parsed.data : ({} as Partial<z.infer<typeof schema>>);
+
 export const env = {
-  ...parsed.data,
-  APP_URL: parsed.data.APP_URL || "http://localhost:3001",
+  ...data,
+  APP_URL: data.APP_URL || "http://localhost:3001",
   EMAIL_SECURE:
-    parsed.data.EMAIL_SECURE !== undefined
-      ? parsed.data.EMAIL_SECURE
-      : parsed.data.EMAIL_PORT === 465,
-  CONTACT_INBOX_EMAIL: parsed.data.CONTACT_INBOX_EMAIL || "spider20251@gmail.com",
+    data.EMAIL_SECURE !== undefined
+      ? data.EMAIL_SECURE
+      : data.EMAIL_PORT === 465,
+  CONTACT_INBOX_EMAIL: data.CONTACT_INBOX_EMAIL || "spider20251@gmail.com",
   ENABLE_RAZORPAY_PREVIEW:
-    parsed.data.ENABLE_RAZORPAY_PREVIEW || parsed.data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW || false,
+    data.ENABLE_RAZORPAY_PREVIEW || data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW || false,
   NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW:
-    parsed.data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW || parsed.data.ENABLE_RAZORPAY_PREVIEW || false,
-};
+    data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW || data.ENABLE_RAZORPAY_PREVIEW || false,
+} as const;
 

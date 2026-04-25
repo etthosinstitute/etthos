@@ -44,23 +44,25 @@ if (!parsed.success) {
   }
 }
 
+const data = parsed.success ? parsed.data : ({} as Partial<z.infer<typeof baseSchema>>);
+
 export const env = {
-  ...parsed.data,
+  ...data,
   EMAIL_SECURE:
-    parsed.data.EMAIL_SECURE !== undefined
-      ? parsed.data.EMAIL_SECURE
-      : parsed.data.EMAIL_PORT === 465,
-  APP_URL: parsed.data.APP_URL || "http://localhost:3000",
-  REVIEW_INBOX_EMAIL: parsed.data.REVIEW_INBOX_EMAIL || "spider20251@gmail.com",
+    data.EMAIL_SECURE !== undefined
+      ? data.EMAIL_SECURE
+      : data.EMAIL_PORT === 465,
+  APP_URL: data.APP_URL || "http://localhost:3000",
+  REVIEW_INBOX_EMAIL: data.REVIEW_INBOX_EMAIL || "spider20251@gmail.com",
   CONTACT_INBOX_EMAIL:
-    parsed.data.CONTACT_INBOX_EMAIL ||
-    parsed.data.REVIEW_INBOX_EMAIL ||
+    data.CONTACT_INBOX_EMAIL ||
+    data.REVIEW_INBOX_EMAIL ||
     "spider20251@gmail.com",
   AUTH_COOKIE_SECURE:
-    parsed.data.AUTH_COOKIE_SECURE !== undefined
-      ? parsed.data.AUTH_COOKIE_SECURE
-      : (parsed.data.APP_URL || "http://localhost:3000").startsWith("https://"),
-};
+    data.AUTH_COOKIE_SECURE !== undefined
+      ? data.AUTH_COOKIE_SECURE
+      : (data.APP_URL || "http://localhost:3000").startsWith("https://"),
+} as const;
 
 export function isProduction() {
   return env.NODE_ENV === "production";

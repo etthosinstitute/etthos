@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const schema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  APP_URL: z.string().url().optional(),
+  APP_URL: z.string().optional(),
   EMAIL_HOST: z.string().default("smtp.gmail.com"),
   EMAIL_PORT: z.coerce.number().int().positive().default(465),
   EMAIL_SECURE: z
@@ -14,7 +14,7 @@ const schema = z.object({
     }),
   EMAIL_USER: z.string().min(1, "EMAIL_USER is required"),
   EMAIL_PASS: z.string().min(1, "EMAIL_PASS is required"),
-  CONTACT_INBOX_EMAIL: z.string().email().optional(),
+  CONTACT_INBOX_EMAIL: z.string().optional(),
   ENABLE_RAZORPAY_PREVIEW: z
     .string()
     .optional()

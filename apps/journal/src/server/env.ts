@@ -48,6 +48,8 @@ const data = parsed.success ? parsed.data : ({} as Partial<z.infer<typeof baseSc
 
 export const env = {
   ...data,
+  JWT_SECRET: data.JWT_SECRET || "build_time_placeholder_secret_must_be_32_chars_long",
+  MAX_UPLOAD_MB: data.MAX_UPLOAD_MB || 10,
   EMAIL_SECURE:
     data.EMAIL_SECURE !== undefined
       ? data.EMAIL_SECURE

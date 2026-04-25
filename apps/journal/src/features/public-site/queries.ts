@@ -112,7 +112,7 @@ export const getJournalInfo = unstable_cache(
       description: mapped.description || JOURNAL_INFO_DEFAULTS.description,
     };
   },
-  ["journal-info"],
+  ["journal-info-v2"],
   { tags: ["journal-info"], revalidate: STATIC_REVALIDATE_SECONDS }
 );
 

@@ -18,7 +18,7 @@ export async function getAuthUser(req: NextRequest): Promise<AuthUser | null> {
   if (!token) return null;
 
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: string };
+    const decoded = jwt.verify(token, env.JWT_SECRET) as any;
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
       select: {

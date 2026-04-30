@@ -310,7 +310,7 @@ export const getEditorialBoardMembers = unstable_cache(
 
     return members.map((member) => mapBoardMember(member as BoardMemberRecord));
   },
-  ["editorial-board-members"],
+  ["editorial-board-members-v2"],
   { tags: ["editorial-board"], revalidate: STATIC_REVALIDATE_SECONDS }
 );
 

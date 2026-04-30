@@ -173,7 +173,7 @@ export function mapBoardMember(member: BoardMemberRecord) {
   return {
     id: member.id,
     slug,
-    name: fullName(member.firstName, member.lastName, member.email),
+    name: `${member.title && member.title.toLowerCase().includes('dr') ? member.title : (member.title ? member.title + ' (Dr.)' : 'Dr.')} ${fullName(member.firstName, member.lastName, member.email)}`.replace(/\s+/g, ' ').trim(),
     title: member.title,
     role: formatBoardRole(member.role),
     designation: member.designation,

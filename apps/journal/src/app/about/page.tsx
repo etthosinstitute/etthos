@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Check } from "lucide-react";
+import { FormatJournalName } from "@/components/FormatJournalName";
 import { getAboutContent, getJournalInfo } from "@/features/public-site/queries";
 import { getFounderImage } from "@/features/public-site/images";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About the Journal",
-  description: "Learn about the Etthos Journal Of Health, Behavior and Applied Psychology — mission, scope, editorial policies, and publication frequency.",
+  description: "Learn about the Etthos Journal of Health, Behavior and Applied Psychology — mission, scope, editorial policies, and publication frequency.",
 };
 
 export default async function AboutPage() {
@@ -23,7 +24,7 @@ export default async function AboutPage() {
     <>
       <PageHeader 
         title={aboutPage.title}
-        description={aboutPage.description || "An overview of the mission, scope, and editorial policies of the Etthos Journal Of Health, Behavior and Applied Psychology."}
+        description={aboutPage.description || "An overview of the mission, scope, and editorial policies of the Etthos Journal of Health, Behavior and Applied Psychology."}
       />
       
       <div className="container mx-auto px-4 py-16">
@@ -117,7 +118,7 @@ export default async function AboutPage() {
               <ul className="space-y-4 text-sm">
                  <li className="flex justify-between border-b border-border/50 pb-2">
                    <span className="text-muted-foreground">Journal</span>
-                   <span className="font-medium text-right">{journalInfo.name}</span>
+                   <span className="font-medium text-right"><FormatJournalName text={journalInfo.name} /></span>
                  </li>
                  <li className="flex justify-between border-b border-border/50 pb-2">
                    <span className="text-muted-foreground">Publisher</span>

@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact the Etthos Journal Of Health, Behavior and Applied Psychology — editorial enquiries, submissions, and general information.",
+  description: "Contact the Etthos Journal of Health, Behavior and Applied Psychology — editorial enquiries, submissions, and general information.",
 };
 
 export default async function ContactPage() {

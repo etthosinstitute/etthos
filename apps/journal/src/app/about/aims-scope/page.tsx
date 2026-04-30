@@ -1,11 +1,12 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Check } from "lucide-react";
+import { FormatJournalName } from "@/components/FormatJournalName";
 import { getAimsScopeContent, getJournalInfo } from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Aims & Scope",
-  description: "The Etthos Journal Of Health, Behavior and Applied Psychology publishes research across clinical, cognitive, developmental, social, and other areas of psychology and behavioural sciences.",
+  description: "The Etthos Journal of Health, Behavior and Applied Psychology publishes research across dietetics, environment, law, journalism, and other multidisciplinary fields.",
 };
 
 export default async function AimsScopePage() {
@@ -20,7 +21,7 @@ export default async function AimsScopePage() {
     <>
       <PageHeader
         title={aimsScopePage.title}
-        description={aimsScopePage.description || "The scope of the Etthos Journal Of Health, Behavior and Applied Psychology covers the full breadth of psychology and behavioural sciences."}
+        description={aimsScopePage.description || "The scope of the Etthos Journal of Health, Behavior and Applied Psychology covers the full breadth of psychology and behavioural sciences."}
       />
 
       <div className="container mx-auto px-4 py-16">
@@ -41,7 +42,7 @@ export default async function AimsScopePage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Subject Coverage</p>
             <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Scope</h2>
             <p className="text-muted-foreground mb-6 leading-7">
-              The Etthos Journal Of Health, Behavior and Applied Psychology welcomes submissions in the following areas of psychology and behavioural sciences, including but not limited to:
+              The <FormatJournalName text="Etthos Journal of Health, Behavior and Applied Psychology" /> welcomes submissions in the following areas of psychology and behavioural sciences, including but not limited to:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {journalInfo.subjectAreas.map((field) => (
@@ -75,7 +76,7 @@ export default async function AimsScopePage() {
               <table className="w-full text-sm">
                 <tbody>
                   {[
-                    ["Journal Title", journalInfo.name],
+                    ["Journal Title", <FormatJournalName key="title" text={journalInfo.name} />],
                     ["Short Title", journalInfo.shortName],
                     ["Publisher", journalInfo.publisher],
                     ["ISSN (Online)", journalInfo.issn],
@@ -87,7 +88,7 @@ export default async function AimsScopePage() {
                     ["Review Model", journalInfo.reviewModel],
                     ["Licence", journalInfo.license],
                   ].map(([label, value], idx) => (
-                    <tr key={label} className={idx !== 0 ? "border-t border-border" : ""}>
+                    <tr key={label as string} className={idx !== 0 ? "border-t border-border" : ""}>
                       <td className="px-4 py-3 font-medium text-muted-foreground bg-muted/30 w-1/3">{label}</td>
                       <td className="px-4 py-3 text-foreground">{value}</td>
                     </tr>

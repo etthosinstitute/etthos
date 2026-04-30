@@ -18,9 +18,24 @@ async function main() {
   const updated = await prisma.journal.update({
     where: { id: journal.id },
     data: {
-      name: "Etthos Journal Of Health, Behavior and Applied Psychology",
-      description: "Etthos Journal Of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal dedicated to advancing research in psychology and behavioural sciences.",
-      publisher: "Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd",
+      name: "Etthos Journal of Health, Behavior and Applied Psychology",
+      shortName: "EJHBAP",
+      description: "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Journal of Health, Behavior and Applied Psychology pvt ltd, dedicated to advancing research across multidisciplinary fields including nutrition, environment, law, and communication.",
+      publisher: "Etthos Journal of Health, Behavior and Applied Psychology pvt ltd",
+      subjectArea: "Multidisciplinary",
+      subjectKeywords: [
+        "Dietetics & Applied Nutrition",
+        "Environment",
+        "Journalism",
+        "Law",
+        "Liberal Arts",
+        "Linguistics",
+        "Nursing",
+        "Oceanography",
+        "Media & Communication",
+        "Ayurveda",
+        "Yoga Science",
+      ],
     },
   });
 

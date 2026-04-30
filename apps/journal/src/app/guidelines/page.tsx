@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Author Guidelines",
-  description: "Guidelines for preparing and submitting manuscripts to the Etthos Journal Of Health, Behavior and Applied Psychology — formatting, structure, and ethical requirements.",
+  description: "Guidelines for preparing and submitting manuscripts to the Etthos Journal of Health, Behavior and Applied Psychology — formatting, structure, and ethical requirements.",
 };
 
 const iconMap = {
@@ -22,7 +22,7 @@ export default async function GuidelinesPage() {
     <>
       <PageHeader 
         title={guidelinesPage.title}
-        description={guidelinesPage.description || "Everything you need to know to prepare and submit your manuscript to the Etthos Journal Of Health, Behavior and Applied Psychology."}
+        description={guidelinesPage.description || "Everything you need to know to prepare and submit your manuscript to the Etthos Journal of Health, Behavior and Applied Psychology."}
       />
       
       <div className="container mx-auto px-4 py-16">

@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ArticleCard } from "@/components/ArticleCard";
+import { FormatJournalName } from "@/components/FormatJournalName";
 import { getJournalInfo, getPublishedIssueBySlug } from "@/features/public-site/queries";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -48,7 +49,7 @@ export default async function IssuePage({ params }: PageProps) {
           <div className="journal-shell mb-12 flex flex-wrap items-center justify-between gap-6 p-7">
             <div>
               <span className="journal-kicker mb-2 block tracking-[0.24em]">
-                {journalInfo.name}
+                <FormatJournalName text={journalInfo.name} />
               </span>
               <span className="text-[15px] text-[hsl(var(--ink-soft))]">
                 Volume {issue.volume}, Issue {issue.issue} — {issue.month} {issue.year}

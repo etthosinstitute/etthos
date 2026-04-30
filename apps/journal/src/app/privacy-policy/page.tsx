@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
             <section className="mb-12">
               <h2 className="text-2xl font-bold border-b border-border pb-4 mb-6">1. Information We Collect</h2>
               <p>
-                Etthos Journal Of Health, Behavior and Applied Psychology may collect personal and non-personal information through various channels including but not limited to manuscript submissions, reviewer registrations, surveys, or direct communication.
+                Etthos Journal of Health, Behavior and Applied Psychology may collect personal and non-personal information through various channels including but not limited to manuscript submissions, reviewer registrations, surveys, or direct communication.
               </p>
               <ul>
                 <li>Full name and academic titles</li>

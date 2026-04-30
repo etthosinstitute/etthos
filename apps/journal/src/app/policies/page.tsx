@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Policies & Ethics",
-  description: "Publication ethics, peer review policy, plagiarism policy, and copyright information for the Etthos Journal Of Health, Behavior and Applied Psychology.",
+  description: "Publication ethics, peer review policy, plagiarism policy, and copyright information for the Etthos Journal of Health, Behavior and Applied Psychology.",
 };
 
 const iconMap = {

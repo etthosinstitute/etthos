@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "All Articles",
-  description: "Browse all published articles in the Etthos Journal Of Health, Behavior and Applied Psychology.",
+  description: "Browse all published articles in the Etthos Journal of Health, Behavior and Applied Psychology.",
 };
 
 interface ArticlesPageProps {

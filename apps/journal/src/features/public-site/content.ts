@@ -9,13 +9,13 @@ import { publisherContent } from "./data/publisher";
 
 export const getHomeContent = cache(async () => ({
   title: "Home",
-  description: "Welcome to the Etthos Journal Of Health, Behavior and Applied Psychology",
+  description: "Welcome to the Etthos Journal of Health, Behavior and Applied Psychology",
   content: homeContent,
 }));
 
 export const getAboutContent = cache(async () => ({
   title: "About",
-  description: "About the Etthos Journal Of Health, Behavior and Applied Psychology",
+  description: "About the Etthos Journal of Health, Behavior and Applied Psychology",
   content: aboutContent,
 }));
 

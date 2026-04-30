@@ -1,11 +1,12 @@
 import { PageHeader } from "@/components/PageHeader";
 import { getJournalInfo, getPublisherContent } from "@/features/public-site/queries";
 import { MapPin, Mail, Phone, ExternalLink, Building2 } from "lucide-react";
+import { FormatJournalName } from "@/components/FormatJournalName";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Publisher Information",
-  description: "Publisher information for the Etthos Journal Of Health, Behavior and Applied Psychology — Etthos, postal address, and contact details.",
+  description: "Publisher information for the Etthos Journal of Health, Behavior and Applied Psychology — Etthos, postal address, and contact details.",
 };
 
 export default async function PublisherPage() {
@@ -18,7 +19,7 @@ export default async function PublisherPage() {
     <>
       <PageHeader
         title={publisherPage.title}
-        description={publisherPage.description || "Official publisher details for the Etthos Journal Of Health, Behavior and Applied Psychology."}
+        description={publisherPage.description || "Official publisher details for the Etthos Journal of Health, Behavior and Applied Psychology."}
       />
 
       <div className="container mx-auto px-4 py-16">
@@ -32,7 +33,7 @@ export default async function PublisherPage() {
               </div>
               <div>
                 <h2 className="font-serif font-bold text-2xl text-primary">Etthos</h2>
-                <p className="text-muted-foreground text-sm">Publisher of the Etthos Journal Of Health, Behavior and Applied Psychology</p>
+                <p className="text-muted-foreground text-sm">Publisher of the Etthos Journal of Health, Behavior and Applied Psychology</p>
               </div>
             </div>
             <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">
@@ -128,7 +129,7 @@ export default async function PublisherPage() {
               <table className="w-full text-sm">
                 <tbody>
                   {[
-                    ["Journal Title", journalInfo.name],
+                    ["Journal Title", <FormatJournalName key="title" text={journalInfo.name} />],
                     ["ISSN (Online)", journalInfo.issn || "Pending"],
                     ["Frequency", journalInfo.frequency],
                     ["Language", journalInfo.language],
@@ -137,7 +138,7 @@ export default async function PublisherPage() {
                     ["Licence", journalInfo.license],
                     ["Website", journalInfo.websiteUrl],
                   ].map(([label, value], idx) => (
-                    <tr key={label} className={idx !== 0 ? "border-t border-border" : ""}>
+                    <tr key={label as string} className={idx !== 0 ? "border-t border-border" : ""}>
                       <td className="px-4 py-3 font-medium text-muted-foreground bg-muted/30 w-1/3">{label}</td>
                       <td className="px-4 py-3 text-foreground">{value}</td>
                     </tr>

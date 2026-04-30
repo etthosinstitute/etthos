@@ -55,11 +55,11 @@ export const env = {
       ? data.EMAIL_SECURE
       : data.EMAIL_PORT === 465,
   APP_URL: data.APP_URL || "http://localhost:3000",
-  REVIEW_INBOX_EMAIL: data.REVIEW_INBOX_EMAIL || "spider20251@gmail.com",
+  REVIEW_INBOX_EMAIL: data.REVIEW_INBOX_EMAIL || "info@etthos.com",
   CONTACT_INBOX_EMAIL:
     data.CONTACT_INBOX_EMAIL ||
     data.REVIEW_INBOX_EMAIL ||
-    "spider20251@gmail.com",
+    "info@etthos.com",
   AUTH_COOKIE_SECURE:
     data.AUTH_COOKIE_SECURE !== undefined
       ? data.AUTH_COOKIE_SECURE

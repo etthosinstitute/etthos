@@ -17,7 +17,7 @@ export default function TermsPage() {
             <section className="mb-12">
               <h2 className="text-2xl font-bold border-b border-border pb-4 mb-6">1. Acceptance of Terms</h2>
               <p>
-                By accessing or using the Etthos Journal Of Health, Behavior and Applied Psychology website, you agree to comply with and be bound by these Terms and Conditions. If you do not agree, please refrain from using our services.
+                By accessing or using the Etthos Journal of Health, Behavior and Applied Psychology website, you agree to comply with and be bound by these Terms and Conditions. If you do not agree, please refrain from using our services.
               </p>
             </section>
 

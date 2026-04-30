@@ -52,7 +52,7 @@ export const env = {
     data.EMAIL_SECURE !== undefined
       ? data.EMAIL_SECURE
       : data.EMAIL_PORT === 465,
-  CONTACT_INBOX_EMAIL: data.CONTACT_INBOX_EMAIL || "spider20251@gmail.com",
+  CONTACT_INBOX_EMAIL: data.CONTACT_INBOX_EMAIL || "info@etthos.com",
   ENABLE_RAZORPAY_PREVIEW:
     data.ENABLE_RAZORPAY_PREVIEW || data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW || false,
   NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW:

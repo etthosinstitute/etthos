@@ -15,7 +15,7 @@ export async function Footer() {
               <Logo className="h-10 w-auto text-primary" width={120} height={30} />
             </Link>
             <p className="mb-4 font-serif text-[2rem] font-semibold leading-tight text-primary">
-              {journalInfo.name}
+              Etthos Journal <span className="lowercase text-[0.85em]">of</span> Health, Behavior and Applied Psychology
             </p>
             <p className="max-w-sm text-[15px] leading-8 text-muted-foreground">
               {journalInfo.description}
@@ -94,7 +94,7 @@ export async function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
-          <p>&copy; {new Date().getFullYear()} {journalInfo.name}. Published by {journalInfo.publisher}. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Etthos Journal <span className="lowercase text-[0.9em]">of</span> Health, Behavior and Applied Psychology. Published by {journalInfo.publisher}. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-5">
             <span>ISSN: {journalInfo.issn || "Pending"} (Online)</span>
             <Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>

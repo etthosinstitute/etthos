@@ -26,7 +26,7 @@ model Journal {
   contactEmail     String
   infoEmail        String?
   contactPhone     String?
-  websiteUrl       String   @default("https://journal.etthos.com")
+  websiteUrl       String   @default("https://etthosjournal.com")
   mainWebsiteUrl   String   @default("https://etthos.com")
   subjectArea      String   @default("Psychology")
   subjectKeywords  String[]
@@ -537,4 +537,16 @@ model ArticleDownload {
 
   @@index([articleId, downloadedAt])
   @@map("article_downloads")
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@map("contact_submissions")
 }

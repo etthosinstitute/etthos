@@ -21,8 +21,11 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to submit your enquiry right now.";
+    const userFriendlyMessage = message.includes("535") || message.includes("SMTP") 
+      ? "The mail server is currently unavailable. Please try again later or contact us directly."
+      : message;
 
-    return NextResponse.json({ message }, { status: 400 });
+    return NextResponse.json({ message: userFriendlyMessage }, { status: 400 });
   }
 }
 

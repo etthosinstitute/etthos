@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Editorial Board",
-  description: "Meet the distinguished scholars guiding the Etthos Journal Of Health, Behavior and Applied Psychology — profiles, affiliations, and areas of expertise.",
+  description: "Meet the distinguished scholars guiding the Etthos Journal of Health, Behavior and Applied Psychology — profiles, affiliations, and areas of expertise.",
 };
 
 export default async function EditorialBoardPage() {
@@ -17,7 +17,7 @@ export default async function EditorialBoardPage() {
     <>
       <PageHeader 
         title="Editorial Board" 
-        description="Meet the distinguished scholars and practitioners guiding the Etthos Journal Of Health, Behavior and Applied Psychology." 
+        description="Meet the distinguished scholars and practitioners guiding the Etthos Journal of Health, Behavior and Applied Psychology." 
       />
       
       <div className="container mx-auto px-4 py-16">
@@ -48,7 +48,11 @@ export default async function EditorialBoardPage() {
                       alt={member.name}
                       width={176}
                       height={176}
-                      className="h-48 w-48 rounded-2xl object-contain bg-[hsl(var(--highlight)/0.05)] border border-border p-2 shadow-sm"
+                      className={`h-48 w-48 rounded-2xl border border-border shadow-sm transition-all duration-300 ${
+                        member.id === "board-ashwarya-raj-laxmi"
+                          ? "object-cover object-top scale-110"
+                          : "object-contain bg-[hsl(var(--highlight)/0.05)] p-2"
+                      }`}
                     />
                   ) : (
                     <div className="flex h-48 w-48 items-center justify-center rounded-2xl bg-[hsl(var(--highlight)/0.12)] text-4xl font-serif font-bold text-[hsl(var(--highlight))]">

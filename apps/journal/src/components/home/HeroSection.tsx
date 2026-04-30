@@ -59,7 +59,7 @@ export async function HeroSection() {
           {content.eyebrow}
         </p>
         <h1 className="mx-auto mb-6 max-w-5xl font-serif text-5xl font-semibold leading-[0.94] tracking-tight text-[#f7f3ec] drop-shadow-[0_10px_30px_rgba(8,15,28,0.55)] animate-fade-in-up delay-100 md:text-7xl">
-          <span className="block">{heroTitleLineOne}</span>
+          <span className="block">{heroTitleLineOne} <span className="text-[0.65em] lowercase text-[#f7f3ec]/90">of</span></span>
           <span className="mt-1 block text-[0.58em] leading-[1.02] md:mt-2 md:text-[0.54em]">
             {heroTitleLineTwo}
           </span>

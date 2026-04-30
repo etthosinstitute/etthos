@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
 import { cn } from "@/shared/utils";
+import { FormatJournalName } from "./FormatJournalName";
 
 interface PageHeaderProps {
-  title: string;
-  description?: string;
+  title: ReactNode;
+  description?: ReactNode;
   className?: string;
 }
 
@@ -20,11 +22,11 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
       <div className="absolute inset-x-0 bottom-0 h-px bg-border" />
       <div className="container relative mx-auto px-4 text-center">
         <div className="mx-auto mb-5 journal-rule" />
-        <p className="journal-kicker mb-4">Etthos Journal Of Health, Behavior and Applied Psychology</p>
+        <p className="journal-kicker mb-4">Etthos Journal <span className="lowercase text-[0.8em]">of</span> Health, Behavior and Applied Psychology</p>
         <h1 className="mb-4 font-serif text-4xl font-semibold tracking-tight text-primary md:text-6xl">{title}</h1>
         {description && (
           <p className="mx-auto max-w-3xl text-[17px] leading-8 text-muted-foreground md:text-lg">
-            {description}
+            {typeof description === "string" ? <FormatJournalName text={description} /> : description}
           </p>
         )}
       </div>

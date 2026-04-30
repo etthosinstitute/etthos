@@ -34,7 +34,7 @@ This repository uses [Turborepo](https://turbo.build/repo) to manage a full-stac
 etthos-1/
 ├── apps/
 │   ├── landing/          # Main corporate website (etthos.com)
-│   └── journal/          # Journal system (journal.etthos.com)
+│   └── journal/          # Journal system (etthosjournal.com)
 └── packages/
     ├── database/         # Shared Prisma schema & bindings
     ├── ui/               # Shared Radix/Tailwind components
@@ -84,7 +84,7 @@ pnpm dev
 
 ## The Journal System 📚
 
-The **Etthos Journal System** (`journal.etthos.com`) is the flagship application in this ecosystem. It serves as an end-to-end management and public-viewing platform tailored specifically to peer-reviewed Psychology research.
+The **Etthos Journal System** (`etthosjournal.com`) is the flagship application in this ecosystem. It serves as an end-to-end management and public-viewing platform tailored specifically to peer-reviewed Psychology research.
 
 ### Core Features
 - ✅ **ISSN India Compliant:** Designed natively to meet rigorous regulatory demands including hardcoded minimum issues, volume tracking, publisher verifications, and permanent URLs.

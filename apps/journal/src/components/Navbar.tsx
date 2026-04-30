@@ -106,7 +106,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               className="font-semibold text-primary hover:text-secondary transition-colors inline-flex items-center gap-1"
             >
-              Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd <ExternalLink className="h-3 w-3" />
+              Etthos Journal <span className="lowercase text-[0.85em]">of</span> Health, Behavior and Applied Psychology pvt ltd <ExternalLink className="h-3 w-3" />
             </a>
           </span>
           <span className="hidden sm:inline text-muted-foreground">
@@ -121,10 +121,10 @@ export function Navbar() {
             <Logo className="h-10 w-auto text-primary" width={80} height={28} />
             <div className="hidden min-w-0 border-l border-border/90 pl-3 min-[1320px]:block">
               <span className="block font-serif text-[1.02rem] font-semibold leading-tight text-primary">
-                Etthos Journal
+                Etthos Journal <span className="text-[0.75em] lowercase">of</span>
               </span>
               <span className="block max-w-74 text-[9px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                Of Health, Behavior and Applied Psychology
+                Health, Behavior and Applied Psychology
               </span>
             </div>
           </Link>

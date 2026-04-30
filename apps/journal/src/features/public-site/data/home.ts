@@ -2,7 +2,7 @@ import type { HomeContent } from "../types";
 
 export const homeContent: HomeContent = {
   eyebrow: "Welcome to",
-  heroDescription: "An open-access, peer-reviewed journal dedicated to advancing the field of psychology and behavioural sciences through rigorous research and theoretical innovation.",
+  heroDescription: "An open-access, peer-reviewed journal dedicated to advancing global research through rigorous inquiry and multidisciplinary innovation.",
   heroNotice: "Now accepting submissions for our upcoming issue.",
   profileCards: [
     { title: "Authors", subtitle: "Submit your research", icon: "book-open" },

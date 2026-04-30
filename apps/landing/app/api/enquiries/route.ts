@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
       message: "Enquiry submitted successfully. Our admissions team will contact you soon.",
     });
   } catch (error) {
+    console.error("SMTP Error (Enquiry):", error);
     const message = error instanceof Error ? error.message : "Unable to submit your enquiry right now.";
     const userFriendlyMessage = message.includes("535") || message.includes("SMTP") 
       ? "The mail server is currently unavailable. Please try again later or contact us directly."

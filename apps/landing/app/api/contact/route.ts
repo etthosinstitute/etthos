@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
       message: "Thanks for reaching out. We have received your message and will get back to you shortly.",
     });
   } catch (error) {
+    console.error("SMTP Error (Contact):", error);
     const message = error instanceof Error ? error.message : "Unable to send your message right now.";
     const userFriendlyMessage = message.includes("535") || message.includes("SMTP") 
       ? "The mail server is currently unavailable. Please try again later or contact us directly."

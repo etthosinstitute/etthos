@@ -3,6 +3,7 @@ import { getEditorialBoardMembers } from "@/features/public-site/queries";
 import { getEditorialImage } from "@/features/public-site/images";
 import { Mail, MapPin, Globe } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -42,25 +43,27 @@ export default async function EditorialBoardPage() {
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Photo or Avatar */}
                 <div className="flex-shrink-0">
-                  {editorialImage ? (
-                    <Image
-                      src={editorialImage}
-                      alt={member.name}
-                      width={176}
-                      height={176}
-                      className={`h-48 w-48 rounded-2xl border border-border shadow-sm transition-all duration-300 ${
-                        member.id === "board-ashwarya-raj-laxmi"
-                          ? "object-cover object-top scale-110"
-                          : "object-contain bg-[hsl(var(--highlight)/0.05)] p-2"
-                      }`}
-                    />
-                  ) : (
-                    <div className="flex h-48 w-48 items-center justify-center rounded-2xl bg-[hsl(var(--highlight)/0.12)] text-4xl font-serif font-bold text-[hsl(var(--highlight))]">
-                      {member.name
-                        .replace(/^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*(\(Dr\.\))?\s*/i, "")
-                        .charAt(0)}
-                    </div>
-                  )}
+                  <Link href={`/authors/${member.slug}`}>
+                    {editorialImage ? (
+                      <Image
+                        src={editorialImage}
+                        alt={member.name}
+                        width={176}
+                        height={176}
+                        className={`h-48 w-48 rounded-2xl border border-border shadow-sm transition-all duration-300 hover:opacity-80 ${
+                          member.id === "board-ashwarya-raj-laxmi"
+                            ? "object-cover object-top scale-110"
+                            : "object-contain bg-[hsl(var(--highlight)/0.05)] p-2"
+                        }`}
+                      />
+                    ) : (
+                      <div className="flex h-48 w-48 items-center justify-center rounded-2xl bg-[hsl(var(--highlight)/0.12)] text-4xl font-serif font-bold text-[hsl(var(--highlight))] hover:bg-[hsl(var(--highlight)/0.18)] transition-colors">
+                        {member.name
+                          .replace(/^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*(\(Dr\.\))?\s*/i, "")
+                          .charAt(0)}
+                      </div>
+                    )}
+                  </Link>
                 </div>
 
                 {/* Info */}
@@ -72,8 +75,10 @@ export default async function EditorialBoardPage() {
                       </span>
                     </div>
                   </div>
-                  <h3 className="font-serif font-bold text-xl text-primary mb-1">
-                    {member.name}
+                  <h3 className="font-serif font-bold text-xl text-primary mb-1 hover:text-secondary transition-colors">
+                    <Link href={`/authors/${member.slug}`}>
+                      {member.name}
+                    </Link>
                   </h3>
                   <p className="text-sm font-medium text-foreground mb-1">
                     {member.designation}

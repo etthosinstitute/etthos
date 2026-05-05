@@ -21,7 +21,7 @@ export default async function AimsScopePage() {
     <>
       <PageHeader
         title={aimsScopePage.title}
-        description={aimsScopePage.description || "The scope of the Etthos Journal of Health, Behavior and Applied Psychology covers the full breadth of psychology and behavioural sciences."}
+        description={aimsScopePage.description || "The scope of the Etthos Journal of Health, Behavior and Applied Psychology covers a broad range of multidisciplinary fields and scholarly disciplines."}
       />
 
       <div className="container mx-auto px-4 py-16">
@@ -42,7 +42,7 @@ export default async function AimsScopePage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">Subject Coverage</p>
             <h2 className="font-serif font-bold text-3xl mb-4 text-primary">Scope</h2>
             <p className="text-muted-foreground mb-6 leading-7">
-              The <FormatJournalName text="Etthos Journal of Health, Behavior and Applied Psychology" /> welcomes submissions in the following areas of psychology and behavioural sciences, including but not limited to:
+              The <FormatJournalName text="Etthos Journal of Health, Behavior and Applied Psychology" /> welcomes submissions in the following multidisciplinary areas, including but not limited to:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {journalInfo.subjectAreas.map((field) => (

@@ -3,7 +3,7 @@ import type { AimsScopeContent } from "../types";
 export const aimsScopeContent: AimsScopeContent = {
   aimsParagraphs: [
     "The Etthos Journal of Health, Behavior and Applied Psychology is an international, peer-reviewed open access journal.",
-    "Our aim is to encourage scientists to publish their experimental and theoretical results in as much detail as possible. There is no restriction on the maximum length of the papers.",
+    "Our aim is to provide a platform for researchers and practitioners to publish high-quality research across multiple disciplines, encouraging both experimental and theoretical contributions with no restriction on paper length.",
   ],
   articleTypes: [
     { title: "Research Article", description: "Original research studies presenting new and significant findings." },

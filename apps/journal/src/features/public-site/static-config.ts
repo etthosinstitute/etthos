@@ -19,6 +19,13 @@ export const JOURNAL_INFO_DEFAULTS: JournalInfo = {
   phone: null,
   subjectArea: "Multidisciplinary",
   subjectAreas: [
+    "Clinical Psychology",
+    "Positive Psychology",
+    "Neuropsychology",
+    "Developmental Psychology",
+    "Counselling Psychology",
+    "Forensic Psychology",
+    "Educational Psychology",
     "Dietetics & Applied Nutrition",
     "Environment",
     "Journalism",

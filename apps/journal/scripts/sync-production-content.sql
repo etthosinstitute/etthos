@@ -21,6 +21,13 @@ SET
   "mainWebsiteUrl" = 'https://etthos.com',
   "subjectArea" = 'Multidisciplinary',
   "subjectKeywords" = ARRAY[
+    'Clinical Psychology',
+    'Positive Psychology',
+    'Neuropsychology',
+    'Developmental Psychology',
+    'Counselling Psychology',
+    'Forensic Psychology',
+    'Educational Psychology',
     'Dietetics & Applied Nutrition',
     'Environment',
     'Journalism',

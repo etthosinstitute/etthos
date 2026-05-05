@@ -1,6 +1,6 @@
 import type { StaticImageData } from "next/image";
 
-import drAkshay from "../../assets/editorial_board/dr-akshay.jpeg";
+ import drAkshay from "../../assets/editorial_board/dr-akshay.jpeg";
 import drAlkaPandey from "../../assets/editorial_board/dr-alka-pandey.png";
 import drAnnu from "../../assets/editorial_board/dr_annu.jpeg";
 import drAishwarya from "../../assets/editorial_board/dr_aishwarya.jpeg";
@@ -17,7 +17,6 @@ import drRavinder from "../../assets/editorial_board/Dr.Ravinder Kumar.jpeg";
 import ramVinayTiwari from "../../assets/founders/ram-vinay-tiwari.jpeg";
 import vishalAnand from "../../assets/founders/vishal-anand.jpeg";
 import { EDITORIAL_IMAGE_OVERRIDES } from "./static-config";
-
 const editorialImageMap: Record<string, StaticImageData> = {
   "/editorial-board/dr-akshay.jpeg": drAkshay,
   "/editorial-board/dr-alka-pandey.png": drAlkaPandey,
@@ -25,6 +24,7 @@ const editorialImageMap: Record<string, StaticImageData> = {
   "/editorial-board/dr_aishwarya.jpeg": drAishwarya,
   "/editorial-board/dr_luxita.jpeg": drLuxita,
   "/editorial-board/dr_neha.jpeg": drNeha,
+  "/editorial-board/dr_pooja_rana.jpeg": drPoojaRana,
   "/editorial-board/Dr_pooja_rana.jpeg": drPoojaRana,
   "/editorial-board/dr_priyanka.jpeg": drPriyanka,
   "/editorial-board/dr_sanjay.jpeg": drSanjay,
@@ -33,8 +33,8 @@ const editorialImageMap: Record<string, StaticImageData> = {
   "/editorial-board/dr_pallavi.jpeg": drPallavi,
   "/editorial-board/dr_tanu.jpeg": drTanu,
   "/editorial-board/dr_ravinder.jpeg": drRavinder,
+  "/editorial-board/Dr.Ravinder Kumar.jpeg": drRavinder,
 };
-
 const founderImageMap: Record<string, StaticImageData> = {
   "/aboutusimages/ram-vinay-tiwari.jpeg": ramVinayTiwari,
   "/aboutusimages/vishal-anand.jpeg": vishalAnand,

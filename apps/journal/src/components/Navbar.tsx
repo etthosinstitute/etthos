@@ -30,6 +30,7 @@ export function Navbar() {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const [currentUser, setCurrentUser] = useState<{
     id: string;
     email: string;
@@ -78,6 +79,10 @@ export function Navbar() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   async function handleLogout() {
     await apiRequest("/api/auth/logout", "POST");
     setCurrentUser(null);
@@ -95,7 +100,7 @@ export function Navbar() {
     currentUser?.firstName?.[0] || currentUser?.email?.[0]?.toUpperCase() || "A";
 
   return (
-    <>
+    <div suppressHydrationWarning>
       <div className="border-b border-border/60 bg-[hsl(var(--paper)/0.86)] text-foreground text-xs">
         <div className="container mx-auto flex items-center justify-between px-4 py-2.5">
           <span className="flex items-center gap-1.5 text-muted-foreground">
@@ -223,7 +228,7 @@ export function Navbar() {
               <span className="sr-only">Search</span>
             </Button>
             <div className="hidden xl:block">
-              {currentUser ? (
+              {mounted && currentUser ? (
                 <Button asChild size="sm" className="rounded-full bg-secondary px-4 hover:bg-secondary/90 text-secondary-foreground shadow-[0_12px_24px_-16px_hsl(var(--secondary))]">
                   <Link href="/submit">Submit Manuscript</Link>
                 </Button>
@@ -354,6 +359,6 @@ export function Navbar() {
           </div>
         )}
       </nav>
-    </>
+    </div>
   );
 }

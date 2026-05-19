@@ -5,7 +5,7 @@ SET
   name = 'Etthos Journal Of Health, Behavior and Applied Psychology',
   "shortName" = 'EJHBAP',
   description = 'A peer-reviewed, open-access academic journal dedicated to advancing research in psychology and behavioural sciences.',
-  publisher = 'Etthos',
+  publisher = 'Etthos Institute of Behavioral Research and Training Pvt Ltd',
   frequency = 'Quarterly',
   language = 'English',
   country = 'India',
@@ -19,7 +19,7 @@ SET
   "contactPhone" = '+91 72610 28965',
   "websiteUrl" = 'https://etthosjournal.com',
   "mainWebsiteUrl" = 'https://etthos.com',
-  "subjectArea" = 'Multidisciplinary',
+  "subjectArea" = 'Interdisciplinary',
   "subjectKeywords" = ARRAY[
     'Clinical Psychology',
     'Positive Psychology',
@@ -40,7 +40,6 @@ SET
     'Liberal Arts',
     'Linguistics',
     'Nursing',
-    'Oceanography',
     'Media & Communication',
     'Ayurveda',
     'Yoga Science'
@@ -71,7 +70,8 @@ VALUES
   ('aff-independent-ayurveda', 'Independent Practitioner', 'Ayurvedic Medicine & Integrative Women''s Healthcare', 'New Delhi', 'Delhi', 'India', NULL, NOW(), NOW()),
   ('aff-galgotias-political', 'Galgotias University', 'Dept of Political Science', 'Greater Noida', 'Uttar Pradesh', 'India', 'https://www.galgotiasuniversity.edu.in/', NOW(), NOW()),
   ('aff-vit-psychology', 'Vellore Institute of Technology', 'Department of Psychology', 'Vellore', 'Tamil Nadu', 'India', 'https://vit.ac.in/', NOW(), NOW()),
-  ('aff-cuk-psychology', 'Central University of Karnataka', 'Dept. of Psychology', 'Kalaburagi', 'Karnataka', 'India', 'https://www.cuk.ac.in/', NOW(), NOW())
+  ('aff-cuk-psychology', 'Central University of Karnataka', 'Dept. of Psychology', 'Kalaburagi', 'Karnataka', 'India', 'https://www.cuk.ac.in/', NOW(), NOW()),
+  ('aff-sri-aurobindo-psychology', 'Sri Aurobindo College (Eve.)', 'Department of Applied Psychology', 'New Delhi', 'Delhi', 'India', NULL, NOW(), NOW())
 ON CONFLICT (institution, department, city, country)
 DO UPDATE SET
   state = EXCLUDED.state,
@@ -93,7 +93,7 @@ VALUES
   'Amity Institute of Behavioural and Allied Sciences (AIBAS)',
   (SELECT id FROM affiliations WHERE institution = 'Amity University Haryana' AND department = 'Amity Institute of Behavioural and Allied Sciences (AIBAS)' AND city = 'Gurugram' AND country = 'India'),
   'India', NULL,
-  'Dr. Priyanka Verma heads the Amity Institute of Behavioural and Allied Sciences (AIBAS) at Amity University Haryana. She established a Centre of Excellence for Psychometric Testing and holds three design patents in mental health innovation, including a VR Device for Mental Health Diagnostics.',
+  'Dr. Priyanka Verma is the Head of Institution and Associate Professor at the Amity Institute of Behavioural and Allied Sciences (AIBAS), Amity University Haryana, where she leads one of India''s most dynamic interdisciplinary behavioural science programmes. A scholar-practitioner of exceptional breadth, she holds advanced qualifications in Counselling Psychology and has built a distinguished career at the intersection of applied psychology, psychometric assessment, and mental health innovation. Under her visionary leadership, AIBAS has established a Centre of Excellence for Psychometric Testing — a first-of-its-kind initiative that bridges academic rigour with real-world diagnostic application. Dr. Verma is the holder of three design patents in mental health technology, most notably a Virtual Reality (VR) Device for Mental Health Diagnostics, reflecting her commitment to translating psychological science into cutting-edge clinical tools. Her scholarly contributions span counselling psychology, positive psychology, organisational behaviour, and psychometric instrument development. She has guided numerous postgraduate and doctoral scholars and maintains an active research profile in mental health intervention and well-being. As the founding Editor-in-Chief of the Etthos Journal of Health, Behavior and Applied Psychology, Dr. Verma brings to the editorial role an unwavering dedication to scholarly integrity, interdisciplinary inquiry, and the global advancement of behavioural sciences.',
   ARRAY['Counselling Psychology','Positive Psychology','Psychometric Testing','Organisational Behaviour','Mental Health']::text[],
   '/editorial-board/dr_priyanka.jpeg', NULL, 1, true, NOW(), NOW(), NOW()
 ),
@@ -106,7 +106,7 @@ VALUES
   'India', NULL,
   'Dr. Anu Gauba is a distinguished nursing educator and public health advocate with over two decades of experience. She holds the Chancellor''s Gold Medal for Best PhD Thesis from the National Institute of Medical Sciences University, Jaipur, and has authored multiple academic publications including a monograph by Lambert Publications (UK).',
   ARRAY['Nursing Education','Public Health','Community Medicine','Health Training & Policy','Research']::text[],
-  '/editorial-board/dr_annu.jpeg', NULL, 2, true, NOW(), NOW(), NOW()
+  '/editorial-board/dr_annu.jpeg', NULL, 4, true, NOW(), NOW(), NOW()
 ),
 (
   'board-pcs-devara',
@@ -128,7 +128,7 @@ VALUES
   'India', NULL,
   'Dr. Pallavi Beri is the Program Chair and Associate Professor in the Dept of Political Science at Galgotias University. She is the Principal Investigator for an ICSSR Project on Women-led Development. With over 11 years of teaching experience, she holds an M.A, M.Phil, and PhD in Political Science from JNU, and a BA from Delhi University. She has multiple publications with reputed Scopus indexed publishers and regularly chairs and presents at international conferences.',
   ARRAY['Political Science', 'Women-led Development']::text[],
-  '/editorial-board/dr_pallavi.jpeg', NULL, 4, true, NOW(), NOW(), NOW()
+  '/editorial-board/dr_pallavi.jpeg', NULL, 6, true, NOW(), NOW(), NOW()
 ),
 (
   'board-luxita-sharma',
@@ -150,7 +150,7 @@ VALUES
   'India', NULL,
   'Dr. Tanu Kukreja Bhayana is an Associate Professor at Vellore Institute of Technology, Vellore. She has over 13 years of experience in teaching and research. Dr. Kukreja has one patent filed, 18 publications, and has presented 20+ research papers. She is an international affiliate with the APA and a reviewer for Springer''s ''Journal of Autism and Developmental Disorder''. She holds a master''s and doctorate in psychology from GJU, Haryana, an MBA (HR), and is certified in training and management of learning disabled.',
   ARRAY['Mental Health Literacy', 'Emotion Regulation', 'Child and Adolescent Mental Health', 'Workplace Spirituality']::text[],
-  '/editorial-board/dr_tanu.jpeg', NULL, 6, true, NOW(), NOW(), NOW()
+  '/editorial-board/dr_tanu.jpeg', NULL, 8, true, NOW(), NOW(), NOW()
 ),
 (
   'board-pooja-rana',
@@ -172,7 +172,7 @@ VALUES
   'India', NULL,
   'Dr. Vikas Sharma holds an M.Phil. in Clinical Psychology from IHBAS, New Delhi and a Doctorate from the University of Delhi. He has published over 50 research papers and is a member of the Indian Association of Clinical Psychologists (IACP) and the Indian Society of Sleep Research.',
   ARRAY['Clinical Psychology','Cognitive Behaviour Therapy','Behavioural Medicine','Sleep Research','Psychological Assessment']::text[],
-  '/editorial-board/dr_vikas.jpeg', NULL, 8, true, NOW(), NOW(), NOW()
+  '/editorial-board/dr_vikas.jpeg', NULL, 10, true, NOW(), NOW(), NOW()
 ),
 (
   'board-sanjay-jha',
@@ -194,7 +194,7 @@ VALUES
   'India', NULL,
   'Dr. Ravinder Kumar is an Assistant Professor in the Dept. of Psychology at Central University of Karnataka, Kalaburagi.',
   ARRAY['Psychology']::text[],
-  '/editorial-board/dr_ravinder.jpeg', NULL, 10, true, NOW(), NOW(), NOW()
+  '/editorial-board/dr_ravinder.jpeg', NULL, 12, true, NOW(), NOW(), NOW()
 ),
 (
   'board-neha-mishra',
@@ -216,7 +216,7 @@ VALUES
   'India', NULL,
   'Dr. Alka Pandey holds a PhD in Child Guidance and Family Counselling and a Post-Doctoral Fellowship from G.B. Pant University. She is a recipient of the ICAR-Junior Research Fellowship at All India 1st Rank, UGC-NET, and the Young Scientist Award. She has over 40 publications in Scopus-indexed journals.',
   ARRAY['Child Guidance & Counselling','Clinical Psychology','Human Development','Mental Health','Life Skills Training']::text[],
-  '/editorial-board/dr-alka-pandey.png', NULL, 12, true, NOW(), NOW(), NOW()
+  '/editorial-board/dr-alka-pandey.png', NULL, 14, true, NOW(), NOW(), NOW()
 ),
 (
   'board-akshay-ohlan',
@@ -238,7 +238,18 @@ VALUES
   'India', NULL,
   'Dr. Ashwarya Raj Laxmi is a qualified Ayurvedic physician and clinical researcher specialising in Prasuti Tantra evum Stree Roga (Obstetrics & Gynaecology). Her practice integrates classical Shastraic knowledge with contemporary clinical protocols for women''s healthcare.',
   ARRAY['Ayurvedic Medicine','Women''s Health','Clinical Obstetrics','Integrative Healthcare','Nutritional Counselling']::text[],
-  '/editorial-board/dr_aishwarya.jpeg', NULL, 14, true, NOW(), NOW(), NOW()
+  '/editorial-board/dr_aishwarya.jpeg', NULL, 2, true, NOW(), NOW(), NOW()
+),
+(
+  'board-pragyendu',
+  'Pragyendu', '', 'Prof.', 'pragyendu2009@yahoo.com', 'EDITORIAL_BOARD_MEMBER', 'Editorial Board Member',
+  'Associate Professor & IQAC Head',
+  'Department of Applied Psychology',
+  (SELECT id FROM affiliations WHERE institution = 'Sri Aurobindo College (Eve.)' AND department = 'Department of Applied Psychology' AND city = 'New Delhi' AND country = 'India'),
+  'India', NULL,
+  'Prof. Pragyendu is an Associate Professor in the Department of Applied Psychology at Sri Aurobindo College (Eve.), University of Delhi, with 19 years of teaching experience. She holds a PhD in Psychology from the University of Delhi and has been principal investigator on major funded projects from ICSSR, the Bureau of Police Research & Development (MHA), and the University of Delhi. An expert member at the Commission for Scientific and Technical Terminology (MHRD, Govt. of India), she has published over 40 research papers and two books. Her community outreach includes Participatory Rural Appraisal mental health programmes across six states and an operational 24x7 online counselling cell for college students.',
+  ARRAY['National Security Psychology','Counter-Terrorism','Volunteerism','Counselling Psychology','Gratitude & Forgiveness','Rural Mental Health','Helping Behaviour','Happiness']::text[],
+  '/editorial-board/dr_Pragyendu.jpeg', NULL, 15, true, NOW(), NOW(), NOW()
 )
 ON CONFLICT (id) DO UPDATE SET
   "firstName" = EXCLUDED."firstName",

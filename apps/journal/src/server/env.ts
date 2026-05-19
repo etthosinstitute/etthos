@@ -23,8 +23,8 @@ const baseSchema = z.object({
     }),
   EMAIL_USER: z.string().optional(),
   EMAIL_PASS: z.string().optional(),
-  REVIEW_INBOX_EMAIL: z.string().email().optional(),
-  CONTACT_INBOX_EMAIL: z.string().email().optional(),
+  REVIEW_INBOX_EMAIL: z.string().optional(),
+  CONTACT_INBOX_EMAIL: z.string().optional(),
   UPLOAD_DIR: z.string().optional(),
   MAX_UPLOAD_MB: z.coerce.number().positive().default(10),
 });
@@ -55,11 +55,11 @@ export const env = {
       ? data.EMAIL_SECURE
       : data.EMAIL_PORT === 465,
   APP_URL: data.APP_URL || "http://localhost:3000",
-  REVIEW_INBOX_EMAIL: data.REVIEW_INBOX_EMAIL || "info@etthos.com",
+  REVIEW_INBOX_EMAIL: data.REVIEW_INBOX_EMAIL || "etthosjournal@gmail.com, Dr.priyankapsychology@gmail.com",
   CONTACT_INBOX_EMAIL:
     data.CONTACT_INBOX_EMAIL ||
     data.REVIEW_INBOX_EMAIL ||
-    "info@etthos.com",
+    "etthosjournal@gmail.com, Dr.priyankapsychology@gmail.com",
   AUTH_COOKIE_SECURE:
     data.AUTH_COOKIE_SECURE !== undefined
       ? data.AUTH_COOKIE_SECURE

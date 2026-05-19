@@ -14,6 +14,7 @@ import profDevara from "../../assets/editorial_board/prof-devara.jpeg";
 import drPallavi from "../../assets/editorial_board/Profile pic - Pallavi.jpg";
 import drTanu from "../../assets/editorial_board/dr.tanu.jpeg";
 import drRavinder from "../../assets/editorial_board/Dr.Ravinder Kumar.jpeg";
+import drPragyendu from "../../assets/editorial_board/dr_Pragyendu.jpeg";
 import ramVinayTiwari from "../../assets/founders/ram-vinay-tiwari.jpeg";
 import vishalAnand from "../../assets/founders/vishal-anand.jpeg";
 import { EDITORIAL_IMAGE_OVERRIDES } from "./static-config";
@@ -34,6 +35,7 @@ const editorialImageMap: Record<string, StaticImageData> = {
   "/editorial-board/dr_tanu.jpeg": drTanu,
   "/editorial-board/dr_ravinder.jpeg": drRavinder,
   "/editorial-board/Dr.Ravinder Kumar.jpeg": drRavinder,
+  "/editorial-board/dr_Pragyendu.jpeg": drPragyendu,
 };
 const founderImageMap: Record<string, StaticImageData> = {
   "/aboutusimages/ram-vinay-tiwari.jpeg": ramVinayTiwari,

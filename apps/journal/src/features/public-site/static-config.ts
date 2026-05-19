@@ -5,10 +5,10 @@ export const JOURNAL_INFO_DEFAULTS: JournalInfo = {
   name: "Etthos Journal of Health, Behavior and Applied Psychology",
   shortName: "EJHBAP",
   description:
-    "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Journal of Health, Behavior and Applied Psychology pvt ltd, dedicated to advancing research in psychology and behavioural sciences.",
+    "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Institute of Behavioral Research and Training Pvt Ltd, dedicated to advancing research in psychology and behavioural sciences.",
   issn: null,
   eissn: null,
-  publisher: "Etthos Journal of Health, Behavior and Applied Psychology pvt ltd",
+  publisher: "Etthos Institute of Behavioral Research and Training Pvt Ltd",
   frequency: "Quarterly",
   language: "English",
   country: "India",
@@ -17,7 +17,7 @@ export const JOURNAL_INFO_DEFAULTS: JournalInfo = {
   contactEmail: "info@etthos.com",
   infoEmail: "info@etthos.com",
   phone: null,
-  subjectArea: "Multidisciplinary",
+  subjectArea: "Interdisciplinary",
   subjectAreas: [
     "Clinical Psychology",
     "Positive Psychology",
@@ -38,7 +38,7 @@ export const JOURNAL_INFO_DEFAULTS: JournalInfo = {
     "Liberal Arts",
     "Linguistics",
     "Nursing",
-    "Oceanography",
+
     "Media & Communication",
     "Ayurveda",
     "Yoga Science",

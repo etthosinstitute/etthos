@@ -112,7 +112,7 @@ export const getJournalInfo = unstable_cache(
       description: mapped.description || JOURNAL_INFO_DEFAULTS.description,
     };
   },
-  ["journal-info-v3"],
+  ["journal-info-v4"],
   { tags: ["journal-info"], revalidate: STATIC_REVALIDATE_SECONDS }
 );
 
@@ -310,7 +310,7 @@ export const getEditorialBoardMembers = unstable_cache(
 
     return members.map((member) => mapBoardMember(member as BoardMemberRecord));
   },
-  ["editorial-board-members-v3"],
+  ["editorial-board-members-v4"],
   { tags: ["editorial-board"], revalidate: STATIC_REVALIDATE_SECONDS }
 );
 

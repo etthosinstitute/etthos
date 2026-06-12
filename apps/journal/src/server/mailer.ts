@@ -49,7 +49,7 @@ export function wrapHtmlEmail(content: string) {
 export async function trySendEmail(
   fn: () => Promise<void>,
   failureMessage: string,
-  logLabel: string
+  logLabel: string,
 ) {
   try {
     await fn();

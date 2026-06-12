@@ -1,7 +1,10 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ArticleCard } from "@/components/ArticleCard";
 import { FormatJournalName } from "@/components/FormatJournalName";
-import { getJournalInfo, getPublishedIssueBySlug } from "@/features/public-site/queries";
+import {
+  getJournalInfo,
+  getPublishedIssueBySlug,
+} from "@/features/public-site/queries";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -9,7 +12,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const [result, journalInfo] = await Promise.all([
     getPublishedIssueBySlug(slug),
@@ -52,7 +57,8 @@ export default async function IssuePage({ params }: PageProps) {
                 <FormatJournalName text={journalInfo.name} />
               </span>
               <span className="text-[15px] text-[hsl(var(--ink-soft))]">
-                Volume {issue.volume}, Issue {issue.issue} — {issue.month} {issue.year}
+                Volume {issue.volume}, Issue {issue.issue} — {issue.month}{" "}
+                {issue.year}
               </span>
             </div>
             <div className="text-sm text-muted-foreground">
@@ -66,7 +72,7 @@ export default async function IssuePage({ params }: PageProps) {
           <h2 className="journal-heading mb-8 text-2xl font-bold md:text-[2rem]">
             Articles in this Issue
           </h2>
-          
+
           <div className="space-y-6">
             {issueArticles.map((article) => (
               <ArticleCard key={article.id} article={article} />

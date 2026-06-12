@@ -34,10 +34,14 @@ const ContactPage = () => {
       const result = (await response.json()) as { message?: string };
 
       if (!response.ok) {
-        throw new Error(result.message || "Unable to send your message right now.");
+        throw new Error(
+          result.message || "Unable to send your message right now.",
+        );
       }
 
-      setStatusMessage(result.message || "Your message has been sent successfully.");
+      setStatusMessage(
+        result.message || "Your message has been sent successfully.",
+      );
       setFormData({
         fullName: "",
         email: "",
@@ -46,14 +50,18 @@ const ContactPage = () => {
         agreedToTerms: false,
       });
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Unable to send your message right now.");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to send your message right now.",
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
@@ -182,14 +190,14 @@ const ContactPage = () => {
                 Send us a <span className="text-brand-cyan">Message</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                Fill out the form below and we&apos;ll get back to you as soon as
-                possible.
+                Fill out the form below and we&apos;ll get back to you as soon
+                as possible.
               </p>
             </div>
 
             <div className="relative bg-white dark:bg-[#0a0f1e] p-8 md:p-12 rounded-[2.5rem] border border-slate-200 dark:border-white/20 shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-br from-brand-cyan/5 via-transparent to-brand-iris/5 dark:from-brand-cyan/10 dark:via-transparent dark:to-brand-iris/10 rounded-[2.5rem] opacity-50" />
-              
+
               <form onSubmit={handleSubmit} className="relative space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -354,7 +362,7 @@ const ContactPage = () => {
                   className="group relative bg-white dark:bg-brand-midnight rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-cyan/5 via-transparent to-brand-iris/5 dark:from-brand-cyan/10 dark:via-transparent dark:to-brand-iris/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  
+
                   <div className="relative p-8 bg-white dark:bg-brand-ink/50">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-cyan to-brand-cyan/70 text-white text-2xl shadow-lg">
@@ -368,7 +376,7 @@ const ContactPage = () => {
                       {office.address}
                     </p>
                   </div>
-                  
+
                   <div className="relative h-80 w-full overflow-hidden">
                     <iframe
                       src={office.mapUrl}

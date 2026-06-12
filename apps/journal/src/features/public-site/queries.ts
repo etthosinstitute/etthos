@@ -67,7 +67,7 @@ type PaginatedResult<T> = {
 
 function normalizePagination(
   options: PaginationOptions | undefined,
-  fallbackPageSize: number
+  fallbackPageSize: number,
 ) {
   const page =
     typeof options?.page === "number" && Number.isFinite(options.page)
@@ -113,7 +113,7 @@ export const getJournalInfo = unstable_cache(
     };
   },
   ["journal-info-v4"],
-  { tags: ["journal-info"], revalidate: STATIC_REVALIDATE_SECONDS }
+  { tags: ["journal-info"], revalidate: STATIC_REVALIDATE_SECONDS },
 );
 
 export async function getPublishedArticles(limit?: number) {
@@ -134,16 +134,18 @@ export async function getPublishedArticles(limit?: number) {
       return articles.map((article) => mapArticle(article));
     },
     ["published-articles", `take:${take ?? "all"}`],
-    { tags: ["articles"], revalidate: LIST_REVALIDATE_SECONDS }
+    { tags: ["articles"], revalidate: LIST_REVALIDATE_SECONDS },
   )();
 }
 
 export async function getPublishedArticlesPage(
-  options?: PaginationOptions
-): Promise<PaginatedResult<Awaited<ReturnType<typeof getPublishedArticles>>[number]>> {
+  options?: PaginationOptions,
+): Promise<
+  PaginatedResult<Awaited<ReturnType<typeof getPublishedArticles>>[number]>
+> {
   const { page, pageSize, skip, take } = normalizePagination(
     options,
-    DEFAULT_ARTICLES_PAGE_SIZE
+    DEFAULT_ARTICLES_PAGE_SIZE,
   );
 
   return unstable_cache(
@@ -168,7 +170,7 @@ export async function getPublishedArticlesPage(
       };
     },
     ["published-articles-page", `page:${page}`, `size:${pageSize}`],
-    { tags: ["articles"], revalidate: LIST_REVALIDATE_SECONDS }
+    { tags: ["articles"], revalidate: LIST_REVALIDATE_SECONDS },
   )();
 }
 
@@ -187,7 +189,7 @@ export async function getPublishedArticleBySlug(slug: string) {
       return mapArticle(article);
     },
     ["published-article-by-slug", slug],
-    { tags: ["articles"], revalidate: LIST_REVALIDATE_SECONDS }
+    { tags: ["articles"], revalidate: LIST_REVALIDATE_SECONDS },
   )();
 }
 
@@ -209,16 +211,18 @@ export async function getPublishedIssues() {
       return issues.map((issue) => mapIssueSummary(issue));
     },
     ["published-issues"],
-    { tags: ["issues"], revalidate: LIST_REVALIDATE_SECONDS }
+    { tags: ["issues"], revalidate: LIST_REVALIDATE_SECONDS },
   )();
 }
 
 export async function getPublishedIssuesPage(
-  options?: PaginationOptions
-): Promise<PaginatedResult<Awaited<ReturnType<typeof getPublishedIssues>>[number]>> {
+  options?: PaginationOptions,
+): Promise<
+  PaginatedResult<Awaited<ReturnType<typeof getPublishedIssues>>[number]>
+> {
   const { page, pageSize, skip, take } = normalizePagination(
     options,
-    DEFAULT_ISSUES_PAGE_SIZE
+    DEFAULT_ISSUES_PAGE_SIZE,
   );
 
   return unstable_cache(
@@ -249,7 +253,7 @@ export async function getPublishedIssuesPage(
       };
     },
     ["published-issues-page", `page:${page}`, `size:${pageSize}`],
-    { tags: ["issues"], revalidate: LIST_REVALIDATE_SECONDS }
+    { tags: ["issues"], revalidate: LIST_REVALIDATE_SECONDS },
   )();
 }
 
@@ -290,7 +294,7 @@ export async function getPublishedIssueBySlug(slug: string) {
       };
     },
     ["published-issue-by-slug", slug],
-    { tags: ["issues", "articles"], revalidate: LIST_REVALIDATE_SECONDS }
+    { tags: ["issues", "articles"], revalidate: LIST_REVALIDATE_SECONDS },
   )();
 }
 
@@ -311,7 +315,7 @@ export const getEditorialBoardMembers = unstable_cache(
     return members.map((member) => mapBoardMember(member as BoardMemberRecord));
   },
   ["editorial-board-members-v4"],
-  { tags: ["editorial-board"], revalidate: STATIC_REVALIDATE_SECONDS }
+  { tags: ["editorial-board"], revalidate: STATIC_REVALIDATE_SECONDS },
 );
 
 export async function getAuthorProfileBySlug(slug: string) {
@@ -329,7 +333,7 @@ export async function getAuthorProfileBySlug(slug: string) {
       });
 
       const member = members.find(
-        (entry) => createPersonSlug(entry.firstName, entry.lastName) === slug
+        (entry) => createPersonSlug(entry.firstName, entry.lastName) === slug,
       );
       if (!member) return null;
 
@@ -354,6 +358,9 @@ export async function getAuthorProfileBySlug(slug: string) {
       };
     },
     ["author-profile-by-slug", slug],
-    { tags: ["editorial-board", "articles"], revalidate: LIST_REVALIDATE_SECONDS }
+    {
+      tags: ["editorial-board", "articles"],
+      revalidate: LIST_REVALIDATE_SECONDS,
+    },
   )();
 }

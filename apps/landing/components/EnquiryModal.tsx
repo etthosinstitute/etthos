@@ -9,7 +9,11 @@ type EnquiryModalProps = {
   courseTitle: string;
 };
 
-export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps) => {
+export const EnquiryModal = ({
+  isOpen,
+  onClose,
+  courseTitle,
+}: EnquiryModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -43,7 +47,9 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
       const result = (await response.json()) as { message?: string };
 
       if (!response.ok) {
-        throw new Error(result.message || "Unable to submit your enquiry right now.");
+        throw new Error(
+          result.message || "Unable to submit your enquiry right now.",
+        );
       }
 
       setStatusMessage(result.message || "Enquiry submitted successfully.");
@@ -54,7 +60,11 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
         setStatusMessage(null);
       }, 1200);
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Unable to submit your enquiry right now.");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to submit your enquiry right now.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +72,7 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div 
+      <div
         className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 border border-slate-200 dark:border-slate-800"
         onClick={(e) => e.stopPropagation()}
       >
@@ -78,12 +88,19 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
             Enquire Now
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-            Fill in your details to know more about <span className="text-indigo-600 dark:text-indigo-400 font-semibold">{courseTitle}</span>.
+            Fill in your details to know more about{" "}
+            <span className="text-indigo-600 dark:text-indigo-400 font-semibold">
+              {courseTitle}
+            </span>
+            .
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+              >
                 Full Name
               </label>
               <input
@@ -93,12 +110,17 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
                 placeholder="Enter your full name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+              >
                 Email Address
               </label>
               <input
@@ -108,13 +130,18 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
                 placeholder="Enter your email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                >
                   Phone Number
                 </label>
                 <input
@@ -124,12 +151,17 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
                   placeholder="+91..."
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                 />
               </div>
 
               <div>
-                <label htmlFor="age" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                <label
+                  htmlFor="age"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                >
                   Age
                 </label>
                 <input
@@ -141,7 +173,9 @@ export const EnquiryModal = ({ isOpen, onClose, courseTitle }: EnquiryModalProps
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
                   placeholder="Age"
                   value={formData.age}
-                  onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, age: e.target.value })
+                  }
                 />
               </div>
             </div>

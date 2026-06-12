@@ -5,7 +5,8 @@ import { ProgramCard } from "@repo/ui/program-card";
 const programs = [
   {
     title: "Counselling",
-    description: "Protect Your Peace, Emotionally. Evidence-based psychological care under RCI Licensed Clinical Psychologists for individuals and organizations.",
+    description:
+      "Protect Your Peace, Emotionally. Evidence-based psychological care under RCI Licensed Clinical Psychologists for individuals and organizations.",
     imageUrl: "/program-images/counselling.png",
     icon: "💚",
     buttonText: "Learn More",
@@ -14,7 +15,8 @@ const programs = [
   },
   {
     title: "Training",
-    description: "Globally Recognized. Professional certifications, internships, and diplomas bridging academic theory and clinical practice.",
+    description:
+      "Globally Recognized. Professional certifications, internships, and diplomas bridging academic theory and clinical practice.",
     imageUrl: "/program-images/training.png",
     icon: "🎓",
     buttonText: "Learn More",
@@ -22,7 +24,8 @@ const programs = [
   },
   {
     title: "Research",
-    description: "Meeting Global Research Standards. Driving real-world impact through psychology and behavioral science research.",
+    description:
+      "Meeting Global Research Standards. Driving real-world impact through psychology and behavioral science research.",
     imageUrl: "/program-images/research.png",
     icon: "🔬",
     buttonText: "Learn More",
@@ -30,7 +33,8 @@ const programs = [
   },
   {
     title: "Consulting",
-    description: "Managing Human Behaviour. Customized consultation services for corporates, institutions, NGOs, and startups.",
+    description:
+      "Managing Human Behaviour. Customized consultation services for corporates, institutions, NGOs, and startups.",
     imageUrl: "/program-images/consulting.png",
     icon: "🤝",
     buttonText: "Learn More",
@@ -40,8 +44,14 @@ const programs = [
 
 export const Programs = () => {
   return (
-    <section className="relative bg-surface-base py-24 transition-colors" id="services">
-      <div className="absolute inset-0 bg-gradient-to-b from-surface-card via-surface-soft to-surface-base dark:from-brand-ink dark:via-brand-ink/40 dark:to-brand-midnight" aria-hidden />
+    <section
+      className="relative bg-surface-base py-24 transition-colors"
+      id="services"
+    >
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-surface-card via-surface-soft to-surface-base dark:from-brand-ink dark:via-brand-ink/40 dark:to-brand-midnight"
+        aria-hidden
+      />
       <div className="relative mx-auto max-w-[1440px] px-4 text-text-high md:px-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl">
@@ -52,7 +62,8 @@ export const Programs = () => {
               Services & Programs for Real Impact.
             </h2>
             <p className="text-lg text-text-muted">
-              Comprehensive ecosystem for mental health education, counselling, research, and organizational consulting.
+              Comprehensive ecosystem for mental health education, counselling,
+              research, and organizational consulting.
             </p>
           </div>
         </div>

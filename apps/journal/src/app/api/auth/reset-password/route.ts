@@ -26,7 +26,10 @@ export async function POST(req: NextRequest) {
     const resetRecord = await consumePasswordResetToken(token);
 
     if (!resetRecord) {
-      return NextResponse.json({ error: "This reset link is invalid or has expired." }, { status: 400 });
+      return NextResponse.json(
+        { error: "This reset link is invalid or has expired." },
+        { status: 400 },
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -46,7 +49,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({
-      message: "Password reset successful. You can now log in with your new password.",
+      message:
+        "Password reset successful. You can now log in with your new password.",
     });
   } catch (error) {
     console.error("Reset password error:", error);

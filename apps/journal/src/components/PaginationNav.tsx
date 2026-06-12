@@ -6,7 +6,11 @@ interface PaginationNavProps {
   totalPages: number;
 }
 
-export function PaginationNav({ basePath, page, totalPages }: PaginationNavProps) {
+export function PaginationNav({
+  basePath,
+  page,
+  totalPages,
+}: PaginationNavProps) {
   if (totalPages <= 1) {
     return null;
   }

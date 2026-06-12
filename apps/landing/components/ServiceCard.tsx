@@ -54,7 +54,9 @@ export const ServiceCard = ({
             {badge}
           </div>
         )}
-        <span className={`inline-flex items-center gap-2 text-sm font-semibold text-brand-cyan group-hover:gap-3 transition-all ${!badge ? 'ml-auto' : ''}`}>
+        <span
+          className={`inline-flex items-center gap-2 text-sm font-semibold text-brand-cyan group-hover:gap-3 transition-all ${!badge ? "ml-auto" : ""}`}
+        >
           Learn More
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </span>

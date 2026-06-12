@@ -10,7 +10,9 @@ import { handleRouteError } from "@/shared/utils";
 const changePasswordSchema = z
   .object({
     currentPassword: z.string().min(1, "Current password is required."),
-    newPassword: z.string().min(8, "New password must be at least 8 characters long."),
+    newPassword: z
+      .string()
+      .min(8, "New password must be at least 8 characters long."),
     confirmPassword: z.string().min(8, "Please confirm the new password."),
   })
   .refine((value) => value.newPassword === value.confirmPassword, {
@@ -43,9 +45,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
-    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, dbUser.password);
+    const isCurrentPasswordValid = await bcrypt.compare(
+      currentPassword,
+      dbUser.password,
+    );
     if (!isCurrentPasswordValid) {
-      return NextResponse.json({ error: "Current password is incorrect." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Current password is incorrect." },
+        { status: 400 },
+      );
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);

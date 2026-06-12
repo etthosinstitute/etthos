@@ -8,7 +8,11 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  email: z.string().trim().email().transform((value) => value.toLowerCase()),
+  email: z
+    .string()
+    .trim()
+    .email()
+    .transform((value) => value.toLowerCase()),
   password: z.string(),
 });
 
@@ -34,12 +38,18 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user || !user.password) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 },
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 },
+      );
     }
 
     await prisma.user.update({
@@ -70,7 +80,7 @@ export async function POST(req: NextRequest) {
           isReviewer: user.isReviewer,
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
 
     setAuthCookie(response, token, req);

@@ -9,9 +9,13 @@ interface LogoProps {
   height?: number;
 }
 
-export const Logo = ({ className = "", width = 140, height = 36 }: LogoProps) => {
+export const Logo = ({
+  className = "",
+  width = 140,
+  height = 36,
+}: LogoProps) => {
   const asset = logo as LogoAsset;
-  const logoSrc = typeof asset === "string" ? asset : asset?.src ?? "";
+  const logoSrc = typeof asset === "string" ? asset : (asset?.src ?? "");
 
   return (
     <img

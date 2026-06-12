@@ -37,7 +37,9 @@ function formatApaAuthors(article: PublicArticle) {
 }
 
 function formatDisplayAuthors(article: PublicArticle) {
-  return article.authors.map((author) => normalizeAuthorName(author.name)).join(", ");
+  return article.authors
+    .map((author) => normalizeAuthorName(author.name))
+    .join(", ");
 }
 
 function generateApa(article: PublicArticle, journalInfo: JournalInfo) {
@@ -77,7 +79,7 @@ function generateChicago(article: PublicArticle, journalInfo: JournalInfo) {
 export function generateCitation(
   style: CitationStyle,
   article: PublicArticle,
-  journalInfo: JournalInfo
+  journalInfo: JournalInfo,
 ) {
   switch (style) {
     case "APA":
@@ -91,6 +93,9 @@ export function generateCitation(
   }
 }
 
-export function getRecommendedCitation(article: PublicArticle, journalInfo: JournalInfo) {
+export function getRecommendedCitation(
+  article: PublicArticle,
+  journalInfo: JournalInfo,
+) {
   return generateCitation("APA", article, journalInfo);
 }

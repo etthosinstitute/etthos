@@ -23,6 +23,9 @@ export async function POST(req: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: "Invalid form data" }, { status: 400 });
     }
-    return NextResponse.json({ error: "Failed to send application" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to send application" },
+      { status: 500 },
+    );
   }
 }

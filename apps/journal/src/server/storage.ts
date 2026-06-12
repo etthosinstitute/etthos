@@ -6,7 +6,10 @@ import { env } from "@/server/env";
 const ALLOWED_FILE_TYPES = new Map<string, string>([
   ["application/pdf", ".pdf"],
   ["application/msword", ".doc"],
-  ["application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx"],
+  [
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".docx",
+  ],
 ]);
 
 function sanitizeBaseName(fileName: string) {

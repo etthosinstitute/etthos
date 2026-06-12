@@ -16,7 +16,8 @@ const globalStore = globalThis as typeof globalThis & {
   __journalRateLimitStore?: Map<string, RateLimitEntry>;
 };
 
-const rateLimitStore = globalStore.__journalRateLimitStore ?? new Map<string, RateLimitEntry>();
+const rateLimitStore =
+  globalStore.__journalRateLimitStore ?? new Map<string, RateLimitEntry>();
 globalStore.__journalRateLimitStore = rateLimitStore;
 
 function getClientIp(req: NextRequest) {
@@ -38,7 +39,7 @@ function cleanupExpiredEntries(now: number) {
 
 export function enforceRateLimit(
   req: NextRequest,
-  { bucket, limit, windowMs, key }: RateLimitOptions
+  { bucket, limit, windowMs, key }: RateLimitOptions,
 ) {
   const now = Date.now();
   cleanupExpiredEntries(now);
@@ -56,7 +57,10 @@ export function enforceRateLimit(
   }
 
   if (existing.count >= limit) {
-    const retryAfterSeconds = Math.max(1, Math.ceil((existing.resetAt - now) / 1000));
+    const retryAfterSeconds = Math.max(
+      1,
+      Math.ceil((existing.resetAt - now) / 1000),
+    );
     return NextResponse.json(
       {
         error: `Too many requests. Please try again in about ${retryAfterSeconds} seconds.`,
@@ -66,7 +70,7 @@ export function enforceRateLimit(
         headers: {
           "Retry-After": String(retryAfterSeconds),
         },
-      }
+      },
     );
   }
 

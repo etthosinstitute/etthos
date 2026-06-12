@@ -1,6 +1,6 @@
 import type { StaticImageData } from "next/image";
 
- import drAkshay from "../../assets/editorial_board/dr-akshay.jpeg";
+import drAkshay from "../../assets/editorial_board/dr-akshay.jpeg";
 import drAlkaPandey from "../../assets/editorial_board/dr-alka-pandey.png";
 import drAnnu from "../../assets/editorial_board/dr_annu.jpeg";
 import drAishwarya from "../../assets/editorial_board/dr_aishwarya.jpeg";
@@ -42,8 +42,12 @@ const founderImageMap: Record<string, StaticImageData> = {
   "/aboutusimages/vishal-anand.jpeg": vishalAnand,
 };
 
-export function getEditorialImage(src?: string | null, memberId?: string | null): StaticImageData | null {
-  const resolvedSrc = src || (memberId ? EDITORIAL_IMAGE_OVERRIDES[memberId] : null);
+export function getEditorialImage(
+  src?: string | null,
+  memberId?: string | null,
+): StaticImageData | null {
+  const resolvedSrc =
+    src || (memberId ? EDITORIAL_IMAGE_OVERRIDES[memberId] : null);
   if (!resolvedSrc) return null;
   return editorialImageMap[resolvedSrc] || null;
 }

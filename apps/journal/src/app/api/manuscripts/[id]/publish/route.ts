@@ -35,7 +35,12 @@ async function createUniqueArticleSlug(title: string) {
   let candidate = base;
   let counter = 2;
 
-  while (await prisma.article.findUnique({ where: { slug: candidate }, select: { id: true } })) {
+  while (
+    await prisma.article.findUnique({
+      where: { slug: candidate },
+      select: { id: true },
+    })
+  ) {
     candidate = `${base}-${counter}`;
     counter += 1;
   }
@@ -45,7 +50,7 @@ async function createUniqueArticleSlug(title: string) {
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const user = await requireAuth(req);
   if (user instanceof NextResponse) return user;
@@ -78,24 +83,30 @@ export async function POST(
     });
 
     if (!manuscript) {
-      return NextResponse.json({ error: "Manuscript not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Manuscript not found" },
+        { status: 404 },
+      );
     }
 
     if (manuscript.publishedArticleId) {
-      return NextResponse.json({ error: "This manuscript is already published." }, { status: 409 });
+      return NextResponse.json(
+        { error: "This manuscript is already published." },
+        { status: 409 },
+      );
     }
 
     if (manuscript.status !== "ACCEPTED") {
       return NextResponse.json(
         { error: "Only accepted manuscripts can be published." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!manuscript.fileUrl) {
       return NextResponse.json(
         { error: "Attach a manuscript file before publishing." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -106,7 +117,10 @@ export async function POST(
     });
 
     if (!journal) {
-      return NextResponse.json({ error: "Journal configuration is missing." }, { status: 500 });
+      return NextResponse.json(
+        { error: "Journal configuration is missing." },
+        { status: 500 },
+      );
     }
 
     const publishedAt = new Date(payload.publishedDate);
@@ -177,7 +191,9 @@ export async function POST(
         data: {
           title: payload.articleTitle,
           slug,
-          abstract: manuscript.abstract || "Abstract will be updated by the editorial office.",
+          abstract:
+            manuscript.abstract ||
+            "Abstract will be updated by the editorial office.",
           type: payload.articleType,
           published: true,
           publishedDate: publishedAt,
@@ -224,7 +240,9 @@ export async function POST(
 
     revalidatePath("/");
     revalidatePath("/issues");
-    revalidatePath(`/issues/volume-${result.volume.number}-issue-${result.issue.number}`);
+    revalidatePath(
+      `/issues/volume-${result.volume.number}-issue-${result.issue.number}`,
+    );
     revalidatePath("/articles");
     revalidatePath(`/articles/${result.article.slug}`);
     revalidatePath("/dashboard");
@@ -258,7 +276,7 @@ export async function POST(
           issue: result.issue.number,
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     return handleRouteError(error);

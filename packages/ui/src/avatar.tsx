@@ -7,7 +7,12 @@ interface AvatarProps {
   className?: string;
 }
 
-export const Avatar = ({ imageUrl, alt = "Avatar", size = "md", className = "" }: AvatarProps) => {
+export const Avatar = ({
+  imageUrl,
+  alt = "Avatar",
+  size = "md",
+  className = "",
+}: AvatarProps) => {
   const sizes = {
     sm: "w-8 h-8",
     md: "w-10 h-10",
@@ -30,7 +35,11 @@ interface AvatarGroupProps {
   size?: "sm" | "md" | "lg";
 }
 
-export const AvatarGroup = ({ avatars, max = 4, size = "md" }: AvatarGroupProps) => {
+export const AvatarGroup = ({
+  avatars,
+  max = 4,
+  size = "md",
+}: AvatarGroupProps) => {
   const displayAvatars = avatars.slice(0, max - 1);
   const remaining = avatars.length - displayAvatars.length;
 
@@ -40,7 +49,9 @@ export const AvatarGroup = ({ avatars, max = 4, size = "md" }: AvatarGroupProps)
         <Avatar key={index} {...avatar} size={size} />
       ))}
       {remaining > 0 && (
-        <div className={`${size === "sm" ? "w-8 h-8" : size === "md" ? "w-10 h-10" : "w-12 h-12"} rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600`}>
+        <div
+          className={`${size === "sm" ? "w-8 h-8" : size === "md" ? "w-10 h-10" : "w-12 h-12"} rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600`}
+        >
           +{remaining > 999 ? "999+" : `${remaining}k`}
         </div>
       )}

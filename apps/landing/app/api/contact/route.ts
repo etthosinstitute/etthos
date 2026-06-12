@@ -17,16 +17,20 @@ export async function POST(request: NextRequest) {
     await sendLandingContactEmail(payload);
 
     return NextResponse.json({
-      message: "Thanks for reaching out. We have received your message and will get back to you shortly.",
+      message:
+        "Thanks for reaching out. We have received your message and will get back to you shortly.",
     });
   } catch (error) {
     console.error("SMTP Error (Contact):", error);
-    const message = error instanceof Error ? error.message : "Unable to send your message right now.";
-    const userFriendlyMessage = message.includes("535") || message.includes("SMTP") 
-      ? "The mail server is currently unavailable. Please try again later or contact us directly."
-      : message;
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Unable to send your message right now.";
+    const userFriendlyMessage =
+      message.includes("535") || message.includes("SMTP")
+        ? "The mail server is currently unavailable. Please try again later or contact us directly."
+        : message;
 
     return NextResponse.json({ message: userFriendlyMessage }, { status: 400 });
   }
 }
-

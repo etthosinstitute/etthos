@@ -5,7 +5,16 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@repo/ui/logo";
-import { Search, Menu, X, ChevronDown, ExternalLink, LogIn, LogOut, LayoutDashboard } from "lucide-react";
+import {
+  Search,
+  Menu,
+  X,
+  ChevronDown,
+  ExternalLink,
+  LogIn,
+  LogOut,
+  LayoutDashboard,
+} from "lucide-react";
 import { apiRequest } from "@/shared/api-client";
 
 const navLinks = [
@@ -97,7 +106,9 @@ export function Navbar() {
     currentUser?.email ||
     "Account";
   const currentUserInitial =
-    currentUser?.firstName?.[0] || currentUser?.email?.[0]?.toUpperCase() || "A";
+    currentUser?.firstName?.[0] ||
+    currentUser?.email?.[0]?.toUpperCase() ||
+    "A";
 
   return (
     <div suppressHydrationWarning>
@@ -111,7 +122,9 @@ export function Navbar() {
               rel="noopener noreferrer"
               className="font-semibold text-primary hover:text-secondary transition-colors inline-flex items-center gap-1"
             >
-              Etthos Journal <span className="lowercase text-[0.85em]">of</span> Health, Behavior and Applied Psychology pvt ltd <ExternalLink className="h-3 w-3" />
+              Etthos Journal <span className="lowercase text-[0.85em]">of</span>{" "}
+              Health, Behavior and Applied Psychology pvt ltd{" "}
+              <ExternalLink className="h-3 w-3" />
             </a>
           </span>
           <span className="hidden sm:inline text-muted-foreground">
@@ -126,7 +139,8 @@ export function Navbar() {
             <Logo className="h-10 w-auto text-primary" width={80} height={28} />
             <div className="hidden min-w-0 border-l border-border/90 pl-3 min-[1320px]:block">
               <span className="block font-serif text-[1.02rem] font-semibold leading-tight text-primary">
-                Etthos Journal <span className="text-[0.75em] lowercase">of</span>
+                Etthos Journal{" "}
+                <span className="text-[0.75em] lowercase">of</span>
               </span>
               <span className="block max-w-74 text-[9px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Health, Behavior and Applied Psychology
@@ -164,7 +178,7 @@ export function Navbar() {
                 >
                   {item.label}
                 </Link>
-              )
+              ),
             )}
           </div>
 
@@ -180,12 +194,16 @@ export function Navbar() {
                     {currentUserInitial}
                   </span>
                   <span className="min-w-0 flex-1 text-left leading-tight">
-                    <span className="block truncate font-medium">{currentUserLabel}</span>
+                    <span className="block truncate font-medium">
+                      {currentUserLabel}
+                    </span>
                     <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                       {currentUser.role}
                     </span>
                   </span>
-                  <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${accountOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${accountOpen ? "rotate-180" : ""}`}
+                  />
                 </button>
 
                 {accountOpen && (
@@ -211,7 +229,12 @@ export function Navbar() {
               </div>
             ) : !authLoading ? (
               <div className="hidden xl:flex items-center gap-2">
-                <Button asChild variant="outline" size="sm" className="rounded-full border-border/80 bg-background/80 px-4">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full border-border/80 bg-background/80 px-4"
+                >
                   <Link href="/auth/login">
                     <LogIn className="h-4 w-4" />
                     User Login
@@ -229,7 +252,11 @@ export function Navbar() {
             </Button>
             <div className="hidden xl:block">
               {mounted && currentUser ? (
-                <Button asChild size="sm" className="rounded-full bg-secondary px-4 hover:bg-secondary/90 text-secondary-foreground shadow-[0_12px_24px_-16px_hsl(var(--secondary))]">
+                <Button
+                  asChild
+                  size="sm"
+                  className="rounded-full bg-secondary px-4 hover:bg-secondary/90 text-secondary-foreground shadow-[0_12px_24px_-16px_hsl(var(--secondary))]"
+                >
                   <Link href="/submit">Submit Manuscript</Link>
                 </Button>
               ) : (
@@ -244,7 +271,9 @@ export function Navbar() {
                     Submit Manuscript
                   </Button>
                   {!authLoading ? (
-                    <p className="text-[11px] text-muted-foreground">Login or signup first</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Login or signup first
+                    </p>
                   ) : null}
                 </div>
               )}
@@ -305,17 +334,26 @@ export function Navbar() {
                   >
                     {item.label}
                   </Link>
-                )
+                ),
               )}
               <div className="pt-4 border-t border-border">
                 {!authLoading && currentUser ? (
                   <div className="mb-3 space-y-2">
                     <div className="rounded-2xl border border-border bg-background/70 px-4 py-3 text-sm text-primary">
                       <p className="font-medium">{currentUserLabel}</p>
-                      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{currentUser.role}</p>
+                      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        {currentUser.role}
+                      </p>
                     </div>
-                    <Button asChild variant="outline" className="w-full border-border/80 bg-background/80">
-                      <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-border/80 bg-background/80"
+                    >
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setMobileOpen(false)}
+                      >
                         <LayoutDashboard className="h-4 w-4" />
                         Dashboard
                       </Link>
@@ -331,26 +369,42 @@ export function Navbar() {
                     </Button>
                   </div>
                 ) : !authLoading ? (
-                  <Button asChild variant="outline" className="mb-3 w-full border-border/80 bg-background/80">
-                    <Link href="/auth/login" onClick={() => setMobileOpen(false)}>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="mb-3 w-full border-border/80 bg-background/80"
+                  >
+                    <Link
+                      href="/auth/login"
+                      onClick={() => setMobileOpen(false)}
+                    >
                       <LogIn className="h-4 w-4" />
                       User Login
                     </Link>
                   </Button>
                 ) : null}
                 {currentUser ? (
-                  <Button asChild className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                  <Button
+                    asChild
+                    className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                  >
                     <Link href="/submit" onClick={() => setMobileOpen(false)}>
                       Submit Manuscript
                     </Link>
                   </Button>
                 ) : (
                   <>
-                    <Button type="button" disabled className="w-full cursor-not-allowed bg-secondary/55 text-secondary-foreground">
+                    <Button
+                      type="button"
+                      disabled
+                      className="w-full cursor-not-allowed bg-secondary/55 text-secondary-foreground"
+                    >
                       Submit Manuscript
                     </Button>
                     {!authLoading ? (
-                      <p className="mt-2 text-center text-xs text-muted-foreground">Login or signup first</p>
+                      <p className="mt-2 text-center text-xs text-muted-foreground">
+                        Login or signup first
+                      </p>
                     ) : null}
                   </>
                 )}

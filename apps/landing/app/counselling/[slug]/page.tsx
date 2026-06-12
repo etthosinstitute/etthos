@@ -5,14 +5,14 @@ import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
 import { CourseEnquiry } from "../../../components/CourseEnquiry";
 import { counsellingServices } from "../../../lib/counselling-services";
-import { 
-  ArrowLeft, 
-  Monitor, 
-  CheckCircle2, 
+import {
+  ArrowLeft,
+  Monitor,
+  CheckCircle2,
   HelpCircle,
   Heart,
   MessageCircle,
-  Mail
+  Mail,
 } from "lucide-react";
 
 type PageProps = {
@@ -56,11 +56,11 @@ const CounsellingServicePage = async ({ params }: PageProps) => {
                 <Heart className="w-4 h-4" />
                 Counselling Service
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-text-high mb-6">
                 {service.title}
               </h1>
-              
+
               <p className="text-lg text-text-muted leading-relaxed max-w-3xl">
                 {service.shortDescription}
               </p>
@@ -76,8 +76,12 @@ const CounsellingServicePage = async ({ params }: PageProps) => {
                 <Heart className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-text-muted font-medium text-sm uppercase tracking-wider mb-1">Care</h3>
-                <p className="text-lg font-bold text-text-high">RCI Licensed Psychologists</p>
+                <h3 className="text-text-muted font-medium text-sm uppercase tracking-wider mb-1">
+                  Care
+                </h3>
+                <p className="text-lg font-bold text-text-high">
+                  RCI Licensed Psychologists
+                </p>
               </div>
             </div>
 
@@ -86,8 +90,12 @@ const CounsellingServicePage = async ({ params }: PageProps) => {
                 <Monitor className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-text-muted font-medium text-sm uppercase tracking-wider mb-1">Format</h3>
-                <p className="text-lg font-bold text-text-high">{service.deliveryMode}</p>
+                <h3 className="text-text-muted font-medium text-sm uppercase tracking-wider mb-1">
+                  Format
+                </h3>
+                <p className="text-lg font-bold text-text-high">
+                  {service.deliveryMode}
+                </p>
               </div>
             </div>
 
@@ -96,8 +104,12 @@ const CounsellingServicePage = async ({ params }: PageProps) => {
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-text-muted font-medium text-sm uppercase tracking-wider mb-1">Approach</h3>
-                <p className="text-lg font-bold text-text-high">Evidence-Based</p>
+                <h3 className="text-text-muted font-medium text-sm uppercase tracking-wider mb-1">
+                  Approach
+                </h3>
+                <p className="text-lg font-bold text-text-high">
+                  Evidence-Based
+                </p>
               </div>
             </div>
           </div>
@@ -105,7 +117,6 @@ const CounsellingServicePage = async ({ params }: PageProps) => {
           <div className="grid lg:grid-cols-[1fr_380px] gap-12 lg:gap-20">
             {/* Main Content */}
             <div className="space-y-16">
-              
               {service.overview && (
                 <section>
                   <h2 className="text-2xl font-bold text-text-high mb-6">
@@ -124,7 +135,10 @@ const CounsellingServicePage = async ({ params }: PageProps) => {
                   </h2>
                   <div className="grid gap-4">
                     {service.services.map((item, i) => (
-                      <div key={i} className="group relative bg-surface-card border border-slate-200/60 dark:border-white/10 p-5 rounded-xl hover:border-brand-cyan/50 hover:shadow-md transition-all">
+                      <div
+                        key={i}
+                        className="group relative bg-surface-card border border-slate-200/60 dark:border-white/10 p-5 rounded-xl hover:border-brand-cyan/50 hover:shadow-md transition-all"
+                      >
                         <div className="flex gap-4 items-start">
                           <div className="flex-shrink-0 mt-1">
                             <div className="w-6 h-6 rounded-full bg-brand-cyan/10 text-brand-cyan flex items-center justify-center text-xs font-bold border border-brand-cyan/20">
@@ -164,7 +178,10 @@ const CounsellingServicePage = async ({ params }: PageProps) => {
                   </h2>
                   <div className="space-y-4">
                     {service.faqs.map((faq, i) => (
-                      <div key={i} className="bg-surface-card border border-slate-200/60 dark:border-white/10 rounded-2xl p-6 hover:shadow-sm transition-shadow">
+                      <div
+                        key={i}
+                        className="bg-surface-card border border-slate-200/60 dark:border-white/10 rounded-2xl p-6 hover:shadow-sm transition-shadow"
+                      >
                         <h3 className="font-semibold text-text-high flex items-start gap-3">
                           <HelpCircle className="w-5 h-5 text-brand-cyan mt-0.5 flex-shrink-0" />
                           {faq.question}

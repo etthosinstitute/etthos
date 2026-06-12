@@ -7,7 +7,11 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 const signupSchema = z.object({
-  email: z.string().trim().email().transform((value) => value.toLowerCase()),
+  email: z
+    .string()
+    .trim()
+    .email()
+    .transform((value) => value.toLowerCase()),
   password: z.string().min(6),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
@@ -35,7 +39,10 @@ export async function POST(req: NextRequest) {
       select: { id: true },
     });
     if (existingUser) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 });
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 400 },
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -65,7 +72,7 @@ export async function POST(req: NextRequest) {
           isReviewer: user.isReviewer,
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
 
     setAuthCookie(response, token, req);

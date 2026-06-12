@@ -12,10 +12,15 @@ export async function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.15fr_0.9fr_0.9fr_1.2fr] md:gap-12">
           <div>
             <Link href="/" className="mb-6 inline-block">
-              <Logo className="h-10 w-auto text-primary" width={120} height={30} />
+              <Logo
+                className="h-10 w-auto text-primary"
+                width={120}
+                height={30}
+              />
             </Link>
             <p className="mb-4 font-serif text-[2rem] font-semibold leading-tight text-primary">
-              Etthos Journal <span className="lowercase text-[0.85em]">of</span> Health, Behavior and Applied Psychology
+              Etthos Journal <span className="lowercase text-[0.85em]">of</span>{" "}
+              Health, Behavior and Applied Psychology
             </p>
             <p className="max-w-sm text-[15px] leading-8 text-muted-foreground">
               {journalInfo.description}
@@ -33,29 +38,102 @@ export async function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Quick Links</h4>
+            <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+              Quick Links
+            </h4>
             <ul className="space-y-3 text-[15px] text-muted-foreground">
-              <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
-              <li><Link href="/about" className="hover:text-primary transition-colors">About the Journal</Link></li>
-              <li><Link href="/editorial-board" className="hover:text-primary transition-colors">Editorial Board</Link></li>
-              <li><Link href="/issues" className="hover:text-primary transition-colors">Issues Archive</Link></li>
-              <li><Link href="/about/aims-scope" className="hover:text-primary transition-colors">Aims &amp; Scope</Link></li>
+              <li>
+                <Link href="/" className="hover:text-primary transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="hover:text-primary transition-colors"
+                >
+                  About the Journal
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/editorial-board"
+                  className="hover:text-primary transition-colors"
+                >
+                  Editorial Board
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/issues"
+                  className="hover:text-primary transition-colors"
+                >
+                  Issues Archive
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about/aims-scope"
+                  className="hover:text-primary transition-colors"
+                >
+                  Aims &amp; Scope
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">For Authors</h4>
+            <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+              For Authors
+            </h4>
             <ul className="space-y-3 text-[15px] text-muted-foreground">
-              <li><Link href="/submit" className="hover:text-primary transition-colors">Submit Manuscript</Link></li>
-              <li><Link href="/guidelines" className="hover:text-primary transition-colors">Author Guidelines</Link></li>
-              <li><Link href="/policies" className="hover:text-primary transition-colors">Publication Ethics</Link></li>
-              <li><Link href="/about/publisher" className="hover:text-primary transition-colors">Publisher Information</Link></li>
-              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
+              <li>
+                <Link
+                  href="/submit"
+                  className="hover:text-primary transition-colors"
+                >
+                  Submit Manuscript
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/guidelines"
+                  className="hover:text-primary transition-colors"
+                >
+                  Author Guidelines
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/policies"
+                  className="hover:text-primary transition-colors"
+                >
+                  Publication Ethics
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about/publisher"
+                  className="hover:text-primary transition-colors"
+                >
+                  Publisher Information
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="hover:text-primary transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Publisher</h4>
+            <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+              Publisher
+            </h4>
             <ul className="space-y-5 text-[15px] leading-8 text-muted-foreground">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-1 h-4 w-4 shrink-0 text-highlight" />
@@ -79,7 +157,10 @@ export async function Footer() {
               )}
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-highlight" />
-                <a href={`mailto:${journalInfo.contactEmail}`} className="hover:text-primary transition-colors">
+                <a
+                  href={`mailto:${journalInfo.contactEmail}`}
+                  className="hover:text-primary transition-colors"
+                >
                   {journalInfo.contactEmail}
                 </a>
               </li>
@@ -94,13 +175,38 @@ export async function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
-          <p>&copy; {new Date().getFullYear()} Etthos Journal <span className="lowercase text-[0.9em]">of</span> Health, Behavior and Applied Psychology. Published by {journalInfo.publisher}. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Etthos Journal{" "}
+            <span className="lowercase text-[0.9em]">of</span> Health, Behavior
+            and Applied Psychology. Published by {journalInfo.publisher}. All
+            rights reserved.
+          </p>
           <div className="flex flex-wrap items-center gap-5">
             <span>ISSN: {journalInfo.issn || "Pending"} (Online)</span>
-            <Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="/terms-and-conditions" className="hover:text-primary transition-colors">Terms &amp; Conditions</Link>
-            <Link href="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
-            <Link href="/policies" className="hover:text-primary transition-colors">Publication Ethics</Link>
+            <Link
+              href="/privacy-policy"
+              className="hover:text-primary transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms-and-conditions"
+              className="hover:text-primary transition-colors"
+            >
+              Terms &amp; Conditions
+            </Link>
+            <Link
+              href="/refund-policy"
+              className="hover:text-primary transition-colors"
+            >
+              Refund Policy
+            </Link>
+            <Link
+              href="/policies"
+              className="hover:text-primary transition-colors"
+            >
+              Publication Ethics
+            </Link>
           </div>
         </div>
       </div>

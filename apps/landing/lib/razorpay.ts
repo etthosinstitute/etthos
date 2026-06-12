@@ -48,7 +48,11 @@ export async function createRazorpayOrder(payload: RazorpayOrderRequest) {
   }>;
 }
 
-export function verifyRazorpayPayment(orderId: string, paymentId: string, signature: string) {
+export function verifyRazorpayPayment(
+  orderId: string,
+  paymentId: string,
+  signature: string,
+) {
   const secret = env.RAZORPAY_KEY_SECRET;
   if (!secret) throw new Error("Razorpay secret not configured");
 
@@ -59,4 +63,3 @@ export function verifyRazorpayPayment(orderId: string, paymentId: string, signat
 
   return generated_signature === signature;
 }
-

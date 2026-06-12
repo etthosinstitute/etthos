@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Etthos Journal of Health, Behavior and Applied Psychology",
   },
   description:
-    "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Journal of Health, Behavior and Applied Psychology pvt ltd, dedicated to advancing research across multidisciplinary fields including nutrition, environment, law, and communication.",
+    "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Journal of Health, Behavior and Applied Psychology pvt ltd, dedicated to advancing research across interdisciplinary fields including nutrition, environment, law, and communication.",
   metadataBase: new URL("https://etthosjournal.com"),
   openGraph: {
     type: "website",
@@ -51,9 +51,11 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   other: {
-    "citation_journal_title": "Etthos Journal of Health, Behavior and Applied Psychology",
-    "citation_publisher": "Etthos Journal of Health, Behavior and Applied Psychology pvt ltd",
-    "citation_language": "en",
+    citation_journal_title:
+      "Etthos Journal of Health, Behavior and Applied Psychology",
+    citation_publisher:
+      "Etthos Journal of Health, Behavior and Applied Psychology pvt ltd",
+    citation_language: "en",
   },
 };
 
@@ -68,7 +70,7 @@ export default function RootLayout({
         className={cn(
           "min-h-full bg-background font-sans text-foreground antialiased",
           cormorant.variable,
-          sourceSans.variable
+          sourceSans.variable,
         )}
       >
         <div className="min-h-screen flex flex-col">

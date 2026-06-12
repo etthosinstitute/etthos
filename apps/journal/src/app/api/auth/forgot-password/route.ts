@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/server/db/prisma";
 import { enforceRateLimit } from "@/server/rate-limit";
-import { createPasswordResetToken, buildPasswordResetUrl } from "@/server/password-reset";
+import {
+  createPasswordResetToken,
+  buildPasswordResetUrl,
+} from "@/server/password-reset";
 import { sendPasswordResetEmail } from "@/server/mail";
 import { createAuditLog } from "@/server/audit";
 import { handleRouteError } from "@/shared/utils";

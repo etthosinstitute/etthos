@@ -1,6 +1,11 @@
 import type { Prisma } from "@repo/database";
 import { fullName } from "@/shared/utils";
-import type { JournalInfo, PublicArticle, PublicBoardMember, PublicIssue } from "./types";
+import type {
+  JournalInfo,
+  PublicArticle,
+  PublicBoardMember,
+  PublicIssue,
+} from "./types";
 import { EDITORIAL_IMAGE_OVERRIDES } from "./static-config";
 
 export const articleInclude = {
@@ -137,10 +142,16 @@ export function mapArticle(article: ArticleRecord) {
     title: article.title,
     authors: article.authors.map((entry: ArticleRecord["authors"][number]) => {
       const primaryAffiliation = entry.author.affiliations.find(
-        (item: ArticleRecord["authors"][number]["author"]["affiliations"][number]) => item.isPrimary
+        (
+          item: ArticleRecord["authors"][number]["author"]["affiliations"][number],
+        ) => item.isPrimary,
       )?.affiliation;
       return {
-        name: fullName(entry.author.firstName, entry.author.lastName, entry.author.email),
+        name: fullName(
+          entry.author.firstName,
+          entry.author.lastName,
+          entry.author.email,
+        ),
         affiliation:
           entry.affiliationAtPublication ||
           primaryAffiliation?.institution ||
@@ -150,9 +161,12 @@ export function mapArticle(article: ArticleRecord) {
       };
     }),
     abstract: article.abstract,
-    keywords: article.keywords.map((entry: ArticleRecord["keywords"][number]) => entry.keyword.name),
+    keywords: article.keywords.map(
+      (entry: ArticleRecord["keywords"][number]) => entry.keyword.name,
+    ),
     date: formatMonthYear(article.publishedDate),
-    publishedDate: article.publishedDate?.toISOString() || article.createdAt.toISOString(),
+    publishedDate:
+      article.publishedDate?.toISOString() || article.createdAt.toISOString(),
     type: formatArticleType(article.type),
     volume: article.issue.volume.number,
     issue: article.issue.number,
@@ -160,10 +174,12 @@ export function mapArticle(article: ArticleRecord) {
     pdfUrl: article.pdfUrl,
     pageStart: article.pageStart,
     pageEnd: article.pageEnd,
-    references: article.references.map((reference: ArticleRecord["references"][number]) => ({
-      text: reference.text,
-      doi: reference.doi,
-    })),
+    references: article.references.map(
+      (reference: ArticleRecord["references"][number]) => ({
+        text: reference.text,
+        doi: reference.doi,
+      }),
+    ),
   } satisfies PublicArticle;
 }
 
@@ -173,7 +189,9 @@ export function mapBoardMember(member: BoardMemberRecord) {
   return {
     id: member.id,
     slug,
-    name: `${member.title && member.title.toLowerCase().includes('dr') ? member.title : (member.title ? member.title + ' (Dr.)' : 'Dr.')} ${fullName(member.firstName, member.lastName, member.email)}`.replace(/\s+/g, ' ').trim(),
+    name: `${member.title && member.title.toLowerCase().includes("dr") ? member.title : member.title ? member.title + " (Dr.)" : "Dr."} ${fullName(member.firstName, member.lastName, member.email)}`
+      .replace(/\s+/g, " ")
+      .trim(),
     title: member.title,
     role: formatBoardRole(member.role),
     designation: member.designation,
@@ -248,7 +266,7 @@ export function mapIssueSummary(issue: {
     issue: issue.number,
     title: issue.title,
     month: new Intl.DateTimeFormat("en-IN", { month: "long" }).format(
-      issue.publishedDate || new Date(issue.volume.year, 0, 1)
+      issue.publishedDate || new Date(issue.volume.year, 0, 1),
     ),
     year: issue.volume.year,
     published: issue.published,

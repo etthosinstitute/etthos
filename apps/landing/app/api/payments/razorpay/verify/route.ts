@@ -15,20 +15,24 @@ export async function POST(request: NextRequest) {
     const isValid = verifyRazorpayPayment(
       payload.orderId,
       payload.paymentId,
-      payload.signature
+      payload.signature,
     );
 
     if (!isValid) {
       return NextResponse.json(
         { message: "Invalid payment signature" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Here you could save the payment to a database or trigger other actions
-    return NextResponse.json({ success: true, message: "Payment verified successfully" });
+    return NextResponse.json({
+      success: true,
+      message: "Payment verified successfully",
+    });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Verification failed";
+    const message =
+      error instanceof Error ? error.message : "Verification failed";
     return NextResponse.json({ message }, { status: 400 });
   }
 }

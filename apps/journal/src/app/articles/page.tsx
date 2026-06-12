@@ -1,19 +1,25 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ArticleCard } from "@/components/ArticleCard";
 import { PaginationNav } from "@/components/PaginationNav";
-import { getJournalInfo, getPublishedArticlesPage } from "@/features/public-site/queries";
+import {
+  getJournalInfo,
+  getPublishedArticlesPage,
+} from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "All Articles",
-  description: "Browse all published articles in the Etthos Journal of Health, Behavior and Applied Psychology.",
+  description:
+    "Browse all published articles in the Etthos Journal of Health, Behavior and Applied Psychology.",
 };
 
 interface ArticlesPageProps {
   searchParams?: Promise<{ page?: string }>;
 }
 
-export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
+export default async function ArticlesPage({
+  searchParams,
+}: ArticlesPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const page = Number.parseInt(resolvedSearchParams?.page || "1", 10);
   const safePage = Number.isFinite(page) && page > 0 ? page : 1;
@@ -35,7 +41,9 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
         <div className="max-w-5xl mx-auto">
           <div className="mb-10 text-center">
             <p className="journal-kicker mb-3">Research Archive</p>
-            <h2 className="journal-heading text-3xl font-bold md:text-[2.35rem]">Published scholarship across issues and themes</h2>
+            <h2 className="journal-heading text-3xl font-bold md:text-[2.35rem]">
+              Published scholarship across issues and themes
+            </h2>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {articles.map((article) => (

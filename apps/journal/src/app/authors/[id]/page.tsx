@@ -1,5 +1,8 @@
 import { ArticleCard } from "@/components/ArticleCard";
-import { getAuthorProfileBySlug, getJournalInfo } from "@/features/public-site/queries";
+import {
+  getAuthorProfileBySlug,
+  getJournalInfo,
+} from "@/features/public-site/queries";
 import { notFound } from "next/navigation";
 import { Mail, MapPin, Globe, BookOpen } from "lucide-react";
 import Image from "next/image";
@@ -9,7 +12,9 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params;
   const [profile, journalInfo] = await Promise.all([
     getAuthorProfileBySlug(id),
@@ -57,15 +62,26 @@ export default async function AuthorProfilePage({ params }: PageProps) {
             ) : (
               <div className="w-28 h-28 rounded-lg bg-white/10 flex items-center justify-center text-3xl font-serif font-bold text-primary-foreground">
                 {member.name
-                  .replace(/^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*(\(Dr\.\))?\s*/i, "")
+                  .replace(
+                    /^(Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.)\s*(\(Dr\.\))?\s*/i,
+                    "",
+                  )
                   .charAt(0)}
               </div>
             )}
             <div>
-              <h1 className="font-serif font-bold text-3xl mb-2">{member.name}</h1>
-              <p className="text-primary-foreground/80 mb-1">{member.designation}</p>
-              <p className="text-primary-foreground/70 text-sm mb-1">{member.department}</p>
-              <p className="text-primary-foreground/70 text-sm">{member.institution}, {member.country}</p>
+              <h1 className="font-serif font-bold text-3xl mb-2">
+                {member.name}
+              </h1>
+              <p className="text-primary-foreground/80 mb-1">
+                {member.designation}
+              </p>
+              <p className="text-primary-foreground/70 text-sm mb-1">
+                {member.department}
+              </p>
+              <p className="text-primary-foreground/70 text-sm">
+                {member.institution}, {member.country}
+              </p>
               <div className="flex flex-wrap gap-4 mt-4 text-xs text-primary-foreground/60">
                 <a
                   href={`mailto:${member.email}`}
@@ -96,7 +112,9 @@ export default async function AuthorProfilePage({ params }: PageProps) {
         <div className="max-w-4xl mx-auto space-y-12">
           {/* Expertise */}
           <section>
-            <h2 className="font-serif font-bold text-xl text-primary mb-4">Areas of Expertise</h2>
+            <h2 className="font-serif font-bold text-xl text-primary mb-4">
+              Areas of Expertise
+            </h2>
             <div className="flex flex-wrap gap-2">
               {member.expertise.map((area) => (
                 <span
@@ -111,8 +129,12 @@ export default async function AuthorProfilePage({ params }: PageProps) {
 
           {/* Bio */}
           <section>
-            <h2 className="font-serif font-bold text-xl text-primary mb-4">Biography</h2>
-            <p className="text-muted-foreground leading-relaxed">{member.biography}</p>
+            <h2 className="font-serif font-bold text-xl text-primary mb-4">
+              Biography
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              {member.biography}
+            </p>
           </section>
 
           {/* Published Articles */}
@@ -128,7 +150,9 @@ export default async function AuthorProfilePage({ params }: PageProps) {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-sm">No publications in this journal yet.</p>
+              <p className="text-muted-foreground text-sm">
+                No publications in this journal yet.
+              </p>
             )}
           </section>
         </div>

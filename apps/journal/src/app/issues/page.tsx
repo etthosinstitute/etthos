@@ -3,12 +3,16 @@ import { PaginationNav } from "@/components/PaginationNav";
 import { Calendar, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
 import type { PublicIssue } from "@/features/public-site/queries";
-import { getJournalInfo, getPublishedIssuesPage } from "@/features/public-site/queries";
+import {
+  getJournalInfo,
+  getPublishedIssuesPage,
+} from "@/features/public-site/queries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Issues Archive",
-  description: "Browse all published volumes and issues of the Etthos Journal of Health, Behavior and Applied Psychology.",
+  description:
+    "Browse all published volumes and issues of the Etthos Journal of Health, Behavior and Applied Psychology.",
 };
 
 interface IssuesPageProps {
@@ -51,7 +55,9 @@ export default async function IssuesPage({ searchParams }: IssuesPageProps) {
           {grouped.map((yearGroup) => (
             <section key={yearGroup.year}>
               <div className="mb-6 flex items-center gap-4">
-                <h2 className="journal-title text-3xl md:text-4xl">{yearGroup.year}</h2>
+                <h2 className="journal-title text-3xl md:text-4xl">
+                  {yearGroup.year}
+                </h2>
                 <div className="h-px bg-border flex-1"></div>
               </div>
 
@@ -74,7 +80,9 @@ export default async function IssuesPage({ searchParams }: IssuesPageProps) {
                       <BookOpen className="h-5 w-5 text-[hsl(var(--highlight))]" />
                     </div>
                     {issue.title && (
-                      <p className="mb-2 text-[15px] leading-7 text-[hsl(var(--ink-soft))]">{issue.title}</p>
+                      <p className="mb-2 text-[15px] leading-7 text-[hsl(var(--ink-soft))]">
+                        {issue.title}
+                      </p>
                     )}
                     <div className="journal-meta mb-4 flex items-center gap-2">
                       <Calendar className="h-3.5 w-3.5" />
@@ -97,8 +105,12 @@ export default async function IssuesPage({ searchParams }: IssuesPageProps) {
           {issues.length === 0 && (
             <div className="text-center py-16">
               <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="journal-heading mb-2 text-xl font-bold">No Issues Published Yet</h3>
-              <p className="text-muted-foreground text-sm">The first issue is currently in preparation.</p>
+              <h3 className="journal-heading mb-2 text-xl font-bold">
+                No Issues Published Yet
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                The first issue is currently in preparation.
+              </p>
             </div>
           )}
 

@@ -13,17 +13,23 @@ export function cn(...inputs: ClassValue[]) {
 export function fullName(
   first?: string | null,
   last?: string | null,
-  fallback = "Unknown"
+  fallback = "Unknown",
 ): string {
   return [first, last].filter(Boolean).join(" ") || fallback;
 }
 
-export function formatPersonName(person?: {
-  firstName?: string | null;
-  lastName?: string | null;
-  email?: string | null;
-} | null) {
-  return fullName(person?.firstName, person?.lastName, person?.email || "Unknown");
+export function formatPersonName(
+  person?: {
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string | null;
+  } | null,
+) {
+  return fullName(
+    person?.firstName,
+    person?.lastName,
+    person?.email || "Unknown",
+  );
 }
 
 export function getErrorMessage(error: unknown, fallback: string) {
@@ -51,7 +57,7 @@ export function handleRouteError(error: unknown): NextResponse {
         error: error.issues[0]?.message || "Invalid request payload",
         issues: error.issues,
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
   return NextResponse.json({ error: "Internal server error" }, { status: 500 });

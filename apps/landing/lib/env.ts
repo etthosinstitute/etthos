@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 const schema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "test", "production"])
+    .default("development"),
   APP_URL: z.string().optional(),
   EMAIL_HOST: z.string().default("smtp.gmail.com"),
   EMAIL_PORT: z.coerce.number().int().positive().default(465),
@@ -39,11 +41,15 @@ if (!parsed.success) {
   if (process.env.NODE_ENV === "production" && !process.env.NEXT_PHASE) {
     throw new Error(`Invalid landing environment configuration: ${issues}`);
   } else {
-    console.warn(`⚠️ Warning: Invalid environment configuration (ignored during build): ${issues}`);
+    console.warn(
+      `⚠️ Warning: Invalid environment configuration (ignored during build): ${issues}`,
+    );
   }
 }
 
-const data = parsed.success ? parsed.data : ({} as Partial<z.infer<typeof schema>>);
+const data = parsed.success
+  ? parsed.data
+  : ({} as Partial<z.infer<typeof schema>>);
 
 export const env = {
   ...data,
@@ -54,8 +60,11 @@ export const env = {
       : data.EMAIL_PORT === 465,
   CONTACT_INBOX_EMAIL: data.CONTACT_INBOX_EMAIL || "info@etthos.com",
   ENABLE_RAZORPAY_PREVIEW:
-    data.ENABLE_RAZORPAY_PREVIEW || data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW || false,
+    data.ENABLE_RAZORPAY_PREVIEW ||
+    data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW ||
+    false,
   NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW:
-    data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW || data.ENABLE_RAZORPAY_PREVIEW || false,
+    data.NEXT_PUBLIC_ENABLE_RAZORPAY_PREVIEW ||
+    data.ENABLE_RAZORPAY_PREVIEW ||
+    false,
 } as const;
-

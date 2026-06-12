@@ -21,16 +21,26 @@ const reviewSchema = z
       const trimmed = value.trim();
       return trimmed.length > 0 ? trimmed : undefined;
     }, z.string().optional()),
-    content: z.preprocess((value) => {
-      if (typeof value !== "string") return value;
-      return value.trim();
-    }, z.string().min(10, "Review comments must be at least 10 characters long.")),
+    content: z.preprocess(
+      (value) => {
+        if (typeof value !== "string") return value;
+        return value.trim();
+      },
+      z
+        .string()
+        .min(10, "Review comments must be at least 10 characters long."),
+    ),
     confidentialComments: z.preprocess((value) => {
       if (typeof value !== "string") return value;
       const trimmed = value.trim();
       return trimmed.length > 0 ? trimmed : undefined;
     }, z.string().max(5000).optional()),
-    decision: z.enum(["ACCEPT", "MINOR_REVISIONS", "MAJOR_REVISIONS", "REJECT"]),
+    decision: z.enum([
+      "ACCEPT",
+      "MINOR_REVISIONS",
+      "MAJOR_REVISIONS",
+      "REJECT",
+    ]),
   })
   .refine((v) => v.manuscriptId || v.assignmentId, {
     message: "assignmentId or manuscriptId is required",
@@ -63,8 +73,13 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { manuscriptId, assignmentId, content, confidentialComments, decision } =
-      reviewSchema.parse(body);
+    const {
+      manuscriptId,
+      assignmentId,
+      content,
+      confidentialComments,
+      decision,
+    } = reviewSchema.parse(body);
 
     const assignment = assignmentId
       ? await prisma.reviewAssignment.findUnique({
@@ -91,27 +106,42 @@ export async function POST(req: NextRequest) {
       : null;
 
     if (!manuscript) {
-      return NextResponse.json({ error: "Manuscript not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Manuscript not found" },
+        { status: 404 },
+      );
     }
 
     const canModerateReviews =
-      user.role === "EDITOR" || user.role === "ADMIN" || user.role === "SUPER_ADMIN";
+      user.role === "EDITOR" ||
+      user.role === "ADMIN" ||
+      user.role === "SUPER_ADMIN";
 
-    if (assignment && assignment.reviewerId !== user.userId && !canModerateReviews) {
+    if (
+      assignment &&
+      assignment.reviewerId !== user.userId &&
+      !canModerateReviews
+    ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
     if (assignment && assignment.status === "ASSIGNED") {
       return NextResponse.json(
-        { error: "Please accept the review invitation before submitting your review." },
-        { status: 400 }
+        {
+          error:
+            "Please accept the review invitation before submitting your review.",
+        },
+        { status: 400 },
       );
     }
 
     if (assignment && assignment.status === "DECLINED") {
       return NextResponse.json(
-        { error: "This review invitation has been declined and cannot be submitted." },
-        { status: 400 }
+        {
+          error:
+            "This review invitation has been declined and cannot be submitted.",
+        },
+        { status: 400 },
       );
     }
 
@@ -178,7 +208,7 @@ export async function POST(req: NextRequest) {
           content,
         }),
       "Failed to send review email",
-      "Review email send error"
+      "Review email send error",
     );
 
     await createAuditLog({
@@ -197,7 +227,10 @@ export async function POST(req: NextRequest) {
       req,
     });
 
-    return NextResponse.json({ review, emailSent, emailError }, { status: 201 });
+    return NextResponse.json(
+      { review, emailSent, emailError },
+      { status: 201 },
+    );
   } catch (error) {
     console.error("Submit review error:", error);
     return handleRouteError(error);

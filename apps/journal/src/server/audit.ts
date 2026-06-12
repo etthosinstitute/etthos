@@ -1,5 +1,10 @@
 import { prisma } from "@/server/db/prisma";
-import type { AuditAction, AuditEntityType, Prisma, Role } from "@repo/database";
+import type {
+  AuditAction,
+  AuditEntityType,
+  Prisma,
+  Role,
+} from "@repo/database";
 import { NextRequest } from "next/server";
 
 type AuditPayload = {

@@ -16,12 +16,16 @@ const assignSchema = z.object({
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const user = await requireAuth(req);
   if (user instanceof NextResponse) return user;
 
-  if (user.role !== "ADMIN" && user.role !== "EDITOR" && user.role !== "SUPER_ADMIN") {
+  if (
+    user.role !== "ADMIN" &&
+    user.role !== "EDITOR" &&
+    user.role !== "SUPER_ADMIN"
+  ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
 
@@ -40,7 +44,10 @@ export async function POST(
 
     const [reviewer, editor, manuscript] = await Promise.all([
       prisma.user.findUnique({ where: { id: reviewerId } }),
-      prisma.user.findUnique({ where: { id: user.userId }, select: USER_SELECT }),
+      prisma.user.findUnique({
+        where: { id: user.userId },
+        select: USER_SELECT,
+      }),
       prisma.manuscript.findUnique({
         where: { id },
         include: {
@@ -53,7 +60,10 @@ export async function POST(
     ]);
 
     if (!manuscript) {
-      return NextResponse.json({ error: "Manuscript not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Manuscript not found" },
+        { status: 404 },
+      );
     }
 
     if (
@@ -64,13 +74,19 @@ export async function POST(
         reviewer.role !== "ADMIN" &&
         reviewer.role !== "SUPER_ADMIN")
     ) {
-      return NextResponse.json({ error: "Reviewer not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Reviewer not found" },
+        { status: 404 },
+      );
     }
 
     if (manuscript.assignments.length > 0) {
       return NextResponse.json(
-        { error: "This reviewer already has an active assignment for the manuscript" },
-        { status: 409 }
+        {
+          error:
+            "This reviewer already has an active assignment for the manuscript",
+        },
+        { status: 409 },
       );
     }
 
@@ -91,7 +107,10 @@ export async function POST(
 
     const updatedManuscript = await prisma.manuscript.update({
       where: { id },
-      data: { status: "UNDER_REVIEW", editorNotes: editorNotes || manuscript.editorNotes },
+      data: {
+        status: "UNDER_REVIEW",
+        editorNotes: editorNotes || manuscript.editorNotes,
+      },
       include: {
         author: { select: USER_SELECT },
         assignments: {
@@ -107,15 +126,23 @@ export async function POST(
       async () =>
         sendReviewAssignmentEmail({
           reviewerEmail: assignment.reviewer.email,
-          reviewerName: fullName(assignment.reviewer.firstName, assignment.reviewer.lastName, assignment.reviewer.email),
-          editorName: fullName(editor?.firstName, editor?.lastName, editor?.email),
+          reviewerName: fullName(
+            assignment.reviewer.firstName,
+            assignment.reviewer.lastName,
+            assignment.reviewer.email,
+          ),
+          editorName: fullName(
+            editor?.firstName,
+            editor?.lastName,
+            editor?.email,
+          ),
           manuscriptTitle: manuscript.title,
           manuscriptId: manuscript.id,
           dueDate: assignment.dueDate?.toISOString() || null,
           dashboardUrl: `${req.nextUrl.origin}/dashboard`,
         }),
       "Failed to send assignment email",
-      "Assign reviewer email error"
+      "Assign reviewer email error",
     );
 
     await createAuditLog({

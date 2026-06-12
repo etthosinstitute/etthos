@@ -2,7 +2,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Brain, Globe, Shield } from "lucide-react";
 import { HERO_CONFIG } from "@/features/public-site/static-config";
-import { getHomeContent, getLatestPublishedIssue } from "@/features/public-site/queries";
+import {
+  getHomeContent,
+  getLatestPublishedIssue,
+} from "@/features/public-site/queries";
 
 const iconMap = {
   "book-open": BookOpen,
@@ -59,7 +62,12 @@ export async function HeroSection() {
           {content.eyebrow}
         </p>
         <h1 className="mx-auto mb-6 max-w-5xl font-serif text-5xl font-semibold leading-[0.94] tracking-tight text-[#f7f3ec] drop-shadow-[0_10px_30px_rgba(8,15,28,0.55)] animate-fade-in-up delay-100 md:text-7xl">
-          <span className="block">{heroTitleLineOne} <span className="text-[0.65em] lowercase text-[#f7f3ec]/90">of</span></span>
+          <span className="block">
+            {heroTitleLineOne}{" "}
+            <span className="text-[0.65em] lowercase text-[#f7f3ec]/90">
+              of
+            </span>
+          </span>
           <span className="mt-1 block text-[0.58em] leading-[1.02] md:mt-2 md:text-[0.54em]">
             {heroTitleLineTwo}
           </span>
@@ -70,17 +78,24 @@ export async function HeroSection() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up delay-300">
-          <Button asChild size="lg" className="h-12 rounded-full px-8 text-base bg-[#f7f3ec] text-[#132238] hover:bg-white shadow-[0_20px_40px_-24px_rgba(247,243,236,0.6)]">
+          <Button
+            asChild
+            size="lg"
+            className="h-12 rounded-full px-8 text-base bg-[#f7f3ec] text-[#132238] hover:bg-white shadow-[0_20px_40px_-24px_rgba(247,243,236,0.6)]"
+          >
             <Link href="/submit">
               Submit Your Manuscript
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="h-12 rounded-full px-8 text-base border border-white/22 bg-white/7 text-[#f7f3ec] hover:bg-white/12 hover:text-[#f7f3ec] backdrop-blur-sm">
-            <Link href="/issues">
-              Browse Issues
-            </Link>
-            </Button>
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="h-12 rounded-full px-8 text-base border border-white/22 bg-white/7 text-[#f7f3ec] hover:bg-white/12 hover:text-[#f7f3ec] backdrop-blur-sm"
+          >
+            <Link href="/issues">Browse Issues</Link>
+          </Button>
         </div>
 
         <div className="mx-auto mt-18 max-w-5xl border-t border-white/14 pt-10">
@@ -92,24 +107,32 @@ export async function HeroSection() {
           <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
             {content.profileCards.map((card) => {
               const Icon = iconMap[card.icon];
-              const href = 
-                card.title === "Authors" ? "/submit" :
-                card.title === "Reviewers" ? "/reviewers" :
-                card.title === "Readers" ? "/issues" :
-                card.title === "Editors" ? "/editorial-board" :
-                "#";
+              const href =
+                card.title === "Authors"
+                  ? "/submit"
+                  : card.title === "Reviewers"
+                    ? "/reviewers"
+                    : card.title === "Readers"
+                      ? "/issues"
+                      : card.title === "Editors"
+                        ? "/editorial-board"
+                        : "#";
 
               return (
-                <Link 
-                  key={`${card.title}-${card.subtitle}`} 
+                <Link
+                  key={`${card.title}-${card.subtitle}`}
                   href={href}
                   className="group block rounded-[1.75rem] border border-white/10 bg-white/8 px-4 py-6 text-center text-[#f7f3ec] shadow-[0_22px_55px_-40px_rgba(8,15,28,0.7)] backdrop-blur-md transition-all hover:-translate-y-1 hover:bg-white/12 hover:border-white/20"
                 >
                   <div className="bg-white/8 p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 transition-colors group-hover:bg-[hsl(var(--highlight))] group-hover:text-white">
                     <Icon className="h-5 w-5 text-[hsl(var(--highlight))] group-hover:text-white transition-colors" />
                   </div>
-                  <div className="font-serif font-semibold text-xl mb-1">{card.title}</div>
-                  <div className="text-[11px] uppercase tracking-[0.18em] text-[#f7f3ec]/58">{card.subtitle}</div>
+                  <div className="font-serif font-semibold text-xl mb-1">
+                    {card.title}
+                  </div>
+                  <div className="text-[11px] uppercase tracking-[0.18em] text-[#f7f3ec]/58">
+                    {card.subtitle}
+                  </div>
                 </Link>
               );
             })}

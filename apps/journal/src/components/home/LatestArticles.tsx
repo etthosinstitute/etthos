@@ -12,13 +12,21 @@ export async function LatestArticles() {
       <div className="container mx-auto px-4">
         <div className="mb-14 flex items-center justify-between gap-6">
           <div>
-            <p className="mb-3 journal-kicker">
-              Current Scholarship
+            <p className="mb-3 journal-kicker">Current Scholarship</p>
+            <h2 className="mb-2 font-serif text-4xl font-semibold text-primary">
+              Latest Articles
+            </h2>
+            <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground">
+              Browse the most recent research published in the Etthos Journal{" "}
+              <span className="lowercase text-[0.9em]">of</span> Health,
+              Behavior and Applied Psychology.
             </p>
-            <h2 className="mb-2 font-serif text-4xl font-semibold text-primary">Latest Articles</h2>
-            <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground">Browse the most recent research published in the Etthos Journal <span className="lowercase text-[0.9em]">of</span> Health, Behavior and Applied Psychology.</p>
           </div>
-          <Button asChild variant="ghost" className="hidden gap-2 text-secondary hover:text-secondary/80 md:flex">
+          <Button
+            asChild
+            variant="ghost"
+            className="hidden gap-2 text-secondary hover:text-secondary/80 md:flex"
+          >
             <Link href="/issues">
               View All Issues <ArrowRight className="h-4 w-4" />
             </Link>
@@ -32,10 +40,8 @@ export async function LatestArticles() {
         </div>
 
         <div className="mt-12 text-center md:hidden">
-           <Button asChild variant="outline" className="w-full">
-            <Link href="/issues">
-              View All Issues
-            </Link>
+          <Button asChild variant="outline" className="w-full">
+            <Link href="/issues">View All Issues</Link>
           </Button>
         </div>
       </div>

@@ -36,10 +36,14 @@ export const ProgramCard = ({
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white text-2xl text-brand-cyan transition-colors dark:border-white/15 dark:bg-white/5">
             {icon}
           </div>
-          <span className="text-xs tracking-[0.25em] uppercase text-slate-500 dark:text-white/60">Program</span>
+          <span className="text-xs tracking-[0.25em] uppercase text-slate-500 dark:text-white/60">
+            Program
+          </span>
         </div>
         <div>
-          <h3 className="text-2xl font-semibold text-text-high mb-2">{title}</h3>
+          <h3 className="text-2xl font-semibold text-text-high mb-2">
+            {title}
+          </h3>
           <p className="text-base leading-relaxed text-slate-600 dark:text-white/80">
             {description}
           </p>

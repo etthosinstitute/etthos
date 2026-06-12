@@ -6,7 +6,11 @@ interface BadgeProps {
   className?: string;
 }
 
-export const Badge = ({ children, variant = "default", className = "" }: BadgeProps) => {
+export const Badge = ({
+  children,
+  variant = "default",
+  className = "",
+}: BadgeProps) => {
   const variants = {
     default: "bg-white/5 border-white/10 text-text-high",
     success: "bg-brand-cyan/15 border-brand-cyan/30 text-brand-cyan",

@@ -15,7 +15,7 @@ const responseSchema = z.object({
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const user = await requireAuth(req);
   if (user instanceof NextResponse) return user;
@@ -37,12 +37,17 @@ export async function POST(
       where: { id },
       include: {
         manuscript: { select: { id: true, title: true } },
-        reviewer: { select: { id: true, email: true, firstName: true, lastName: true } },
+        reviewer: {
+          select: { id: true, email: true, firstName: true, lastName: true },
+        },
       },
     });
 
     if (!assignment) {
-      return NextResponse.json({ error: "Assignment not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Assignment not found" },
+        { status: 404 },
+      );
     }
 
     if (assignment.reviewerId !== user.userId) {
@@ -52,7 +57,9 @@ export async function POST(
     const updatedAssignment = await prisma.reviewAssignment.update({
       where: { id },
       data: { status, respondedAt: new Date() },
-      include: { manuscript: { select: { id: true, title: true, status: true } } },
+      include: {
+        manuscript: { select: { id: true, title: true, status: true } },
+      },
     });
 
     if (status === "DECLINED") {
@@ -69,20 +76,23 @@ export async function POST(
           reviewerName: fullName(
             assignment.reviewer.firstName,
             assignment.reviewer.lastName,
-            assignment.reviewer.email
+            assignment.reviewer.email,
           ),
           manuscriptTitle: assignment.manuscript.title,
           manuscriptId: assignment.manuscript.id,
           status,
         }),
       "Failed to send reviewer response",
-      "Review response email error"
+      "Review response email error",
     );
 
     await createAuditLog({
       actorId: user.userId,
       actorRole: user.role as Role,
-      action: status === "ACCEPTED" ? "REVIEW_INVITATION_ACCEPTED" : "REVIEW_INVITATION_DECLINED",
+      action:
+        status === "ACCEPTED"
+          ? "REVIEW_INVITATION_ACCEPTED"
+          : "REVIEW_INVITATION_DECLINED",
       entityType: "REVIEW_ASSIGNMENT",
       entityId: assignment.id,
       summary:
@@ -97,7 +107,11 @@ export async function POST(
       req,
     });
 
-    return NextResponse.json({ assignment: updatedAssignment, emailSent, emailError });
+    return NextResponse.json({
+      assignment: updatedAssignment,
+      emailSent,
+      emailError,
+    });
   } catch (error) {
     console.error("Assignment response error:", error);
     return handleRouteError(error);

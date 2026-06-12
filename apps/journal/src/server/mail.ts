@@ -67,7 +67,7 @@ export async function sendReviewSubmissionEmail(payload: ReviewEmailPayload) {
   const mailer = getMailerTransporter();
   const reviewerLabel = resolveReviewerLabel(
     payload.reviewerName,
-    payload.reviewerEmail
+    payload.reviewerEmail,
   );
   const safeReviewerLabel = escapeHtml(reviewerLabel);
   const safeReviewerEmail = escapeHtml(payload.reviewerEmail);
@@ -110,12 +110,12 @@ export async function sendReviewSubmissionEmail(payload: ReviewEmailPayload) {
 }
 
 export async function sendReviewAssignmentEmail(
-  payload: ReviewAssignmentEmailPayload
+  payload: ReviewAssignmentEmailPayload,
 ) {
   const mailer = getMailerTransporter();
   const reviewerLabel = resolveReviewerLabel(
     payload.reviewerName,
-    payload.reviewerEmail
+    payload.reviewerEmail,
   );
   const editorLabel = payload.editorName?.trim() || "Editorial Office";
   const safeReviewerLabel = escapeHtml(reviewerLabel);
@@ -164,7 +164,7 @@ export async function sendReviewStatusEmail(payload: ReviewStatusEmailPayload) {
   const mailer = getMailerTransporter();
   const reviewerLabel = resolveReviewerLabel(
     payload.reviewerName,
-    payload.reviewerEmail
+    payload.reviewerEmail,
   );
   const safeReviewerLabel = escapeHtml(reviewerLabel);
   const safeStatus = escapeHtml(payload.status);
@@ -192,12 +192,12 @@ export async function sendReviewStatusEmail(payload: ReviewStatusEmailPayload) {
 }
 
 export async function sendReviewerAccountEmail(
-  payload: ReviewerAccountEmailPayload
+  payload: ReviewerAccountEmailPayload,
 ) {
   const mailer = getMailerTransporter();
   const reviewerLabel = resolveReviewerLabel(
     payload.reviewerName,
-    payload.reviewerEmail
+    payload.reviewerEmail,
   );
   const creatorLabel = payload.createdByName?.trim() || "The editorial team";
   const dashboardUrl = payload.dashboardUrl || `${env.APP_URL}/auth/login`;
@@ -207,7 +207,8 @@ export async function sendReviewerAccountEmail(
     from: getMailerFrom(),
     to: payload.reviewerEmail,
     replyTo: REVIEW_INBOX_EMAIL,
-    subject: "Your reviewer account for Etthos Journal of Health, Behavior and Applied Psychology",
+    subject:
+      "Your reviewer account for Etthos Journal of Health, Behavior and Applied Psychology",
     text: hasTempPassword
       ? [
           `Dear ${reviewerLabel},`,
@@ -255,7 +256,9 @@ export async function sendReviewerAccountEmail(
   });
 }
 
-export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload) {
+export async function sendPasswordResetEmail(
+  payload: PasswordResetEmailPayload,
+) {
   const mailer = getMailerTransporter();
   const recipientLabel =
     payload.name?.trim() ||
@@ -265,7 +268,8 @@ export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload)
     from: getMailerFrom(),
     to: payload.email,
     replyTo: REVIEW_INBOX_EMAIL,
-    subject: "Reset your Etthos Journal of Health, Behavior and Applied Psychology password",
+    subject:
+      "Reset your Etthos Journal of Health, Behavior and Applied Psychology password",
     text: [
       `Dear ${recipientLabel},`,
       "",
@@ -290,7 +294,9 @@ export async function sendPasswordResetEmail(payload: PasswordResetEmailPayload)
   });
 }
 
-export async function sendReviewerApplicationEmail(payload: ReviewerApplicationPayload) {
+export async function sendReviewerApplicationEmail(
+  payload: ReviewerApplicationPayload,
+) {
   const mailer = getMailerTransporter();
   const safeName = escapeHtml(payload.name);
   const safeEmail = escapeHtml(payload.email);

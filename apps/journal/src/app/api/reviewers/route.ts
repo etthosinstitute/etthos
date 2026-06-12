@@ -13,7 +13,11 @@ import { handleRouteError } from "@/shared/utils";
 const reviewerSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
-  email: z.string().trim().email().transform((value) => value.toLowerCase()),
+  email: z
+    .string()
+    .trim()
+    .email()
+    .transform((value) => value.toLowerCase()),
 });
 
 function generatePassword() {
@@ -23,7 +27,12 @@ function generatePassword() {
 export async function POST(req: NextRequest) {
   const user = await getAuthUser(req);
 
-  if (!user || (user.role !== "EDITOR" && user.role !== "ADMIN" && user.role !== "SUPER_ADMIN")) {
+  if (
+    !user ||
+    (user.role !== "EDITOR" &&
+      user.role !== "ADMIN" &&
+      user.role !== "SUPER_ADMIN")
+  ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
 
@@ -41,7 +50,14 @@ export async function POST(req: NextRequest) {
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
-      select: { id: true, role: true, isReviewer: true, firstName: true, lastName: true, email: true },
+      select: {
+        id: true,
+        role: true,
+        isReviewer: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+      },
     });
 
     const creator = await prisma.user.findUnique({
@@ -55,13 +71,16 @@ export async function POST(req: NextRequest) {
 
     if (existingUser && existingUser.role !== "AUTHOR") {
       return NextResponse.json(
-        { error: `This email already belongs to a ${existingUser.role.toLowerCase()} account.` },
-        { status: 409 }
+        {
+          error: `This email already belongs to a ${existingUser.role.toLowerCase()} account.`,
+        },
+        { status: 409 },
       );
     }
 
     const creatorName =
-      [creator?.firstName, creator?.lastName].filter(Boolean).join(" ") || creator?.email;
+      [creator?.firstName, creator?.lastName].filter(Boolean).join(" ") ||
+      creator?.email;
 
     if (existingUser?.role === "AUTHOR") {
       const reviewer = await prisma.user.update({
@@ -91,7 +110,7 @@ export async function POST(req: NextRequest) {
             dashboardUrl: `${req.nextUrl.origin}/auth/login`,
           }),
         "Failed to send reviewer account email",
-        "Reviewer account email error"
+        "Reviewer account email error",
       );
 
       await createAuditLog({
@@ -116,7 +135,7 @@ export async function POST(req: NextRequest) {
           emailError,
           action: "promoted",
         },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -153,7 +172,7 @@ export async function POST(req: NextRequest) {
           dashboardUrl: `${req.nextUrl.origin}/auth/login`,
         }),
       "Failed to send reviewer account email",
-      "Reviewer account email error"
+      "Reviewer account email error",
     );
 
     await createAuditLog({
@@ -177,7 +196,7 @@ export async function POST(req: NextRequest) {
         emailError,
         action: "created",
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Create reviewer error:", error);

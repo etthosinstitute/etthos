@@ -2,7 +2,7 @@ import React from "react";
 import { Header } from "../../components/Header";
 
 // Force static generation for optimal Vercel deployment
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 import { Footer } from "../../components/Footer";
 import { ServiceHero } from "../../components/ServiceHero";
 import { ServiceCard } from "../../components/ServiceCard";
@@ -36,8 +36,11 @@ const CounsellingPage = () => {
 
           {/* Services Grid */}
           <section className="relative bg-surface-base py-20 transition-colors">
-            <div className="absolute inset-0 bg-gradient-to-b from-surface-card via-surface-soft to-surface-base dark:from-brand-ink dark:via-brand-ink/40 dark:to-brand-midnight" aria-hidden />
-            
+            <div
+              className="absolute inset-0 bg-gradient-to-b from-surface-card via-surface-soft to-surface-base dark:from-brand-ink dark:via-brand-ink/40 dark:to-brand-midnight"
+              aria-hidden
+            />
+
             <div className="relative container mx-auto px-4 md:px-6">
               <div className="grid gap-8 md:grid-cols-2">
                 {counsellingServices.map((service) => (

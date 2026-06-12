@@ -62,7 +62,10 @@ export function ContactForm({ subjects, successMessage }: ContactFormProps) {
     }
   }
 
-  function updateField<K extends keyof FormState>(field: K, value: FormState[K]) {
+  function updateField<K extends keyof FormState>(
+    field: K,
+    value: FormState[K],
+  ) {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
@@ -70,7 +73,12 @@ export function ContactForm({ subjects, successMessage }: ContactFormProps) {
     <form className="space-y-6" onSubmit={handleSubmit}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="firstName" className="mb-1.5 block text-sm font-semibold text-primary">First Name</label>
+          <label
+            htmlFor="firstName"
+            className="mb-1.5 block text-sm font-semibold text-primary"
+          >
+            First Name
+          </label>
           <input
             id="firstName"
             type="text"
@@ -82,7 +90,12 @@ export function ContactForm({ subjects, successMessage }: ContactFormProps) {
           />
         </div>
         <div>
-          <label htmlFor="lastName" className="mb-1.5 block text-sm font-semibold text-primary">Last Name</label>
+          <label
+            htmlFor="lastName"
+            className="mb-1.5 block text-sm font-semibold text-primary"
+          >
+            Last Name
+          </label>
           <input
             id="lastName"
             type="text"
@@ -95,7 +108,12 @@ export function ContactForm({ subjects, successMessage }: ContactFormProps) {
         </div>
       </div>
       <div>
-        <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-primary">Email</label>
+        <label
+          htmlFor="email"
+          className="mb-1.5 block text-sm font-semibold text-primary"
+        >
+          Email
+        </label>
         <input
           id="email"
           type="email"
@@ -107,7 +125,12 @@ export function ContactForm({ subjects, successMessage }: ContactFormProps) {
         />
       </div>
       <div>
-        <label htmlFor="subject" className="mb-1.5 block text-sm font-semibold text-primary">Subject</label>
+        <label
+          htmlFor="subject"
+          className="mb-1.5 block text-sm font-semibold text-primary"
+        >
+          Subject
+        </label>
         <select
           id="subject"
           required
@@ -124,7 +147,12 @@ export function ContactForm({ subjects, successMessage }: ContactFormProps) {
         </select>
       </div>
       <div>
-        <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-primary">Message</label>
+        <label
+          htmlFor="message"
+          className="mb-1.5 block text-sm font-semibold text-primary"
+        >
+          Message
+        </label>
         <textarea
           id="message"
           rows={5}
@@ -145,7 +173,11 @@ export function ContactForm({ subjects, successMessage }: ContactFormProps) {
           {success}
         </p>
       )}
-      <Button type="submit" disabled={submitting} className="bg-secondary hover:bg-secondary/90 text-secondary-foreground gap-2">
+      <Button
+        type="submit"
+        disabled={submitting}
+        className="bg-secondary hover:bg-secondary/90 text-secondary-foreground gap-2"
+      >
         <Send className="h-4 w-4" />
         {submitting ? "Sending..." : "Send Message"}
       </Button>

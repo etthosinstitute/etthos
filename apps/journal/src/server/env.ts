@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 const baseSchema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "test", "production"])
+    .default("development"),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
   APP_URL: z.string().url().optional(),
@@ -40,22 +42,29 @@ if (!parsed.success) {
   if (process.env.NODE_ENV === "production" && !process.env.NEXT_PHASE) {
     throw new Error(`Invalid journal environment configuration: ${issues}`);
   } else {
-    console.warn(`⚠️ Warning: Invalid journal environment configuration (ignored during build): ${issues}`);
+    console.warn(
+      `⚠️ Warning: Invalid journal environment configuration (ignored during build): ${issues}`,
+    );
   }
 }
 
-const data = parsed.success ? parsed.data : ({} as Partial<z.infer<typeof baseSchema>>);
+const data = parsed.success
+  ? parsed.data
+  : ({} as Partial<z.infer<typeof baseSchema>>);
 
 export const env = {
   ...data,
-  JWT_SECRET: data.JWT_SECRET || "build_time_placeholder_secret_must_be_32_chars_long",
+  JWT_SECRET:
+    data.JWT_SECRET || "build_time_placeholder_secret_must_be_32_chars_long",
   MAX_UPLOAD_MB: data.MAX_UPLOAD_MB || 10,
   EMAIL_SECURE:
     data.EMAIL_SECURE !== undefined
       ? data.EMAIL_SECURE
       : data.EMAIL_PORT === 465,
   APP_URL: data.APP_URL || "http://localhost:3000",
-  REVIEW_INBOX_EMAIL: data.REVIEW_INBOX_EMAIL || "etthosjournal@gmail.com, Dr.priyankapsychology@gmail.com",
+  REVIEW_INBOX_EMAIL:
+    data.REVIEW_INBOX_EMAIL ||
+    "etthosjournal@gmail.com, Dr.priyankapsychology@gmail.com",
   CONTACT_INBOX_EMAIL:
     data.CONTACT_INBOX_EMAIL ||
     data.REVIEW_INBOX_EMAIL ||

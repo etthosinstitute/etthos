@@ -14,9 +14,13 @@ const manuscriptSchema = z.object({
   keywords: z.array(z.string().min(1)).optional(),
   fileUrl: z
     .string()
-    .refine((value) => value.startsWith("/") || z.string().url().safeParse(value).success, {
-      message: "Invalid manuscript file URL",
-    })
+    .refine(
+      (value) =>
+        value.startsWith("/") || z.string().url().safeParse(value).success,
+      {
+        message: "Invalid manuscript file URL",
+      },
+    )
     .optional(),
 });
 
@@ -24,10 +28,10 @@ export async function POST(req: NextRequest) {
   const user = await requireAuth(req);
   if (user instanceof NextResponse) return user;
 
-  if (user.role !== "AUTHOR") {
+  if (!["AUTHOR", "EDITOR", "ADMIN", "SUPER_ADMIN"].includes(user.role)) {
     return NextResponse.json(
-      { error: "Only author accounts can submit manuscripts." },
-      { status: 403 }
+      { error: "Only author or editor accounts can submit manuscripts." },
+      { status: 403 },
     );
   }
 

@@ -15,11 +15,11 @@ const Page = () => {
     <div className="bg-surface-base text-text-high font-display overflow-x-hidden antialiased selection:bg-brand-cyan selection:text-brand-midnight transition-colors">
       <div className="relative flex min-h-screen w-full flex-col">
         <Header />
-         <main>
+        <main>
           <Hero />
 
           <WhoWeAre />
-          
+
           <Gallery />
 
           <Programs />

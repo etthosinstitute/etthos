@@ -4,13 +4,15 @@ const steps = [
   {
     number: "01",
     title: "Counseling & Wellness",
-    description: "Personalized therapy sessions to protect your emotional peace.",
+    description:
+      "Personalized therapy sessions to protect your emotional peace.",
     icon: "🧠",
   },
   {
     number: "02",
     title: "Education & Certification",
-    description: "Globally recognized training programs for aspiring psychologists.",
+    description:
+      "Globally recognized training programs for aspiring psychologists.",
     icon: "📚",
   },
   {
@@ -39,13 +41,14 @@ export const HowItWorks = () => {
             How Etthos Works
           </h2>
           <p className="text-lg text-text-muted">
-            A comprehensive ecosystem for mental health and professional development.
+            A comprehensive ecosystem for mental health and professional
+            development.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-           {/* Connecting Line (Desktop) */}
-           <div className="hidden lg:block absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-cyan/30 to-transparent -z-10" />
+          {/* Connecting Line (Desktop) */}
+          <div className="hidden lg:block absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-cyan/30 to-transparent -z-10" />
 
           {steps.map((step, index) => (
             <div key={index} className="relative group">
@@ -55,7 +58,7 @@ export const HowItWorks = () => {
                   {step.number}
                 </div>
               </div>
-              
+
               <div className="text-center px-4">
                 <h3 className="text-xl font-bold text-text-high mb-3 group-hover:text-brand-cyan transition-colors">
                   {step.title}

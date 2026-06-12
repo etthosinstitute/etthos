@@ -38,7 +38,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const payload = contactSchema.parse(body);
 
-    await (prisma as unknown as { contactSubmission: ContactSubmissionDelegate }).contactSubmission.create({
+    await (
+      prisma as unknown as { contactSubmission: ContactSubmissionDelegate }
+    ).contactSubmission.create({
       data: payload,
     });
 
@@ -49,7 +51,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: "Thanks for reaching out. Our editorial team will get back to you shortly.",
+      message:
+        "Thanks for reaching out. Our editorial team will get back to you shortly.",
     });
   } catch (error) {
     return handleRouteError(error);

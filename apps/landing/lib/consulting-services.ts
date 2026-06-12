@@ -13,8 +13,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "employees-wellness-program",
     title: "Employees Wellness Program",
-    shortDescription: "Comprehensive wellness programs to enhance employee mental health, productivity, and workplace satisfaction.",
-    overview: "Our Employee Wellness Programs are designed to create psychologically healthy workplaces. We address mental health, stress management, and work-life balance through structured interventions.",
+    shortDescription:
+      "Comprehensive wellness programs to enhance employee mental health, productivity, and workplace satisfaction.",
+    overview:
+      "Our Employee Wellness Programs are designed to create psychologically healthy workplaces. We address mental health, stress management, and work-life balance through structured interventions.",
     services: [
       "Mental health awareness sessions",
       "Stress management workshops",
@@ -33,8 +35,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "corporate-training-program",
     title: "Corporate Training Program",
-    shortDescription: "Customized corporate training modules for skill development and organizational growth.",
-    overview: "Our corporate training programs are tailored to meet your organization's specific needs. We focus on leadership development, team building, and professional skills enhancement.",
+    shortDescription:
+      "Customized corporate training modules for skill development and organizational growth.",
+    overview:
+      "Our corporate training programs are tailored to meet your organization's specific needs. We focus on leadership development, team building, and professional skills enhancement.",
     services: [
       "Leadership development programs",
       "Team building workshops",
@@ -53,8 +57,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "manager-training-program",
     title: "Manager Training Program",
-    shortDescription: "Specialized training for managers on people management, team leadership, and organizational psychology.",
-    overview: "Equip your managers with the psychological insights and skills needed to lead effective teams. Our program covers people management, emotional intelligence, and leadership psychology.",
+    shortDescription:
+      "Specialized training for managers on people management, team leadership, and organizational psychology.",
+    overview:
+      "Equip your managers with the psychological insights and skills needed to lead effective teams. Our program covers people management, emotional intelligence, and leadership psychology.",
     services: [
       "People management skills training",
       "Conflict resolution techniques",
@@ -73,8 +79,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "posh-training",
     title: "POSH Training",
-    shortDescription: "Prevention of Sexual Harassment training programs compliant with legal requirements and best practices.",
-    overview: "Our POSH training programs ensure legal compliance while creating a safe and respectful workplace. We train Internal Committee members and conduct organization-wide awareness sessions.",
+    shortDescription:
+      "Prevention of Sexual Harassment training programs compliant with legal requirements and best practices.",
+    overview:
+      "Our POSH training programs ensure legal compliance while creating a safe and respectful workplace. We train Internal Committee members and conduct organization-wide awareness sessions.",
     services: [
       "POSH Act awareness training",
       "Internal Committee training",
@@ -92,15 +100,18 @@ export const consultingServices: ConsultingService[] = [
     faqs: [
       {
         question: "Is POSH training mandatory?",
-        answer: "Yes, under the POSH Act 2013, organizations with 10 or more employees must conduct regular awareness programs.",
+        answer:
+          "Yes, under the POSH Act 2013, organizations with 10 or more employees must conduct regular awareness programs.",
       },
     ],
   },
   {
     slug: "teacher-training-program",
     title: "Teacher Training Program",
-    shortDescription: "Professional development programs for educators on student psychology and classroom management.",
-    overview: "Our teacher training programs equip educators with psychological insights to better understand and support students. We cover child development, classroom behavior management, and learning difficulties.",
+    shortDescription:
+      "Professional development programs for educators on student psychology and classroom management.",
+    overview:
+      "Our teacher training programs equip educators with psychological insights to better understand and support students. We cover child development, classroom behavior management, and learning difficulties.",
     services: [
       "Child and adolescent psychology training",
       "Classroom behavior management",
@@ -119,8 +130,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "business-consultations",
     title: "Business Consultations",
-    shortDescription: "Strategic consulting services applying behavioral science to business challenges and growth.",
-    overview: "We apply psychological principles to solve business challenges. Our consultants help organizations optimize culture, improve employee engagement, and drive sustainable growth.",
+    shortDescription:
+      "Strategic consulting services applying behavioral science to business challenges and growth.",
+    overview:
+      "We apply psychological principles to solve business challenges. Our consultants help organizations optimize culture, improve employee engagement, and drive sustainable growth.",
     services: [
       "Organizational behavior analysis",
       "Change management consulting",
@@ -139,8 +152,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "product-consultation",
     title: "Product Consultation",
-    shortDescription: "Behavioral insights for product development, UX research, and consumer psychology.",
-    overview: "Leverage behavioral science to build better products. We provide psychological insights for product design, user experience research, and consumer behavior understanding.",
+    shortDescription:
+      "Behavioral insights for product development, UX research, and consumer psychology.",
+    overview:
+      "Leverage behavioral science to build better products. We provide psychological insights for product design, user experience research, and consumer behavior understanding.",
     services: [
       "User experience research",
       "Consumer behavior analysis",
@@ -159,8 +174,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "market-research-support",
     title: "Market Research Support",
-    shortDescription: "Psychology-based market research including consumer behavior studies and brand perception analysis.",
-    overview: "Our market research services combine psychological methodology with business insights. We help you understand your customers, test concepts, and optimize brand positioning.",
+    shortDescription:
+      "Psychology-based market research including consumer behavior studies and brand perception analysis.",
+    overview:
+      "Our market research services combine psychological methodology with business insights. We help you understand your customers, test concepts, and optimize brand positioning.",
     services: [
       "Consumer psychology research",
       "Brand perception studies",
@@ -179,8 +196,10 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: "career-counselling",
     title: "Career Counselling",
-    shortDescription: "Professional career guidance and counselling services for students and professionals.",
-    overview: "Our career counselling services help individuals make informed career decisions. We use assessments, counselling, and guidance to support career exploration and development.",
+    shortDescription:
+      "Professional career guidance and counselling services for students and professionals.",
+    overview:
+      "Our career counselling services help individuals make informed career decisions. We use assessments, counselling, and guidance to support career exploration and development.",
     services: [
       "Career aptitude assessment",
       "Career path planning",
@@ -198,7 +217,8 @@ export const consultingServices: ConsultingService[] = [
     faqs: [
       {
         question: "What age groups do you work with?",
-        answer: "We provide career counselling for students from Class 9 onwards, as well as working professionals at any stage of their career.",
+        answer:
+          "We provide career counselling for students from Class 9 onwards, as well as working professionals at any stage of their career.",
       },
     ],
   },

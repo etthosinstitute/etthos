@@ -4,21 +4,18 @@ export const WhoWeAre = () => {
   return (
     <section id="who-we-are" className="relative bg-surface-base py-20">
       <div className="mx-auto max-w-[1440px] px-4 md:px-10">
-        
         {/* Top label */}
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.4em] text-text-muted">
           Who we are
         </p>
 
         <div className="grid gap-12 md:grid-cols-2 items-start">
-          
           {/* Left: Core statement */}
           <div>
             <h2 className="text-2xl md:text-3xl font-semibold leading-tight">
               A psychology-driven institute focused on{" "}
-              <span className="text-brand-cyan">
-                real-world application
-              </span>, not just theory.
+              <span className="text-brand-cyan">real-world application</span>,
+              not just theory.
             </h2>
           </div>
 
@@ -71,7 +68,6 @@ export const WhoWeAre = () => {
         </div>
 
         {/* Divider */}
-       
       </div>
     </section>
   );

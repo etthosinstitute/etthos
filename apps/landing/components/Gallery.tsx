@@ -89,8 +89,8 @@ export const Gallery = () => {
             Life at Etthos
           </h2>
           <p className="text-lg text-text-muted">
-            Join a vibrant community of future psychologists. Experience immersive learning
-            in our state-of-the-art facilities.
+            Join a vibrant community of future psychologists. Experience
+            immersive learning in our state-of-the-art facilities.
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export const Gallery = () => {
                 quality={80}
                 priority={image.priority}
                 style={{ objectPosition: image.objectPosition }}
-                className={`${image.objectFit === 'contain' ? 'object-contain' : 'object-cover'} transition-transform duration-700 group-hover:scale-110`}
+                className={`${image.objectFit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-700 group-hover:scale-110`}
               />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
             </div>
@@ -131,7 +131,7 @@ export const Gallery = () => {
                 quality={80}
                 priority={image.priority}
                 style={{ objectPosition: image.objectPosition }}
-                className={`${image.objectFit === 'contain' ? 'object-contain' : 'object-cover'} transition-transform duration-700 group-hover:scale-110`}
+                className={`${image.objectFit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-700 group-hover:scale-110`}
               />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
             </div>

@@ -52,7 +52,7 @@ export async function getAuthUser(req: NextRequest): Promise<AuthUser | null> {
  *        if (result instanceof NextResponse) return result;
  */
 export async function requireAuth(
-  req: NextRequest
+  req: NextRequest,
 ): Promise<AuthUser | NextResponse> {
   const user = await getAuthUser(req);
   if (!user) {
@@ -77,7 +77,11 @@ function shouldUseSecureCookie(req?: NextRequest): boolean {
 }
 
 /** Attaches the auth cookie to a NextResponse. */
-export function setAuthCookie(response: NextResponse, token: string, req?: NextRequest): void {
+export function setAuthCookie(
+  response: NextResponse,
+  token: string,
+  req?: NextRequest,
+): void {
   response.cookies.set("token", token, {
     httpOnly: true,
     secure: shouldUseSecureCookie(req),
@@ -88,7 +92,10 @@ export function setAuthCookie(response: NextResponse, token: string, req?: NextR
 }
 
 /** Clears the auth cookie using matching cookie attributes. */
-export function clearAuthCookie(response: NextResponse, req?: NextRequest): void {
+export function clearAuthCookie(
+  response: NextResponse,
+  req?: NextRequest,
+): void {
   response.cookies.set("token", "", {
     httpOnly: true,
     secure: shouldUseSecureCookie(req),

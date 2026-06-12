@@ -18,9 +18,10 @@
 
 ## Overview
 
-Etthos is a comprehensive, production-ready web ecosystem built upon a modern Turborepo monorepo architecture. 
+Etthos is a comprehensive, production-ready web ecosystem built upon a modern Turborepo monorepo architecture.
 
 It powers two core applications:
+
 1. **Etthos Landing (`apps/landing`)**: The public-facing corporate platform providing general information about the Etthos broader ecosystem.
 2. **Etthos Journal System (`apps/journal`)**: A comprehensive, **ISSN India-compliant** academic journal platform specifically engineered to drive psychology research dissemination and peer-reviewed publishing.
 
@@ -38,7 +39,7 @@ etthos-1/
 └── packages/
     ├── database/         # Shared Prisma schema & bindings
     ├── ui/               # Shared Radix/Tailwind components
-    ├── assets/           # Shared static assets 
+    ├── assets/           # Shared static assets
     ├── eslint-config/    # Shared linting
     └── typescript-config/# Shared tsconfig configurations
 ```
@@ -48,6 +49,7 @@ etthos-1/
 ## Quick Start
 
 ### Prerequisites
+
 - Node.js 20+
 - `pnpm` 8+
 - PostgreSQL 15+ (Local or Vercel Postgres)
@@ -87,6 +89,7 @@ pnpm dev
 The **Etthos Journal System** (`etthosjournal.com`) is the flagship application in this ecosystem. It serves as an end-to-end management and public-viewing platform tailored specifically to peer-reviewed Psychology research.
 
 ### Core Features
+
 - ✅ **ISSN India Compliant:** Designed natively to meet rigorous regulatory demands including hardcoded minimum issues, volume tracking, publisher verifications, and permanent URLs.
 - 📄 **Article Management:** End-to-end PDF processing, DOIs, references, and citation extraction (APA, MLA, IEEE, BibTeX).
 - 👥 **Editorial Control:** Detailed public profiles for editorial boards linking affiliations and ORCIDs.
@@ -99,6 +102,7 @@ The architecture functions atop a hierarchical data model leveraging **Prisma** 
 `Journal (Singleton) → Volumes (Annual) → Issues (Periodic) → Articles (Specific Papers)`
 
 #### Directory Access (Routing)
+
 - **`/`**: Issue spotlights and hero discovery.
 - **`/issues`**: Archive directories.
 - **`/articles`**: Paginable research tables including rich PDF viewer routes (`/articles/[slug]`).
@@ -106,6 +110,7 @@ The architecture functions atop a hierarchical data model leveraging **Prisma** 
 - **`/admin/*`**: Secured (JWT) administration panels covering Issue generation, author management, and PDF assignments.
 
 ### Security & Data Protection
+
 - **Vercel Blob Storage:** Used securely for hosting PDFs; implements URL signing against unauthorized access.
 - **Rate-Limiting:** Active Next.js API route rate limiters guarding open APIs.
 - **Type-Safety:** 100% end-to-end safety spanning from PostgreSQL tables through tRPC/Next-API responses into React Server Components via Zod validation.
@@ -118,7 +123,7 @@ Both applications deploy seamlessly to the Vercel edge network using native Next
 
 1. **Connect & Authenticate:** Ensure Vercel CLI binds your target to `journal` and `landing`.
 2. **Environment Synchronization:** Apply `DATABASE_URL` (Postgres pooling required) and `BLOB_READ_WRITE_TOKEN`.
-3. **Execution:** 
+3. **Execution:**
    ```bash
    pnpm build
    # turbo manages cache pipelines for rapid deployments.

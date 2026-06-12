@@ -13,7 +13,7 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
     <div
       className={cn(
         "relative overflow-hidden border-b border-border py-16 md:py-24",
-        className
+        className,
       )}
     >
       <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--paper)/0.98)_0%,hsl(var(--accent)/0.52)_58%,hsl(var(--background))_100%)]" />
@@ -22,11 +22,20 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
       <div className="absolute inset-x-0 bottom-0 h-px bg-border" />
       <div className="container relative mx-auto px-4 text-center">
         <div className="mx-auto mb-5 journal-rule" />
-        <p className="journal-kicker mb-4">Etthos Journal <span className="lowercase text-[0.8em]">of</span> Health, Behavior and Applied Psychology</p>
-        <h1 className="mb-4 font-serif text-4xl font-semibold tracking-tight text-primary md:text-6xl">{title}</h1>
+        <p className="journal-kicker mb-4">
+          Etthos Journal <span className="lowercase text-[0.8em]">of</span>{" "}
+          Health, Behavior and Applied Psychology
+        </p>
+        <h1 className="mb-4 font-serif text-4xl font-semibold tracking-tight text-primary md:text-6xl">
+          {title}
+        </h1>
         {description && (
           <p className="mx-auto max-w-3xl text-[17px] leading-8 text-muted-foreground md:text-lg">
-            {typeof description === "string" ? <FormatJournalName text={description} /> : description}
+            {typeof description === "string" ? (
+              <FormatJournalName text={description} />
+            ) : (
+              description
+            )}
           </p>
         )}
       </div>

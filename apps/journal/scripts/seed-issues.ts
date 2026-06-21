@@ -19,7 +19,7 @@ async function main() {
         name: "Etthos Journal of Health, Behavior and Applied Psychology",
         shortName: "EJHBAP",
         publisher:
-          "Etthos Journal of Health, Behavior and Applied Psychology pvt ltd",
+          "Etthos Institute of Behavioral Research and Training Pvt Ltd.",
         publisherAddress: "A/107, Sardar Patel Nagar, Mahuli",
         publisherCity: "Patna",
         publisherState: "Bihar",

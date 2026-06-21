@@ -14,7 +14,7 @@ model Journal {
   description      String?
   issn             String?  @unique
   eissn            String?  @unique
-  publisher        String   @default("Etthos Journal Of Health, Behavior and Applied Psychology pvt ltd")
+  publisher        String   @default("Etthos Institute of Behavioral Research and Training Pvt Ltd.")
   frequency        String   @default("Quarterly")
   language         String   @default("English")
   country          String   @default("India")

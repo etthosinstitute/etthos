@@ -7,7 +7,7 @@ export const policiesContent: PoliciesContent = {
       title: "Open Access Policy",
       icon: "lock",
       paragraphs: [
-        "All articles published by Etthos Journal of Health, Behavior and Applied Psychology pvt ltd are made immediately available worldwide under an open access license. This means everyone has free and unlimited access to the full-text of all articles published in Etthos Journal of Health, Behavior and Applied Psychology pvt ltd journals.",
+        "All articles published by Etthos Institute of Behavioral Research and Training Pvt Ltd. are made immediately available worldwide under an open access license. This means everyone has free and unlimited access to the full-text of all articles published in Etthos Institute of Behavioral Research and Training Pvt Ltd. journals.",
       ],
       bullets: [
         "Free availability on the public internet.",
@@ -19,7 +19,7 @@ export const policiesContent: PoliciesContent = {
       title: "Peer Review Policy",
       icon: "check",
       paragraphs: [
-        "Etthos Journal of Health, Behavior and Applied Psychology pvt ltd employs a rigorous double-blind peer review process to ensure the quality and validity of published research. Both reviewers and authors remain anonymous throughout the process.",
+        "Etthos Institute of Behavioral Research and Training Pvt Ltd. employs a rigorous double-blind peer review process to ensure the quality and validity of published research. Both reviewers and authors remain anonymous throughout the process.",
       ],
     },
     {

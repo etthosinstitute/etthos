@@ -122,8 +122,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               className="font-semibold text-primary hover:text-secondary transition-colors inline-flex items-center gap-1"
             >
-              Etthos Journal <span className="lowercase text-[0.85em]">of</span>{" "}
-              Health, Behavior and Applied Psychology pvt ltd{" "}
+              Etthos Institute of Behavioral Research and Training Pvt Ltd.{" "}
               <ExternalLink className="h-3 w-3" />
             </a>
           </span>

@@ -11,9 +11,16 @@ import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About the Journal",
+  title: "About EJHBAP",
   description:
-    "Learn about the Etthos Journal of Health, Behavior and Applied Psychology — mission, scope, editorial policies, and publication frequency.",
+    "Learn about the Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP), a peer-reviewed, open access journal, its publisher, leadership, and interdisciplinary approach to psychology and behavioral science.",
+  keywords: [
+    "about EJHBAP",
+    "psychology journal publisher",
+    "health behavior journal",
+    "interdisciplinary psychology journal",
+    "journal leadership",
+  ],
 };
 
 export default async function AboutPage() {
@@ -43,7 +50,7 @@ export default async function AboutPage() {
                 Journal Overview
               </p>
               <h2 className="font-serif font-bold text-3xl mb-4 text-primary">
-                A scholarly home for psychology research
+                About EJHBAP
               </h2>
               <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">
                 {content.overviewParagraphs.map((paragraph, index) => (
@@ -63,7 +70,7 @@ export default async function AboutPage() {
 
             <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
-                Founding Leadership
+                Leadership
               </p>
               <h2 className="font-serif font-bold text-3xl mb-4 text-primary">
                 {content.foundersTitle}
@@ -95,13 +102,24 @@ export default async function AboutPage() {
                           {founder.name}
                         </h3>
                         <div className="mt-3 h-px w-12 bg-secondary/30" />
-                        <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-secondary">
+                        <p className="mt-3 text-sm font-semibold text-secondary">
                           {founder.role}
+                        </p>
+                        <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground text-center max-w-[220px]">
+                          Etthos Institute of Behavioral Research and Training Pvt. Ltd.
                         </p>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+              
+              <div className="mt-8 border-t border-border/60 pt-6 flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+                <span>Contact: <a href="mailto:support@etthos.com" className="hover:text-primary underline">support@etthos.com</a></span>
+                <span className="text-border">•</span>
+                <span>Publisher: Etthos Institute of Behavioral Research and Training Pvt. Ltd.</span>
+                <span className="text-border">•</span>
+                <span>ISSN: Pending (Online)</span>
               </div>
             </section>
 
@@ -110,7 +128,7 @@ export default async function AboutPage() {
                 Editorial Positioning
               </p>
               <h2 className="font-serif font-bold text-3xl mb-4 text-primary">
-                Aims and Scope
+                Aims & Scope
               </h2>
               <p className="text-muted-foreground mb-6 leading-7">
                 {content.aimsIntro}
@@ -133,7 +151,7 @@ export default async function AboutPage() {
                   href="/about/aims-scope"
                   className="text-sm text-secondary hover:text-secondary/80 font-medium underline"
                 >
-                  View detailed Aims &amp; Scope →
+                  View our full Aims &amp; Scope →
                 </Link>
               </div>
             </section>

@@ -1,197 +1,212 @@
 import { PageHeader } from "@/components/PageHeader";
-import {
-  getJournalInfo,
-  getPublisherContent,
-} from "@/features/public-site/queries";
-import { MapPin, Mail, Phone, ExternalLink, Building2 } from "lucide-react";
-import { FormatJournalName } from "@/components/FormatJournalName";
+import { MapPin, Mail, Globe, Shield, Scale, ExternalLink } from "lucide-react";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Publisher Information",
+  title: "Publisher",
   description:
-    "Publisher information for the Etthos Journal of Health, Behavior and Applied Psychology — Etthos, postal address, and contact details.",
+    "EJHBAP is published by Etthos Institute of Behavioral Research and Training Pvt. Ltd., an organization dedicated to advancing psychology and behavioral science research through open access publishing.",
+  keywords: [
+    "Etthos Institute of Behavioral Research and Training",
+    "psychology journal publisher India",
+    "open access publisher",
+    "journal publisher Patna New Delhi",
+  ],
 };
 
 export default async function PublisherPage() {
-  const [journalInfo, publisherPage] = await Promise.all([
-    getJournalInfo(),
-    getPublisherContent(),
-  ]);
+  const journalDetails = [
+    { label: "Journal Title", value: "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP)" },
+    { label: "ISSN (Online)", value: "Pending" },
+    { label: "Frequency", value: "Quarterly" },
+    { label: "Language", value: "English" },
+    { label: "Subject Area", value: "Interdisciplinary" },
+    { label: "Access Model", value: "Open Access" },
+    { label: "License", value: "CC BY 4.0" },
+    { label: "Website", value: "https://etthosjournal.com" },
+  ];
 
   return (
     <>
       <PageHeader
-        title={publisherPage.title}
-        description={
-          publisherPage.description ||
-          "Official publisher details for the Etthos Journal of Health, Behavior and Applied Psychology."
-        }
+        title="Publisher"
+        description="Official publication, institutional governance, and contact details for the Etthos Journal of Health, Behavior and Applied Psychology."
       />
 
       <div className="container mx-auto px-4 py-16">
-        <div className="max-w-5xl mx-auto space-y-10">
-          {/* Publisher Identity */}
+        <div className="max-w-4xl mx-auto space-y-12">
+          
+          {/* About the Publisher */}
           <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="rounded-full bg-[hsl(var(--highlight)/0.12)] p-3 text-[hsl(var(--highlight))]">
-                <Building2 className="h-8 w-8" />
-              </div>
-              <div>
-                <h2 className="font-serif font-bold text-2xl text-primary">
-                  Etthos
-                </h2>
-                <p className="text-muted-foreground text-sm">
-                  Publisher of the Etthos Journal of Health, Behavior and
-                  Applied Psychology
-                </p>
-              </div>
-            </div>
-            <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed">
-              {publisherPage.content.introParagraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-            <div className="mt-6">
-              <a
-                href={journalInfo.mainWebsiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-secondary hover:text-secondary/80 font-medium transition-colors"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Visit etthos.com
-              </a>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
+              Corporate Entity
+            </p>
+            <h2 className="font-serif font-bold text-3xl mb-6 text-primary">
+              About the Publisher
+            </h2>
+            <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed space-y-4">
+              <p>
+                Etthos Institute of Behavioral Research and Training Pvt. Ltd. is the publisher of the Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP). The Institute is dedicated to advancing psychological and behavioral science research, with a particular focus on work at the intersection of psychology and adjacent fields (including health, nursing, communication, law, and environmental science) where the central contribution concerns human behavior, cognition, or psychological well-being.
+              </p>
+              <p>
+                EJHBAP operates under a fully open access model, publishing peer-reviewed research under a Creative Commons Attribution 4.0 (CC BY) license, with editorial and peer review decisions made independently by the Editor-in-Chief and Editorial Board, separate from the publisher&apos;s business operations.
+              </p>
             </div>
           </section>
 
-          {/* Postal Addresses (ISSN Requirement) */}
-          <section>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
-              ISSN Requirement
-            </p>
-            <h2 className="font-serif font-bold text-3xl mb-6 text-primary">
-              Postal Addresses
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="rounded-[1.5rem] border border-border bg-card p-6 shadow-[0_18px_50px_-42px_rgba(19,34,56,0.42)]">
-                <div className="flex items-center gap-3 mb-4">
-                  <MapPin className="h-5 w-5 text-secondary" />
-                  <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
-                    {journalInfo.registeredOffice.label}
-                  </h3>
-                </div>
-                <p className="text-foreground leading-relaxed text-sm">
-                  {journalInfo.registeredOffice.address}
-                </p>
+          {/* Postal Addresses */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Registered Office */}
+            <div className="rounded-[1.5rem] border border-border bg-card p-7 shadow-[0_18px_50px_-42px_rgba(19,34,56,0.42)]">
+              <div className="flex items-center gap-3 mb-4">
+                <MapPin className="h-5 w-5 text-secondary shrink-0" />
+                <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
+                  Registered Office
+                </h3>
               </div>
-              {journalInfo.corporateOffice && (
-                <div className="rounded-[1.5rem] border border-border bg-card p-6 shadow-[0_18px_50px_-42px_rgba(19,34,56,0.42)]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <MapPin className="h-5 w-5 text-secondary" />
-                    <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
-                      {journalInfo.corporateOffice.label}
-                    </h3>
-                  </div>
-                  <p className="text-foreground leading-relaxed text-sm">
-                    {journalInfo.corporateOffice.address}
-                  </p>
-                </div>
-              )}
+              <div className="text-foreground leading-relaxed text-sm font-medium space-y-1">
+                <p>Etthos Institute of Behavioral Research and Training Pvt. Ltd.</p>
+                <p className="text-muted-foreground font-normal">Patna, Bihar, India</p>
+              </div>
+            </div>
+
+            {/* Corporate Office */}
+            <div className="rounded-[1.5rem] border border-border bg-card p-7 shadow-[0_18px_50px_-42px_rgba(19,34,56,0.42)]">
+              <div className="flex items-center gap-3 mb-4">
+                <Building2Icon className="h-5 w-5 text-secondary shrink-0" />
+                <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
+                  Corporate Office
+                </h3>
+              </div>
+              <div className="text-foreground leading-relaxed text-sm font-medium space-y-1">
+                <p>Etthos Institute of Behavioral Research and Training Pvt. Ltd.</p>
+                <p className="text-muted-foreground font-normal">New Delhi, India</p>
+              </div>
             </div>
           </section>
 
           {/* Contact Details */}
-          <section>
+          <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
-              Editorial Contact
+              Inquiries
             </p>
             <h2 className="font-serif font-bold text-3xl mb-6 text-primary">
-              Contact Details
+              Contact
             </h2>
-            <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card divide-y divide-border shadow-[0_18px_50px_-42px_rgba(19,34,56,0.42)]">
-              <div className="flex items-center gap-4 p-4">
-                <Mail className="h-5 w-5 text-secondary shrink-0" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex items-center gap-4 p-4 rounded-2xl border border-border bg-background/50">
+                <Mail className="h-6 w-6 text-secondary shrink-0" />
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">
                     Email
                   </p>
-                  <a
-                    href={`mailto:${journalInfo.contactEmail}`}
-                    className="text-foreground hover:text-secondary transition-colors"
-                  >
-                    {journalInfo.contactEmail}
+                  <a href="mailto:support@etthos.com" className="text-foreground hover:text-secondary font-medium transition-colors">
+                    support@etthos.com
                   </a>
                 </div>
               </div>
-              <div className="flex items-center gap-4 p-4">
-                <Mail className="h-5 w-5 text-secondary shrink-0" />
+              
+              <div className="flex items-center gap-4 p-4 rounded-2xl border border-border bg-background/50">
+                <Globe className="h-6 w-6 text-secondary shrink-0" />
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">
-                    General Enquiries
+                    Website
                   </p>
-                  <a
-                    href={`mailto:${journalInfo.infoEmail}`}
-                    className="text-foreground hover:text-secondary transition-colors"
-                  >
-                    {journalInfo.infoEmail}
+                  <a href="https://www.etthosjournal.com" target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-secondary font-medium flex items-center gap-1 transition-colors">
+                    www.etthosjournal.com
+                    <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
               </div>
-              {journalInfo.phone && (
-                <div className="flex items-center gap-4 p-4">
-                  <Phone className="h-5 w-5 text-secondary shrink-0" />
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">
-                      Phone
-                    </p>
-                    <span className="text-foreground">{journalInfo.phone}</span>
-                  </div>
-                </div>
-              )}
             </div>
           </section>
 
           {/* Journal Details */}
-          <section>
+          <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
-              Publication Record
+              Fact Sheet
             </p>
             <h2 className="font-serif font-bold text-3xl mb-6 text-primary">
               Journal Details
             </h2>
-            <div className="overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-[0_18px_50px_-42px_rgba(19,34,56,0.42)]">
+            <div className="overflow-hidden rounded-2xl border border-border">
               <table className="w-full text-sm">
                 <tbody>
-                  {[
-                    [
-                      "Journal Title",
-                      <FormatJournalName key="title" text={journalInfo.name} />,
-                    ],
-                    ["ISSN (Online)", journalInfo.issn || "Pending"],
-                    ["Frequency", journalInfo.frequency],
-                    ["Language", journalInfo.language],
-                    ["Subject Area", journalInfo.subjectArea],
-                    ["Access Model", journalInfo.accessPolicy],
-                    ["Licence", journalInfo.license],
-                    ["Website", journalInfo.websiteUrl],
-                  ].map(([label, value], idx) => (
+                  {journalDetails.map(({ label, value }, idx) => (
                     <tr
-                      key={label as string}
+                      key={label}
                       className={idx !== 0 ? "border-t border-border" : ""}
                     >
-                      <td className="px-4 py-3 font-medium text-muted-foreground bg-muted/30 w-1/3">
+                      <td className="px-4 py-3.5 font-medium text-muted-foreground bg-muted/30 w-1/3">
                         {label}
                       </td>
-                      <td className="px-4 py-3 text-foreground">{value}</td>
+                      <td className="px-4 py-3.5 text-foreground font-medium">{value}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </section>
+
+          {/* Policies Section */}
+          <section className="rounded-[1.75rem] border border-border bg-card p-8 shadow-[0_20px_60px_-48px_rgba(19,34,56,0.42)]">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
+              Legal &amp; Compliance
+            </p>
+            <h2 className="font-serif font-bold text-3xl mb-6 text-primary">
+              Policies
+            </h2>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-semibold text-secondary">
+              <Link href="/privacy-policy" className="hover:text-secondary/80 hover:underline flex items-center gap-1.5">
+                <Shield className="h-4 w-4" />
+                Privacy Policy
+              </Link>
+              <span className="text-border">·</span>
+              <Link href="/terms-and-conditions" className="hover:text-secondary/80 hover:underline flex items-center gap-1.5">
+                <Scale className="h-4 w-4" />
+                Terms &amp; Conditions
+              </Link>
+              <span className="text-border">·</span>
+              <Link href="/refund-policy" className="hover:text-secondary/80 hover:underline flex items-center gap-1.5">
+                <Globe className="h-4 w-4" />
+                Refund Policy
+              </Link>
+            </div>
+          </section>
+
+          {/* Publisher Copyright notice */}
+          <div className="border-t border-border/60 pt-8 text-xs text-muted-foreground leading-relaxed text-center">
+            &copy; {new Date().getFullYear()} Etthos Institute of Behavioral Research and Training Pvt. Ltd. Articles published in EJHBAP are distributed under a Creative Commons Attribution 4.0 International License (CC BY 4.0). The journal&apos;s name, logo, and website design remain the property of the publisher.
+          </div>
+
         </div>
       </div>
     </>
+  );
+}
+
+function Building2Icon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" />
+      <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+      <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+      <path d="M10 6h4" />
+      <path d="M10 10h4" />
+      <path d="M10 14h4" />
+      <path d="M10 18h4" />
+    </svg>
   );
 }

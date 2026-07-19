@@ -174,14 +174,11 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
-          <p>
-            &copy; {new Date().getFullYear()} Etthos Journal{" "}
-            <span className="lowercase text-[0.9em]">of</span> Health, Behavior
-            and Applied Psychology. Published by {journalInfo.publisher}. All
-            rights reserved.
+        <div className="mt-14 flex flex-col items-center justify-between gap-6 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
+          <p className="max-w-2xl leading-relaxed text-center md:text-left">
+            &copy; {new Date().getFullYear()} Etthos Institute of Behavioral Research and Training Pvt. Ltd. Articles published in EJHBAP are distributed under a Creative Commons Attribution 4.0 International License (CC BY 4.0). The journal's name, logo, and website design remain the property of the publisher.
           </p>
-          <div className="flex flex-wrap items-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-5 shrink-0">
             <span>ISSN: {journalInfo.issn || "Pending"} (Online)</span>
             <Link
               href="/privacy-policy"

@@ -21,9 +21,11 @@ async function main() {
       name: "Etthos Journal of Health, Behavior and Applied Psychology",
       shortName: "EJHBAP",
       description:
-        "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Institute of Behavioral Research and Training Pvt Ltd., dedicated to advancing research across interdisciplinary fields including nutrition, environment, law, and communication.",
+        "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open access journal publishing original research on psychology, health, and human behavior, including interdisciplinary work in nursing, communication, law, and environmental science.",
       publisher:
-        "Etthos Institute of Behavioral Research and Training Pvt Ltd.",
+        "Etthos Institute of Behavioral Research and Training Pvt. Ltd.",
+      contactEmail: "support@etthos.com",
+      infoEmail: "support@etthos.com",
       subjectArea: "Interdisciplinary",
       subjectKeywords: [
         "Dietetics & Applied Nutrition",

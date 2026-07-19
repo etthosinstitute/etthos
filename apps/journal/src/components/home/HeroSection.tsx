@@ -83,7 +83,7 @@ export async function HeroSection() {
             size="lg"
             className="h-12 rounded-full px-8 text-base bg-[#f7f3ec] text-[#132238] hover:bg-white shadow-[0_20px_40px_-24px_rgba(247,243,236,0.6)]"
           >
-            <Link href="/submit">
+            <Link href="/guidelines">
               Submit Your Manuscript
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -94,7 +94,7 @@ export async function HeroSection() {
             size="lg"
             className="h-12 rounded-full px-8 text-base border border-white/22 bg-white/7 text-[#f7f3ec] hover:bg-white/12 hover:text-[#f7f3ec] backdrop-blur-sm"
           >
-            <Link href="/issues">Browse Issues</Link>
+            <Link href="/about/aims-scope">View Aims & Scope</Link>
           </Button>
         </div>
 
@@ -108,13 +108,13 @@ export async function HeroSection() {
             {content.profileCards.map((card) => {
               const Icon = iconMap[card.icon];
               const href =
-                card.title === "Authors"
-                  ? "/submit"
-                  : card.title === "Reviewers"
+                card.title.includes("Authors")
+                  ? "/guidelines"
+                  : card.title.includes("Reviewers")
                     ? "/reviewers"
-                    : card.title === "Readers"
+                    : card.title.includes("Readers")
                       ? "/issues"
-                      : card.title === "Editors"
+                      : card.title.includes("Editors")
                         ? "/editorial-board"
                         : "#";
 

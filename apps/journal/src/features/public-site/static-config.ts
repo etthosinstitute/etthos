@@ -8,14 +8,14 @@ export const JOURNAL_INFO_DEFAULTS: JournalInfo = {
     "Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Institute of Behavioral Research and Training Pvt Ltd, dedicated to advancing research in psychology and behavioural sciences.",
   issn: null,
   eissn: null,
-  publisher: "Etthos Institute of Behavioral Research and Training Pvt Ltd",
+  publisher: "Etthos Institute of Behavioral Research and Training Pvt. Ltd.",
   frequency: "Quarterly",
   language: "English",
   country: "India",
   websiteUrl: "https://etthosjournal.com",
   mainWebsiteUrl: "https://etthos.com",
-  contactEmail: "info@etthos.com",
-  infoEmail: "info@etthos.com",
+  contactEmail: "support@etthos.com",
+  infoEmail: "support@etthos.com",
   phone: null,
   subjectArea: "Interdisciplinary",
   subjectAreas: [
@@ -49,7 +49,7 @@ export const JOURNAL_INFO_DEFAULTS: JournalInfo = {
   establishedYear: null,
   registeredOffice: {
     label: "Registered Office",
-    address: "India",
+    address: "Patna & New Delhi, India",
   },
   corporateOffice: null,
 };

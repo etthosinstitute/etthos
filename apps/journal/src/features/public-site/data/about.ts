@@ -2,13 +2,11 @@ import type { AboutContent } from "../types";
 
 export const aboutContent: AboutContent = {
   overviewParagraphs: [
-    "The Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open-access academic journal published by Etthos Institute of Behavioral Research and Training Pvt Ltd. The journal is dedicated to the dissemination of high-quality original research, review articles, and scholarly discourse across a broad spectrum of interdisciplinary fields.",
-    "EJHBAP aspires to serve as a credible scholarly platform for researchers, academicians, and practitioners, particularly those working in the Indian and South Asian context, to share rigorous empirical work and contribute to the advancement of interdisciplinary knowledge.",
-    "The journal is committed to maintaining the highest standards of publication ethics and scholarly rigour. All submissions undergo a double-blind peer review process conducted by experts in the relevant field.",
+    "The Etthos Journal of Health, Behavior and Applied Psychology (EJHBAP) is a peer-reviewed, open access journal publishing original research at the intersection of psychology, health, and human behavior, including interdisciplinary work in nursing, communication, law, and environmental science, wherever the central research question concerns human psychological or behavioral outcomes.",
   ],
-  foundersTitle: "The people behind the Etthos vision",
+  foundersTitle: "Leadership",
   foundersDescription:
-    "Etthos Institute was established with a vision to elevate the standards of education, research, and applied training. The journal extends that broader institutional commitment into scholarly publishing.",
+    "The Founding Leadership is responsible for the journal's business operations, infrastructure, and institutional partnerships. In accordance with the Principles of Transparency and Best Practice in Scholarly Publishing, editorial and peer review decisions are made solely by the Editor-in-Chief and Editorial Board, independent of the publisher's business leadership. See our Editorial Board page for editorial leadership and governance.",
   founders: [
     {
       name: "Ram Vinoy Tiwari",
@@ -22,7 +20,7 @@ export const aboutContent: AboutContent = {
     },
   ],
   aimsIntro:
-    "The Etthos Journal of Health, Behavior and Applied Psychology welcomes original research articles, review papers, case studies, short communications, and theoretical contributions in the following areas:",
+    "EJHBAP publishes original research at the intersection of psychology, health, and human behavior, including work from adjacent fields such as medicine, nursing, communication, law, and environmental science, wherever the central research question concerns human psychological or behavioral outcomes. This interdisciplinary scope is reflected in our Editorial Board, which brings together specialists across these areas alongside core psychology researchers.",
   publicationFrequencyText:
     "The journal is published quarterly (4 issues per year) in March, June, September, and December. Special issues dedicated to specific topics may also be published.",
   submitCtaTitle: "Submit Your Work",

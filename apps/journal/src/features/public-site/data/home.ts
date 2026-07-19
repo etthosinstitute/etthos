@@ -1,40 +1,52 @@
 import type { HomeContent } from "../types";
 
 export const homeContent: HomeContent = {
-  eyebrow: "Welcome to",
+  eyebrow: "Peer-Reviewed · Open Access · Quarterly",
   heroDescription:
-    "An open-access, peer-reviewed journal dedicated to advancing global research through rigorous inquiry and interdisciplinary innovation.",
+    "Peer-reviewed, open access research on psychology, health, and human behavior, and the fields that shape them.",
   heroNotice: "Now accepting submissions for our upcoming issue.",
   profileCards: [
-    { title: "Authors", subtitle: "Submit your research", icon: "book-open" },
     {
-      title: "Reviewers",
-      subtitle: "Join our peer review board",
+      title: "For Authors",
+      subtitle: "Author Guidelines, submission process, and APC information",
+      icon: "book-open",
+    },
+    {
+      title: "For Reviewers",
+      subtitle: "Peer Review Policy and reviewer expectations",
       icon: "shield",
     },
-    { title: "Readers", subtitle: "Explore published articles", icon: "globe" },
-    { title: "Editors", subtitle: "Manage the review process", icon: "brain" },
+    {
+      title: "For Readers",
+      subtitle: "Latest Articles and open access terms",
+      icon: "globe",
+    },
+    {
+      title: "For Editors",
+      subtitle: "Editorial Board and governance",
+      icon: "brain",
+    },
   ],
   features: [
     {
       eyebrow: "Peer Review",
-      title: "Rigorous Evaluation",
+      title: "Rigorous Peer Review",
       description:
-        "All submissions undergo a double-blind peer review process to ensure high-quality publications.",
+        "Every submission undergoes double-blind peer review by at least two independent subject-matter experts before any publication decision is made.",
       icon: "shield",
     },
     {
       eyebrow: "Open Access",
-      title: "Global Reach",
+      title: "Open & Discoverable",
       description:
-        "Our open-access policy ensures that your research is accessible to anyone anywhere.",
+        "Every accepted article receives a Crossref DOI and is published under a CC BY 4.0 open access license, freely readable, citable, and reusable worldwide from day one, with no paywall or subscription barrier.",
       icon: "globe",
     },
     {
-      eyebrow: "Fast Publication",
-      title: "Rapid Turnaround",
+      eyebrow: "Editorial Policy",
+      title: "Editorial Independence",
       description:
-        "We strive to provide authors with quick decisions without compromising review quality.",
+        "Publication decisions are made solely by our Editor-in-Chief and Editorial Board, independent of the publisher's business operations.",
       icon: "brain",
     },
   ],

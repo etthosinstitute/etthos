@@ -7,6 +7,7 @@ import {
   buildPasswordResetUrl,
 } from "@/server/password-reset";
 import { sendPasswordResetEmail } from "@/server/mail";
+import { getAppBaseUrl } from "@/server/env";
 import { createAuditLog } from "@/server/audit";
 import { handleRouteError } from "@/shared/utils";
 
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     if (user?.isActive) {
       const { token } = await createPasswordResetToken(user.id);
-      const resetUrl = `${req.nextUrl.origin}${buildPasswordResetUrl(token)}`;
+      const resetUrl = `${getAppBaseUrl(req)}${buildPasswordResetUrl(token)}`;
 
       try {
         await sendPasswordResetEmail({

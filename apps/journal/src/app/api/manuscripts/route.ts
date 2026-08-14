@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma, MANUSCRIPT_INCLUDE } from "@/server/db/prisma";
 import { requireAuth } from "@/server/auth";
 import { sendManuscriptSubmissionEmail } from "@/server/public-mail";
+import { getAppBaseUrl } from "@/server/env";
 import { handleRouteError } from "@/shared/utils";
 import { enforceRateLimit } from "@/server/rate-limit";
 import { createAuditLog } from "@/server/audit";
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
         authorEmail: user.email,
         manuscriptTitle: manuscript.title,
         manuscriptId: manuscript.id,
-        dashboardUrl: `${new URL(req.url).origin}/dashboard`,
+        dashboardUrl: `${getAppBaseUrl(req)}/dashboard`,
       });
     } catch (mailError) {
       console.error("Manuscript submission email error:", mailError);

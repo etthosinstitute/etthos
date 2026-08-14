@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma, USER_SELECT } from "@/server/db/prisma";
 import { requireAuth } from "@/server/auth";
 import { fullName, handleRouteError } from "@/shared/utils";
+import { env, getAppBaseUrl } from "@/server/env";
 import { sendReviewAssignmentEmail } from "@/server/mail";
 import { trySendEmail } from "@/server/mailer";
 import { enforceRateLimit } from "@/server/rate-limit";
@@ -139,7 +140,7 @@ export async function POST(
           manuscriptTitle: manuscript.title,
           manuscriptId: manuscript.id,
           dueDate: assignment.dueDate?.toISOString() || null,
-          dashboardUrl: `${req.nextUrl.origin}/dashboard`,
+          dashboardUrl: `${getAppBaseUrl(req)}/dashboard`,
         }),
       "Failed to send assignment email",
       "Assign reviewer email error",

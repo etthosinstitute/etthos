@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";
 import { getAuthUser } from "@/server/auth";
+import { getAppBaseUrl } from "@/server/env";
 import { sendReviewerAccountEmail } from "@/server/mail";
 import { enforceRateLimit } from "@/server/rate-limit";
 import { createAuditLog } from "@/server/audit";
@@ -107,7 +108,7 @@ export async function POST(req: NextRequest) {
             reviewerEmail: reviewer.email,
             reviewerName: `${firstName} ${lastName}`,
             createdByName: creatorName,
-            dashboardUrl: `${req.nextUrl.origin}/auth/login`,
+            dashboardUrl: `${getAppBaseUrl(req)}/auth/login`,
           }),
         "Failed to send reviewer account email",
         "Reviewer account email error",
@@ -169,7 +170,7 @@ export async function POST(req: NextRequest) {
           reviewerName: `${firstName} ${lastName}`,
           tempPassword,
           createdByName: creatorName,
-          dashboardUrl: `${req.nextUrl.origin}/auth/login`,
+          dashboardUrl: `${getAppBaseUrl(req)}/auth/login`,
         }),
       "Failed to send reviewer account email",
       "Reviewer account email error",

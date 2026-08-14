@@ -78,3 +78,22 @@ export const env = {
 export function isProduction() {
   return env.NODE_ENV === "production";
 }
+
+export function getAppBaseUrl(req?: { nextUrl?: { origin: string } }): string {
+  if (
+    env.APP_URL &&
+    !env.APP_URL.includes("localhost:3000") &&
+    !env.APP_URL.includes("0.0.0.0")
+  ) {
+    return env.APP_URL.replace(/\/$/, "");
+  }
+
+  if (req?.nextUrl?.origin) {
+    const origin = req.nextUrl.origin;
+    if (!origin.includes("0.0.0.0")) {
+      return origin.replace(/\/$/, "");
+    }
+  }
+
+  return (env.APP_URL || "http://localhost:3000").replace(/\/$/, "");
+}

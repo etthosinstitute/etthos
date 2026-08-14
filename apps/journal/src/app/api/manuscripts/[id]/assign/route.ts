@@ -132,11 +132,7 @@ export async function POST(
             assignment.reviewer.lastName,
             assignment.reviewer.email,
           ),
-          editorName: fullName(
-            editor?.firstName,
-            editor?.lastName,
-            editor?.email,
-          ),
+          editorName: "Editor, Etthos Journal",
           manuscriptTitle: manuscript.title,
           manuscriptId: manuscript.id,
           dueDate: assignment.dueDate?.toISOString() || null,

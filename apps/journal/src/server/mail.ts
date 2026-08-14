@@ -117,7 +117,7 @@ export async function sendReviewAssignmentEmail(
     payload.reviewerName,
     payload.reviewerEmail,
   );
-  const editorLabel = payload.editorName?.trim() || "Editorial Office";
+  const editorLabel = payload.editorName?.trim() || "Editor, Etthos Journal";
   const safeReviewerLabel = escapeHtml(reviewerLabel);
   const safeEditorLabel = escapeHtml(editorLabel);
   const safeTitle = escapeHtml(payload.manuscriptTitle);

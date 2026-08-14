@@ -79,9 +79,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const creatorName =
-      [creator?.firstName, creator?.lastName].filter(Boolean).join(" ") ||
-      creator?.email;
+    const creatorName = "Editor, Etthos Journal";
 
     if (existingUser?.role === "AUTHOR") {
       const reviewer = await prisma.user.update({

@@ -144,10 +144,16 @@ Current recipient behavior:
 
 ## Local Test Accounts
 
-These accounts are seeded for workflow testing:
+The seed script creates an editor and a reviewer account. Both passwords come
+from the environment, so set them before running it:
 
-- Editor: `editor@journal.com / Editor@123`
-- Reviewer: `reviewer@journal.com / Reviewer@123`
+```bash
+SEED_EDITOR_PASSWORD=... SEED_REVIEWER_PASSWORD=... pnpm tsx scripts/seed.ts
+```
+
+Optional overrides: `SEED_EDITOR_EMAIL` (default `editor@journal.com`) and
+`SEED_REVIEWER_EMAIL` (default `reviewer@journal.com`). Passwords must be at
+least 12 characters.
 
 You can create an author from the signup page, or add one manually for testing.
 

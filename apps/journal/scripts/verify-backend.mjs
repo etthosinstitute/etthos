@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 
 import fetch from 'node-fetch';
 
@@ -22,6 +23,9 @@ async function request(endpoint, method = 'GET', body = null, token = null) {
     return { status: response.status, data, setCookie };
 }
 
+const TEST_PASSWORD =
+    process.env.VERIFY_TEST_PASSWORD || `verify-${randomUUID()}`;
+
 async function extractToken(setCookie) {
     if (!setCookie) return null;
     const match = setCookie.match(/token=([^;]+)/);
@@ -36,7 +40,7 @@ async function main() {
     console.log(`\n1. Signing up Author (${emailA})...`);
     const signupA = await request('/auth/signup', 'POST', {
         email: emailA,
-        password: 'password123',
+        password: TEST_PASSWORD,
         firstName: 'Alice',
         lastName: 'Author'
     });
@@ -76,7 +80,7 @@ async function main() {
     console.log(`\n4. Signing up Reviewer (${emailB})...`);
     const signupB = await request('/auth/signup', 'POST', {
         email: emailB,
-        password: 'password123',
+        password: TEST_PASSWORD,
         firstName: 'Bob',
         lastName: 'Reviewer'
     });

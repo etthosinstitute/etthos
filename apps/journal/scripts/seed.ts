@@ -3,14 +3,40 @@ import { hash } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
+const MIN_PASSWORD_LENGTH = 12;
+
+function requiredSecret(name: string) {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(
+      `${name} is not set. Seed credentials must be supplied through the environment.`,
+    );
+  }
+
+  if (value.length < MIN_PASSWORD_LENGTH) {
+    throw new Error(
+      `${name} must be at least ${MIN_PASSWORD_LENGTH} characters long.`,
+    );
+  }
+
+  return value;
+}
+
 async function main() {
   console.log("Seeding database...");
 
-  const editorPassword = await hash("Editor@123", 10);
-  const reviewerPassword = await hash("Reviewer@123", 10);
+  const editorEmail = process.env.SEED_EDITOR_EMAIL || "editor@journal.com";
+  const reviewerEmail =
+    process.env.SEED_REVIEWER_EMAIL || "reviewer@journal.com";
+
+  const editorPassword = await hash(requiredSecret("SEED_EDITOR_PASSWORD"), 10);
+  const reviewerPassword = await hash(
+    requiredSecret("SEED_REVIEWER_PASSWORD"),
+    10,
+  );
 
   // 1. Create Editor
-  const editorEmail = "editor@journal.com";
   const existingEditor = await prisma.user.findUnique({
     where: { email: editorEmail },
   });
@@ -36,7 +62,6 @@ async function main() {
         },
       });
 
-  const reviewerEmail = "reviewer@journal.com";
   const existingReviewer = await prisma.user.findUnique({
     where: { email: reviewerEmail },
   });
@@ -127,9 +152,9 @@ async function main() {
   }
 
   console.log("Seeding complete.");
-  console.log("Login credentials:");
-  console.log("  Editor: editor@journal.com / Editor@123");
-  console.log("  Reviewer: reviewer@journal.com / Reviewer@123");
+  console.log(
+    "Login with the credentials supplied via SEED_EDITOR_PASSWORD and SEED_REVIEWER_PASSWORD.",
+  );
 }
 
 main()

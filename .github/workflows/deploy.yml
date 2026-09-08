@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       journal: ${{ steps.filter.outputs.journal }}
-      landing: ${{ steps.filter.outputs.landing }}
       shared: ${{ steps.filter.outputs.shared }}
     steps:
       - name: Checkout
@@ -28,33 +27,12 @@ jobs:
           filters: |
             journal:
               - 'apps/journal/**'
-            landing:
-              - 'apps/landing/**'
             shared:
               - 'packages/**'
               - 'package.json'
               - 'pnpm-lock.yaml'
               - 'pnpm-workspace.yaml'
               - 'turbo.json'
-
-  deploy-landing-vercel:
-    name: Deploy landing to Vercel
-    runs-on: ubuntu-latest
-    needs: changes
-    if: needs.changes.outputs.landing == 'true' || needs.changes.outputs.shared == 'true'
-
-    steps:
-      - name: Trigger Vercel deploy hook
-        env:
-          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_LANDING_DEPLOY_HOOK_URL }}
-        run: |
-          if [ -z "${DEPLOY_HOOK_URL}" ]; then
-            echo "Missing secret VERCEL_LANDING_DEPLOY_HOOK_URL"
-            exit 1
-          fi
-
-          curl --fail --show-error --silent -X POST "${DEPLOY_HOOK_URL}"
-          echo "Landing deploy hook triggered."
 
   deploy-journal-oracle:
     name: Deploy journal to Oracle Cloud (SSH)

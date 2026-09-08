@@ -9,7 +9,7 @@ module.exports = {
         "next",
         "start",
         "-H",
-        "0.0.0.0",
+        "127.0.0.1",
         "-p",
         "3000",
       ],
@@ -22,7 +22,7 @@ module.exports = {
       restart_delay: 5000,
       env: {
         NODE_ENV: "production",
-        HOSTNAME: "0.0.0.0",
+        HOSTNAME: "127.0.0.1",
         PORT: "3000",
       },
       time: true,
